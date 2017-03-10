@@ -10,8 +10,13 @@
 	    <link href="assets/css/bootstrap.css" rel="stylesheet">
 	    <link href="assets/css/style.css" rel="stylesheet">
 	    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+	    <link href="assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 	    <script src="assets/js/modernizr.js"></script>
         <script src="canvas.min.js"></script>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/moment.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/bootstrap-datetimepicker.min.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		
         <style>
@@ -30,6 +35,11 @@
             #graph_id td {
             	width: 50%;
             }
+            
+            th {
+            	width: 20%;
+            	vertical-align: middle !important;
+            }        
         </style>
 
         <script type="text/javascript">        
@@ -286,39 +296,150 @@
 						
 						<tbody>
 			                <tr class="active">
-			                    <th >Name</th>
-			                    <td><input type="text" class="form-control" name="member1_name"/></td>
-			                    <td><input type="text" class="form-control" name="member2_name"/></td>
-			                    <td><input type="text" class="form-control" name="member3_name"/></td>
-			                    <td><input type="text" class="form-control" name="member4_name"/></td>
+			                    <th>Name</th>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+							            <input type="text" class="form-control" placeholder="Name" name="member1_name">
+							        </div>
+			                    </td>
+			                    <td><div class="input-group">
+							            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+							            <input type="text" class="form-control" placeholder="Name" name="member2_name">
+							        </div>
+							    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+							            <input type="text" class="form-control" placeholder="Name" name="member3_name">
+							        </div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+							            <input type="text" class="form-control" placeholder="Name" name="member4_name">
+							        </div>
+			                    </td>
 			                </tr>
 			                <tr class="active">
-			                    <th>Opportunity Cost / Salary ($)</th>
-			                    <td><input type="number" class="form-control" name="member1_ocs" min="0" value="100000" required="required" /></td>
-			                    <td><input type="number" class="form-control" name="member2_ocs" min="0" value="100000" required="required" /></td>
-			                    <td><input type="number" class="form-control" name="member3_ocs" min="0" value="100000" required="required" /></td>
-			                    <td><input type="number" class="form-control" name="member4_ocs" min="0" value="100000" required="required" /></td>
+			                    <th>Opportunity Cost / Salary</th>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="number" class="form-control" min="0" name="member1_ocs" placeholder="CAN Dollar" value="100000" required="required">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="number" class="form-control" min="0" name="member2_ocs" placeholder="CAN Dollar" value="100000" required="required">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="number" class="form-control" min="0" name="member3_ocs" placeholder="CAN Dollar" value="100000" required="required">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="number" class="form-control" min="0" name="member4_ocs" placeholder="CAN Dollar" value="100000" required="required">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
 			                </tr>			
 			                <tr class="active">
 			                    <th>Hours Worked</th>
-			                    <td><input type="number" class="form-control" name="member1_hw" min="0" value="30" required="required" /></td>
-			                    <td><input type="number" class="form-control" name="member2_hw" min="0" value="40" required="required" /></td>
-			                    <td><input type="number" class="form-control" name="member3_hw" min="0" value="50" required="required" /></td>
-			                    <td><input type="number" class="form-control" name="member4_hw" min="0" value="60" required="required" /></td>
+			                    <td>
+			                    	<div class="input-group">
+							            <input type="number" class="form-control" min="0" name="member1_hw" placeholder="CAN Dollar" value="30" required="required">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <input type="number" class="form-control" min="0" name="member2_hw" placeholder="CAN Dollar" value="40" required="required">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <input type="number" class="form-control" min="0" name="member3_hw" placeholder="CAN Dollar" value="50" required="required">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <input type="number" class="form-control" min="0" name="member4_hw" placeholder="CAN Dollar" value="60" required="required">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
 			                </tr>			
 			                <tr class="active">
-			                    <th>Invested Cash ($)</th>
-			                    <td><input type="number" class="form-control" name="member1_ic" min="0"/></td>
-			                    <td><input type="number" class="form-control" name="member2_ic" min="0"/></td>
-			                    <td><input type="number" class="form-control" name="member3_ic" min="0"/></td>
-			                    <td><input type="number" class="form-control" name="member4_ic" min="0"/></td>
+			                    <th>Invested Cash</th>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="number" class="form-control" min="0" name="member1_ic" placeholder="CAN Dollar">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="number" class="form-control" min="0" name="member2_ic" placeholder="CAN Dollar">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="number" class="form-control" min="0" name="member3_ic" placeholder="CAN Dollar">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="number" class="form-control" min="0" name="member4_ic" placeholder="CAN Dollar">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
 			                </tr>			
 			                <tr class="active">
-			                    <th>Contribution Cash ($)</th>
-			                    <td><input type="number" class="form-control" name="member1_cc" value="500" required="required" min="0"/></td>
-			                    <td><input type="number" class="form-control" name="member2_cc" value="600" required="required" min="0"/></td>
-			                    <td><input type="number" class="form-control" name="member3_cc" value="750" required="required" min="0"/></td>
-			                    <td><input type="number" class="form-control" name="member4_cc" value="1000" required="required" min="0"/></td>
+			                    <th>Contribution Cash</th>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="number" class="form-control" min="0" name="member1_cc" placeholder="CAN Dollar" value="500" required="required">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="number" class="form-control" min="0" name="member2_cc" placeholder="CAN Dollar" value="600" required="required">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="number" class="form-control" min="0" name="member3_cc" placeholder="CAN Dollar" value="750" required="required">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="number" class="form-control" min="0" name="member4_cc" placeholder="CAN Dollar" value="1000" required="required">
+							            <span class="input-group-addon">.00</span>
+						        	</div>
+			                    </td>
 			                </tr>			
 			                <tr class="active">
 			                    <th>Date Joined The Project</th>
@@ -354,7 +475,7 @@
 		      <input type="submit" name="calculationID" value="Calculation" class="btn btn-theme calculationID" onclick="calculation(formID)" />
 		      <input type="button" name="resetID" value="Reset" class="btn btn-theme calculationID" onclick="resetData(formID)" />
 		</div>
-		
+
 		<div id="graph_id" class="bs-example">
 		    <table class="table table-bordered">
 		        <tbody>
@@ -394,8 +515,8 @@
 			</div><!--/container -->
 		</div><!--/footerwrap -->
 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<script src="assets/js/bootstrap.min.js"></script>
+	<!--	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>  -->
+	<!--	<script src="assets/js/bootstrap.min.js"></script>  -->
 		<script src="assets/js/retina-1.1.0.js"></script>
 		<script src="assets/js/jquery.hoverdir.js"></script>
 		<script src="assets/js/jquery.hoverex.min.js"></script>
