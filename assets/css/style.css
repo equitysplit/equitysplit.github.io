@@ -515,3 +515,15 @@ csmall2 {
 	left: 0px;
 	top: 0px;
 }
+.CalculationBut{
+	text-align: center;
+
+}
+.calculationID{
+	width: 13%;
+
+}
+.chartSizeClass{
+	margin-bottom: 8%;
+
+}
