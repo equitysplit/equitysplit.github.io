@@ -2,47 +2,55 @@
 <html lang="en">
 	<head>
 	    <meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Anh Tran">
 	    <link rel="shortcut icon" href="assets/ico/favicon.ico">
-	
-	    <title>Equity Split</title>
-	    <meta property="og:url" content="http://www.equity-split.com/blog.html">
-	    <meta property="og:description" content="startup entrepreneur equity">
-	    <meta property="og:description" content="startup entrepreneur equity">
-	    <meta name="author" content="Arpad Asztalos">
-	    <meta property="og:image" content="http://s11.postimg.org/5qh4fb3g3/equity_split.png">
-	
 	    <link href="assets/css/bootstrap.css" rel="stylesheet">
 	    <link href="assets/css/style.css" rel="stylesheet">
 	    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
-	
-	    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-	    <!--[if lt IE 9]>
-	    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-	    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-	    <![endif]-->
 	    <script src="assets/js/modernizr.js"></script>
-    	<!-- An's code -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="description" content="">
-        <meta name="author" content="Anh Tran">
-
         <script src="canvas.min.js"></script>
-
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		
         <style>
         	.bs-example {
-		    	margin: 5px;
+		    	margin-left: 30px;
+		    	margin-right: 30px;
+		    	margin-top: 40px;
+		    	margin-bottom: 20px;
 		    }
 
-            .chartSizeClass {
-                height: 400px;
+            .chart-config {
                 width: 100%;
+                height: 400px;
+                float: left;
+            }
+            #graph_id td {
+            	width: 50%;
             }
         </style>
 
-        <script type="text/javascript">
-        	function reset(form) {
+        <script type="text/javascript">        
+        	function resizeChart() {
+        		document.getElementById("pieChartContainer").innerHTML = "";
+        		document.getElementById("barChartContainer").innerHTML = "";
+				var x = document.getElementById('graph_id');
+			    if (x.style.display != 'none') {
+			    	showPieGraph(parseFloat(document.forms[0].member1_ysc.value), parseFloat(document.forms[0].member2_ysc.value),
+                			parseFloat(document.forms[0].member3_ysc.value),parseFloat(document.forms[0].member4_ysc.value));
+                	showBarGraph(parseFloat(document.forms[0].member1_ysc.value), parseFloat(document.forms[0].member2_ysc.value),
+                			parseFloat(document.forms[0].member3_ysc.value),parseFloat(document.forms[0].member4_ysc.value));
+			    }
+        	}
+
+        	function loadBody() {
+	            document.getElementById("graph_id").style.display = 'none';
+	            google.charts.load('current', {'packages':['corechart']});
+	        }
+	        
+        	function resetData(form) {
         		form.member1_name.value = "";
         		form.member2_name.value = "";
         		form.member3_name.value = "";
@@ -75,6 +83,11 @@
         		form.member2_ysp.value = "";
         		form.member3_ysp.value = "";
         		form.member4_ysp.value = "";
+        		
+        		var x = document.getElementById('graph_id');
+			    if (x.style.display != 'none') {
+			        x.style.display = 'none';
+			    }
         	}
         	function isEmpty(str) {
 			    return (!str || 0 === str.length);
@@ -156,13 +169,13 @@
                 form.member2_ysp.value = Number((form.member2_ysc.value * 100) / total).toFixed(2);
                 form.member3_ysp.value = Number((form.member3_ysc.value * 100) / total).toFixed(2);
                 form.member4_ysp.value = Number((form.member4_ysc.value * 100) / total).toFixed(2);
-
-                showPieGraph(parseFloat(form.member1_ysc.value), parseFloat(form.member2_ysc.value),
-                        parseFloat(form.member3_ysc.value),parseFloat(form.member4_ysc.value));
-
-                showBarGraph(parseFloat(form.member1_ysc.value), parseFloat(form.member2_ysc.value),
-                        parseFloat(form.member3_ysc.value),parseFloat(form.member4_ysc.value));
                 
+                document.getElementById("graph_id").style.display = 'block';
+                
+                showPieGraph(parseFloat(form.member1_ysc.value), parseFloat(form.member2_ysc.value),
+                			parseFloat(form.member3_ysc.value),parseFloat(form.member4_ysc.value));
+                showBarGraph(parseFloat(form.member1_ysc.value), parseFloat(form.member2_ysc.value),
+                			parseFloat(form.member3_ysc.value),parseFloat(form.member4_ysc.value));
             }
 
             function calculateOpportunityCostPerHour(opportunityCostPerSalary) {
@@ -176,62 +189,53 @@
             function calculateShareCash(contributionCash, theoreticalContribution) {
                 return (contributionCash * 4) + theoreticalContribution;
             }
-
-            function showPieGraph(shareCash1, shareCash2, shareCash3, shareCash4)
-            {
-                var chart = new CanvasJS.Chart("pieChartContainer",
-                        {
-                            theme: "theme2",
-                            title:{
-                                text: "Equity Split Pie Chart"
-                            },
-                            data: [
-                                {
-                                    type: "pie",
-                                    showInLegend: true,
-                                    toolTipContent: "{y} - #percent %",
-                                    legendText: "{indexLabel}",
-                                    dataPoints: [
-                                        {  y: shareCash1, indexLabel: "Member 1" },
-                                        {  y: shareCash2, indexLabel: "Member 2" },
-                                        {  y: shareCash3, indexLabel: "Member 3" },
-                                        {  y: shareCash4, indexLabel: "Member 4"}
-                                    ]
-                                }
-                            ]
-                        });
-                chart.render();
-            };
-
-            function showBarGraph(shareCash1, shareCash2, shareCash3, shareCash4)
-            {
-                var chart = new CanvasJS.Chart("barChartContainer",
-                        {
-                            title: {
-                                text: "Equity Split Bar Chart "
-                            },
-
-                            data: [
-                                {
-                                    type: "bar",
-
-                                    dataPoints: [
-                                        { x: 10, y: shareCash1, label: "Member 1" },
-                                        { x: 20, y: shareCash2, label: "Member 2" },
-                                        { x: 30, y: shareCash3, label: "Member 3" },
-                                        { x: 40, y: shareCash4, label: "Member 4" }
-                                    ]
-                                }
-                            ]
-                        });
-                chart.render();
-            };
+            
+            function showPieGraph(shareCash1, shareCash2, shareCash3, shareCash4) {
+            	//google.charts.load('current', {'packages':['corechart']});
+			    google.charts.setOnLoadCallback(drawChart);			
+			    function drawChart() {
+			        var data = google.visualization.arrayToDataTable([
+			          ['Staff', 'Share'],
+			          ['Member A', shareCash1],
+			          ['Member B', shareCash2],
+			          ['Member C', shareCash3],
+			          ['Member D', shareCash4]
+			        ]);
+			
+			        var options = {
+			          title: 'Equity Split'
+			        };
+			
+			        var chart = new google.visualization.PieChart(document.getElementById('pieChartContainer'));
+			        chart.draw(data, options);
+			    }
+            }
+            
+            function showBarGraph(shareCash1, shareCash2, shareCash3, shareCash4) {
+            	//google.charts.load('current', {'packages':['corechart']});
+			    google.charts.setOnLoadCallback(drawChart);			
+			    function drawChart() {
+			        var data = google.visualization.arrayToDataTable([
+			          ['Staff', 'Value', { role: 'style' }],
+			          ['Member A', shareCash1, 'color: #3266CC'],
+			          ['Member B', shareCash2, 'color: #DC3812'],
+			          ['Member C', shareCash3, 'color: #FE9900'],
+			          ['Member D', shareCash4, 'color: #109717']
+			        ]);
+			
+			        var options = {
+			          title: 'Equity Split'
+			        };
+			
+			        var chart = new google.visualization.BarChart(document.getElementById('barChartContainer'));
+			        chart.draw(data, options);
+			    }
+            }
         </script>
 
 	</head>
 
-	<body>	
-		<div id="fb-root"></div>
+	<body onload="loadBody()" onresize="resizeChart()">	
 		<script>(function(d, s, id) {
 		    var js, fjs = d.getElementsByTagName(s)[0];
 		    if (d.getElementById(id)) return;
@@ -256,8 +260,9 @@
 		            <ul class="nav navbar-nav">
 		                <li><a href="index.html">HOME</a></li>
 		                <li><a href="index.html#about">ABOUT</a></li>
+		                <li class="active"><a href="demo.html">DEMO</a></li>
 		                <li><a href="index.html#contact">CONTACT</a></li>
-		                <li class="active"><a href="blog.html">BLOG</a></li>
+		                <li><a href="blog.html">BLOG</a></li>
 		            </ul>
 		        </div><!--/.nav-collapse -->
 		    </div>
@@ -265,97 +270,108 @@
 				
 		<br><br><br><br>
 		<h1 class="centered">Equity Split SpreadSheet</h1>
-		<br>
 		<form id="formID" method="post" onsubmit="return false;">
 		    <div>
 		        <div class="bs-example">
 		            <table class="table">
 		            	<thead>
 			                <tr class="info">
-			                    <th>Data</th>
-			                    <th>Member 1</th>
-			                    <th>Member 2</th>
-			                    <th>Member 3</th>
-			                    <th>Member 4</th>
+			                    <th><h4>Field</h4></th>
+			                    <th><h4>Member A</h4></th>
+			                    <th><h4>Member B</h4></th>
+			                    <th><h4>Member C</h4></th>
+			                    <th><h4>Member D</h4></th>
 			                </tr>
 						</thead>
 						
 						<tbody>
 			                <tr class="active">
 			                    <th >Name</th>
-			                    <td><input type="text" name="member1_name"/></td>
-			                    <td><input type="text" name="member2_name"/></td>
-			                    <td><input type="text" name="member3_name"/></td>
-			                    <td><input type="text" name="member4_name"/></td>
+			                    <td><input type="text" class="form-control" name="member1_name"/></td>
+			                    <td><input type="text" class="form-control" name="member2_name"/></td>
+			                    <td><input type="text" class="form-control" name="member3_name"/></td>
+			                    <td><input type="text" class="form-control" name="member4_name"/></td>
 			                </tr>
 			                <tr class="active">
 			                    <th>Opportunity Cost / Salary ($)</th>
-			                    <td><input type="number" name="member1_ocs" min="0" value="100000" required="required" /></td>
-			                    <td><input type="number" name="member2_ocs" min="0" value="100000" required="required" /></td>
-			                    <td><input type="number" name="member3_ocs" min="0" value="100000" required="required" /></td>
-			                    <td><input type="number" name="member4_ocs" min="0" value="100000" required="required" /></td>
+			                    <td><input type="number" class="form-control" name="member1_ocs" min="0" value="100000" required="required" /></td>
+			                    <td><input type="number" class="form-control" name="member2_ocs" min="0" value="100000" required="required" /></td>
+			                    <td><input type="number" class="form-control" name="member3_ocs" min="0" value="100000" required="required" /></td>
+			                    <td><input type="number" class="form-control" name="member4_ocs" min="0" value="100000" required="required" /></td>
 			                </tr>			
 			                <tr class="active">
 			                    <th>Hours Worked</th>
-			                    <td><input type="number" name="member1_hw" min="0" value="30" required="required" /></td>
-			                    <td><input type="number" name="member2_hw" min="0" value="40" required="required" /></td>
-			                    <td><input type="number" name="member3_hw" min="0" value="50" required="required" /></td>
-			                    <td><input type="number" name="member4_hw" min="0" value="60" required="required" /></td>
+			                    <td><input type="number" class="form-control" name="member1_hw" min="0" value="30" required="required" /></td>
+			                    <td><input type="number" class="form-control" name="member2_hw" min="0" value="40" required="required" /></td>
+			                    <td><input type="number" class="form-control" name="member3_hw" min="0" value="50" required="required" /></td>
+			                    <td><input type="number" class="form-control" name="member4_hw" min="0" value="60" required="required" /></td>
 			                </tr>			
 			                <tr class="active">
 			                    <th>Invested Cash ($)</th>
-			                    <td><input type="number" name="member1_ic" min="0"/></td>
-			                    <td><input type="number" name="member2_ic" min="0"/></td>
-			                    <td><input type="number" name="member3_ic" min="0"/></td>
-			                    <td><input type="number" name="member4_ic" min="0"/></td>
+			                    <td><input type="number" class="form-control" name="member1_ic" min="0"/></td>
+			                    <td><input type="number" class="form-control" name="member2_ic" min="0"/></td>
+			                    <td><input type="number" class="form-control" name="member3_ic" min="0"/></td>
+			                    <td><input type="number" class="form-control" name="member4_ic" min="0"/></td>
 			                </tr>			
 			                <tr class="active">
 			                    <th>Contribution Cash ($)</th>
-			                    <td><input type="number" name="member1_cc" value="500" required="required" min="0"/></td>
-			                    <td><input type="number" name="member2_cc" value="600" required="required" min="0"/></td>
-			                    <td><input type="number" name="member3_cc" value="750" required="required" min="0"/></td>
-			                    <td><input type="number" name="member4_cc" value="1000" required="required" min="0"/></td>
+			                    <td><input type="number" class="form-control" name="member1_cc" value="500" required="required" min="0"/></td>
+			                    <td><input type="number" class="form-control" name="member2_cc" value="600" required="required" min="0"/></td>
+			                    <td><input type="number" class="form-control" name="member3_cc" value="750" required="required" min="0"/></td>
+			                    <td><input type="number" class="form-control" name="member4_cc" value="1000" required="required" min="0"/></td>
 			                </tr>			
 			                <tr class="active">
 			                    <th>Date Joined The Project</th>
-			                    <td><input type="text" name="member1_djtp"/></td>
-			                    <td><input type="text" name="member2_djtp"/></td>
-			                    <td><input type="text" name="member3_djtp"/></td>
-			                    <td><input type="text" name="member4_djtp"/></td>
+			                    <td><input type="text" class="form-control" name="member1_djtp"/></td>
+			                    <td><input type="text" class="form-control" name="member2_djtp"/></td>
+			                    <td><input type="text" class="form-control" name="member3_djtp"/></td>
+			                    <td><input type="text" class="form-control" name="member4_djtp"/></td>
 			                </tr>
 			                <tr class="success">
 			                    <th>Your Share ($)</th>
-			                    <td><input type="text" name="member1_ysc" disabled/></td>
-			                    <td><input type="text" name="member2_ysc" disabled/></td>
-			                    <td><input type="text" name="member3_ysc" disabled/></td>
-			                    <td><input type="text" name="member4_ysc" disabled/></td>
+			                    <td><input type="text" class="form-control" name="member1_ysc" disabled/></td>
+			                    <td><input type="text" class="form-control" name="member2_ysc" disabled/></td>
+			                    <td><input type="text" class="form-control" name="member3_ysc" disabled/></td>
+			                    <td><input type="text" class="form-control" name="member4_ysc" disabled/></td>
 			                </tr>
 			
 			                <tr class="success">
 			                    <th>Your Share (%)</th>
-			                    <td><input type="text" name="member1_ysp" disabled/></td>
-			                    <td><input type="text" name="member2_ysp" disabled/></td>
-			                    <td><input type="text" name="member3_ysp" disabled/></td>
-			                    <td><input type="text" name="member4_ysp" disabled/></td>
+			                    <td><input type="text" class="form-control" name="member1_ysp" disabled/></td>
+			                    <td><input type="text" class="form-control" name="member2_ysp" disabled/></td>
+			                    <td><input type="text" class="form-control" name="member3_ysp" disabled/></td>
+			                    <td><input type="text" class="form-control" name="member4_ysp" disabled/></td>
 			
 			                </tr>
 						</tbody>
 		            </table>
 		        </div>
+	
 		    </div>
 		</form>
+		
 		<div class="CalculationBut">
-			<input type="submit" name="calculationID" value="Calculate" class="btn btn-theme calculationID" onclick="calculation(formID)" />
-			<input type="submit" name="calculationID" value="Reset" class="btn btn-theme calculationID " onclick="reset(formID)" />
-		</div>
-
-		<hr/>
-		<div id="pieChartContainer" class="chartSizeClass">
+		      <input type="submit" name="calculationID" value="Calculation" class="btn btn-theme calculationID" onclick="calculation(formID)" />
+		      <input type="button" name="resetID" value="Reset" class="btn btn-theme calculationID" onclick="resetData(formID)" />
 		</div>
 		
-
-		<div id="barChartContainer" class="chartSizeClass">
+		<div id="graph_id" class="bs-example">
+		    <table class="table table-bordered">
+		        <tbody>
+		            <tr>
+		                <td>
+		                	<div class="chart-config" id="pieChartContainer" >
+							</div>
+		                </td>
+		                <td>
+		                	<div class="chart-config" id="barChartContainer">
+							</div>
+		                </td>
+		            </tr>
+		        </tbody>
+		    </table>
 		</div>
+		<br><br><br>
 		<div id="footerwrap">
 			<div class="container">
 				<div class="row">
