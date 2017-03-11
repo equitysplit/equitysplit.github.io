@@ -10,19 +10,16 @@
 	    <link href="assets/css/bootstrap.css" rel="stylesheet">
 	    <link href="assets/css/style.css" rel="stylesheet">
 	    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
-	    <link href="assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 	    <script src="assets/js/modernizr.js"></script>
         <script src="canvas.min.js"></script>
         <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/moment.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/js/bootstrap-datetimepicker.min.js"></script>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		
         <style>
         	.bs-example {
-		    	margin-left: 30px;
-		    	margin-right: 30px;
+		    	margin-left: 5%;
+		    	margin-right: 5%;
 		    	margin-top: 40px;
 		    	margin-bottom: 20px;
 		    }
@@ -32,6 +29,7 @@
                 height: 400px;
                 float: left;
             }
+            
             #graph_id td {
             	width: 50%;
             }
@@ -280,7 +278,7 @@
 				
 		<br><br><br><br>
 		<h1 class="centered">Equity Split SpreadSheet</h1>
-		<form id="formID" method="post" onsubmit="return false;">
+		<form id="calculateform_id" name="calculateform_name" method="post" onsubmit="return false;">
 		    <div>
 		        <div class="bs-example">
 		            <table class="table">
@@ -300,24 +298,24 @@
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-							            <input type="text" class="form-control" placeholder="Name" name="member1_name">
+							            <input type="text" class="form-control" placeholder="name" name="member1_name">
 							        </div>
 			                    </td>
 			                    <td><div class="input-group">
 							            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-							            <input type="text" class="form-control" placeholder="Name" name="member2_name">
+							            <input type="text" class="form-control" placeholder="name" name="member2_name">
 							        </div>
 							    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-							            <input type="text" class="form-control" placeholder="Name" name="member3_name">
+							            <input type="text" class="form-control" placeholder="name" name="member3_name">
 							        </div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-							            <input type="text" class="form-control" placeholder="Name" name="member4_name">
+							            <input type="text" class="form-control" placeholder="name" name="member4_name">
 							        </div>
 			                    </td>
 			                </tr>
@@ -327,28 +325,24 @@
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
 							            <input type="number" class="form-control" min="0" name="member1_ocs" placeholder="CAN Dollar" value="100000" required="required">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
 							            <input type="number" class="form-control" min="0" name="member2_ocs" placeholder="CAN Dollar" value="100000" required="required">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
 							            <input type="number" class="form-control" min="0" name="member3_ocs" placeholder="CAN Dollar" value="100000" required="required">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
 							            <input type="number" class="form-control" min="0" name="member4_ocs" placeholder="CAN Dollar" value="100000" required="required">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                </tr>			
@@ -356,26 +350,26 @@
 			                    <th>Hours Worked</th>
 			                    <td>
 			                    	<div class="input-group">
+			                    		<span class="input-group-addon">#</span>
 							            <input type="number" class="form-control" min="0" name="member1_hw" placeholder="CAN Dollar" value="30" required="required">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
+			                    		<span class="input-group-addon">#</span>
 							            <input type="number" class="form-control" min="0" name="member2_hw" placeholder="CAN Dollar" value="40" required="required">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
+			                    		<span class="input-group-addon">#</span>
 							            <input type="number" class="form-control" min="0" name="member3_hw" placeholder="CAN Dollar" value="50" required="required">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
+			                    		<span class="input-group-addon">#</span>
 							            <input type="number" class="form-control" min="0" name="member4_hw" placeholder="CAN Dollar" value="60" required="required">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                </tr>			
@@ -385,28 +379,24 @@
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
 							            <input type="number" class="form-control" min="0" name="member1_ic" placeholder="CAN Dollar">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
 							            <input type="number" class="form-control" min="0" name="member2_ic" placeholder="CAN Dollar">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
 							            <input type="number" class="form-control" min="0" name="member3_ic" placeholder="CAN Dollar">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
 							            <input type="number" class="form-control" min="0" name="member4_ic" placeholder="CAN Dollar">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                </tr>			
@@ -416,37 +406,53 @@
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
 							            <input type="number" class="form-control" min="0" name="member1_cc" placeholder="CAN Dollar" value="500" required="required">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
 							            <input type="number" class="form-control" min="0" name="member2_cc" placeholder="CAN Dollar" value="600" required="required">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
 							            <input type="number" class="form-control" min="0" name="member3_cc" placeholder="CAN Dollar" value="750" required="required">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
 							            <input type="number" class="form-control" min="0" name="member4_cc" placeholder="CAN Dollar" value="1000" required="required">
-							            <span class="input-group-addon">.00</span>
 						        	</div>
 			                    </td>
 			                </tr>			
 			                <tr class="active">
 			                    <th>Date Joined The Project</th>
-			                    <td><input type="text" class="form-control" name="member1_djtp"/></td>
-			                    <td><input type="text" class="form-control" name="member2_djtp"/></td>
-			                    <td><input type="text" class="form-control" name="member3_djtp"/></td>
-			                    <td><input type="text" class="form-control" name="member4_djtp"/></td>
+			                    <td>
+			                    	<div class="input-group">
+			                    		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+							            <input type="text" class="form-control" min="0" name="member1_djtp" placeholder="yyyy/mm/dd">
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+			                    		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+							            <input type="text" class="form-control" min="0" name="member2_djtp" placeholder="yyyy/mm/dd">
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+			                    		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+							            <input type="text" class="form-control" min="0" name="member3_djtp" placeholder="yyyy/mm/dd">
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+			                    		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+							            <input type="text" class="form-control" min="0" name="member4_djtp" placeholder="yyyy/mm/dd">
+						        	</div>
+			                    </td>
 			                </tr>
 			                <tr class="success">
 			                    <th>Your Share ($)</th>
@@ -462,7 +468,6 @@
 			                    <td><input type="text" class="form-control" name="member2_ysp" disabled/></td>
 			                    <td><input type="text" class="form-control" name="member3_ysp" disabled/></td>
 			                    <td><input type="text" class="form-control" name="member4_ysp" disabled/></td>
-			
 			                </tr>
 						</tbody>
 		            </table>
@@ -472,8 +477,8 @@
 		</form>
 		
 		<div class="CalculationBut">
-		      <input type="submit" name="calculationID" value="Calculation" class="btn btn-theme calculationID" onclick="calculation(formID)" />
-		      <input type="button" name="resetID" value="Reset" class="btn btn-theme calculationID" onclick="resetData(formID)" />
+		      <input type="submit" name="calculationID" value="Calculation" class="btn btn-theme calculationID" onclick="calculation(calculateform_id)" />
+		      <input type="button" name="resetID" value="Reset" class="btn btn-theme calculationID" onclick="resetData(calculateform_id)" />
 		</div>
 
 		<div id="graph_id" class="bs-example">
@@ -492,7 +497,38 @@
 		        </tbody>
 		    </table>
 		</div>
+		
+		<div class="container mtb">
+			<div class="row">
+				<div class="col-lg-8">
+					<h3>Your thoughts? Please leave a reply:</h3>
+					<div class="hline"></div>
+					<p>
+						<!-- Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. -->
+					</p>
+					<form role="form" name="commentform_name">
+						<div class="form-group">
+							<label for="InputName1">Your Name</label>
+							<input type="text" class="form-control" placeholder="Name (required)" id="yourname_id">
+						</div>
+						<div class="form-group">
+							<label for="InputEmail1">Your Email</label>
+							<input type="email" class="form-control" placeholder="Email (required but will not be published)" id="youremail_id">
+						</div>
+						<div class="form-group">
+							<label for="message1">Comment</label>
+							<textarea class="form-control" id="yourcomment_id" placeholder="Message (required)" rows="3"></textarea>
+						</div>
+						<a type="submit" href="mailto:team@cohesivebits.com?subject=Newsletter" class="btn btn-theme">Submit</a>
+					</form>
+				</div><!--/col-lg-8 -->
+			</div><!--/row -->
+		</div><!--/container -->
+
+
 		<br><br><br>
+
+
 		<div id="footerwrap">
 			<div class="container">
 				<div class="row">
