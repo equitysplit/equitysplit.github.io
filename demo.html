@@ -11,8 +11,7 @@
 	    <link href="assets/css/style.css" rel="stylesheet">
 	    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
         <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/js/process-comment.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>        
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		
         <style>
@@ -36,10 +35,27 @@
             th {
             	width: 20%;
             	vertical-align: middle !important;
-            }        
+            }
+            
+            .blue-color {
+            	color: #3266CC;
+            }
+            
+            .red-color {
+            	color: #DC3812;
+            }
+            
+            .orange-color {
+            	color: #FE9900;
+            }
+            
+            .green-color {
+            	color: #109717;
+            }
+   
         </style>
 
-        <script type="text/javascript">        
+        <script type="text/javascript">
         	function resizeChart() {
         		document.getElementById("pieChartContainer").innerHTML = "";
         		document.getElementById("barChartContainer").innerHTML = "";
@@ -62,22 +78,22 @@
         		form.member2_name.value = "";
         		form.member3_name.value = "";
         		form.member4_name.value = "";
-        		form.member1_ocs.value = 100000;
-        		form.member2_ocs.value = 100000;
-        		form.member3_ocs.value = 100000;
-        		form.member4_ocs.value = 100000;
-        		form.member1_hw.value = 30;
-        		form.member2_hw.value = 40;
-        		form.member3_hw.value = 50;
-        		form.member4_hw.value = 60;
+        		form.member1_ocs.value = "100,000";
+        		form.member2_ocs.value = "100,000";
+        		form.member3_ocs.value = "100,000";
+        		form.member4_ocs.value = "100,000";
+        		form.member1_hw.value = "30";
+        		form.member2_hw.value = "40";
+        		form.member3_hw.value = "50";
+        		form.member4_hw.value = "60";
         		form.member1_ic.value = "";
         		form.member2_ic.value = "";
         		form.member3_ic.value = "";
         		form.member4_ic.value = "";
-        		form.member1_cc.value = 500;
-        		form.member2_cc.value = 600;
-        		form.member3_cc.value = 750;
-        		form.member4_cc.value = 1000;
+        		form.member1_cc.value = "500";
+        		form.member2_cc.value = "600";
+        		form.member3_cc.value = "750";
+        		form.member4_cc.value = "1,000";
         		form.member1_djtp.value = "";
         		form.member2_djtp.value = "";
         		form.member3_djtp.value = "";
@@ -177,6 +193,8 @@
                 form.member3_ysp.value = Number((form.member3_ysc.value * 100) / total).toFixed(2);
                 form.member4_ysp.value = Number((form.member4_ysc.value * 100) / total).toFixed(2);
                 
+                form.totalshare.value = total;
+                
                 document.getElementById("graph_id").style.display = 'block';
                 
                 showPieGraph(parseFloat(form.member1_ysc.value), parseFloat(form.member2_ysc.value),
@@ -186,15 +204,18 @@
             }
 
             function calculateOpportunityCostPerHour(opportunityCostPerSalary) {
-                return (opportunityCostPerSalary/52.1429)/37.5;
+            	var num = parseInt(opportunityCostPerSalary.replace(/,/g, ''), 10);
+                return (num/52.1429)/37.5;
             }
 
             function calculateTheoreticalContribution(opportunityCostPerHour, hourWorked) {
-                return opportunityCostPerHour * hourWorked;
+            	var num = parseInt(hourWorked.replace(/,/g, ''), 10);
+                return opportunityCostPerHour * num;
             }
 
             function calculateShareCash(contributionCash, theoreticalContribution) {
-                return (contributionCash * 4) + theoreticalContribution;
+            	var num = parseInt(contributionCash.replace(/,/g, ''), 10);
+                return (num * 4) + theoreticalContribution;
             }
             
             function showPieGraph(shareCash1, shareCash2, shareCash3, shareCash4) {
@@ -237,7 +258,199 @@
 			        var chart = new google.visualization.BarChart(document.getElementById('barChartContainer'));
 			        chart.draw(data, options);
 			    }
-            }
+            }            
+        </script>
+        <script>
+			function inputNumber(evt) {
+				var key = window.event ? evt.keyCode : evt.which;
+				if (evt.keyCode == 8) {
+				    return true;
+				}
+				else if ( key < 48 || key > 57 ) {
+				    return false;
+				}
+				else return true;
+			}
+
+			$(document).ready(function() {
+				$("#member1_ocs_id").focusout(function() {
+					var my_val = $("#member1_ocs_id").val();
+					if(isEmpty(my_val)) {
+						$("#member1_ocs_id").val(0);
+					}
+					else {
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member1_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member2_ocs_id").focusout(function() {
+					var my_val = $("#member2_ocs_id").val();
+					if(isEmpty(my_val)) {
+						$("#member2_ocs_id").val(0);
+					}
+					else {
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member2_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member3_ocs_id").focusout(function() {
+					var my_val = $("#member3_ocs_id").val();
+					if(isEmpty(my_val)) {
+						$("#member3_ocs_id").val(0);
+					}
+					else {
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member3_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member4_ocs_id").focusout(function() {
+					var my_val = $("#member4_ocs_id").val();
+					if(isEmpty(my_val)) {
+						$("#member4_ocs_id").val(0);
+					}
+					else {
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member4_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member1_hw_id").focusout(function() {
+					var my_val = $("#member1_hw_id").val();
+					if(isEmpty(my_val)) {
+						$("#member1_hw_id").val(0);
+					}
+					else {
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member1_hw_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member2_hw_id").focusout(function() {
+					var my_val = $("#member2_hw_id").val();
+					if(isEmpty(my_val)) {
+						$("#member2_hw_id").val(0);
+					}
+					else {
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member2_hw_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member3_hw_id").focusout(function() {
+					var my_val = $("#member3_hw_id").val();
+					if(isEmpty(my_val)) {
+						$("#member3_hw_id").val(0);
+					}
+					else {
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member3_hw_id").val(Number(my_val).toLocaleString('en'));						
+					}
+				});
+				
+				$("#member4_hw_id").focusout(function() {
+					var my_val = $("#member4_hw_id").val();
+					if(isEmpty(my_val)) {
+						$("#member4_hw_id").val(0);
+					}
+					else {
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member4_hw_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member1_ic_id").focusout(function() {
+					var my_val = $("#member1_ic_id").val();
+					if(isEmpty(my_val)) {
+						$("#member1_ic_id").val(0);
+					}
+					else {
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member1_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member2_ic_id").focusout(function() {
+					var my_val = $("#member2_ic_id").val();
+					if(isEmpty(my_val)) {
+						$("#member2_ic_id").val(0);
+					}
+					else {
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member2_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member3_ic_id").focusout(function() {
+					var my_val = $("#member3_ic_id").val();
+					if(isEmpty(my_val)) {
+						$("#member3_ic_id").val(0);
+					}
+					else {
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member3_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member4_ic_id").focusout(function() {
+					var my_val = $("#member4_ic_id").val();
+					if(isEmpty(my_val)) {
+						$("#member4_ic_id").val(0);
+					}
+					else {
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member4_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+					
+				});
+				
+				$("#member1_cc_id").focusout(function() {
+					var my_val = $("#member1_cc_id").val();
+					if(isEmpty(my_val)) {
+						$("#member1_cc_id").val(0);
+					}
+					else {
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member1_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member2_cc_id").focusout(function() {
+					var my_val = $("#member2_cc_id").val();
+					if(isEmpty(my_val)) {
+						$("#member2_cc_id").val(0);
+					}
+					else {	
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member2_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member3_cc_id").focusout(function() {
+					var my_val = $("#member3_cc_id").val();
+					if(isEmpty(my_val)) {
+						$("#member3_cc_id").val(0);
+					}
+					else {
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member3_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member4_cc_id").focusout(function() {
+					var my_val = $("#member4_cc_id").val();
+					if(isEmpty(my_val)) {
+						$("#member4_cc_id").val(0);
+					}
+					else {
+						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						$("#member4_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+			});
+
         </script>
 
 	</head>
@@ -276,14 +489,14 @@
 		</div>
 				
 		<br><br><br><br>
-		<h1 class="centered">Equity Split SpreadSheet</h1>
+		<h1 class="centered">Equity Split Calculation</h1>
 		<form id="calculateform_id" name="calculateform_name" method="post" onsubmit="return false;">
 		    <div>
 		        <div class="bs-example">
-		            <table class="table">
+		            <table class="table table-bordered">
 		            	<thead>
 			                <tr class="info">
-			                    <th><h4>Field</h4></th>
+			                    <th></th>
 			                    <th><h4>Member A</h4></th>
 			                    <th><h4>Member B</h4></th>
 			                    <th><h4>Member C</h4></th>
@@ -321,27 +534,27 @@
 			                <tr class="active">
 			                    <th>Opportunity Cost / Salary</th>
 			                    <td>
-			                    	<div class="input-group">
+							       <div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="number" class="form-control" min="0" name="member1_ocs" placeholder="CAN Dollar" value="100000" required="required">
+							            <input type="text" id="member1_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member1_ocs" value="100,000" required="required">
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="number" class="form-control" min="0" name="member2_ocs" placeholder="CAN Dollar" value="100000" required="required">
+							            <input type="text" id="member2_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member2_ocs" value="100,000" required="required">
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="number" class="form-control" min="0" name="member3_ocs" placeholder="CAN Dollar" value="100000" required="required">
+							            <input type="text" id="member3_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member3_ocs" value="100,000" required="required">
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="number" class="form-control" min="0" name="member4_ocs" placeholder="CAN Dollar" value="100000" required="required">
+							            <input type="text" id="member4_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member4_ocs" value="100,000" required="required">
 						        	</div>
 			                    </td>
 			                </tr>			
@@ -350,25 +563,25 @@
 			                    <td>
 			                    	<div class="input-group">
 			                    		<span class="input-group-addon">#</span>
-							            <input type="number" class="form-control" min="0" name="member1_hw" placeholder="CAN Dollar" value="30" required="required">
+							            <input type="text" class="form-control" id="member1_hw_id" name="member1_hw" onkeypress="return inputNumber(event);" value="30" required="required">
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 			                    		<span class="input-group-addon">#</span>
-							            <input type="number" class="form-control" min="0" name="member2_hw" placeholder="CAN Dollar" value="40" required="required">
+							            <input type="text" class="form-control" id="member2_hw_id" name="member2_hw" onkeypress="return inputNumber(event);" value="40" required="required">
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 			                    		<span class="input-group-addon">#</span>
-							            <input type="number" class="form-control" min="0" name="member3_hw" placeholder="CAN Dollar" value="50" required="required">
+							            <input type="text" class="form-control" id="member3_hw_id" name="member3_hw" onkeypress="return inputNumber(event);" value="50" required="required">
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 			                    		<span class="input-group-addon">#</span>
-							            <input type="number" class="form-control" min="0" name="member4_hw" placeholder="CAN Dollar" value="60" required="required">
+							            <input type="text" class="form-control" id="member4_hw_id" name="member4_hw" onkeypress="return inputNumber(event);" value="60" required="required">
 						        	</div>
 			                    </td>
 			                </tr>			
@@ -377,25 +590,25 @@
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="number" class="form-control" min="0" name="member1_ic" placeholder="CAN Dollar">
+							            <input type="text" class="form-control" id="member1_ic_id" name="member1_ic" onkeypress="return inputNumber(event);" >
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="number" class="form-control" min="0" name="member2_ic" placeholder="CAN Dollar">
+							            <input type="text" class="form-control" id="member2_ic_id" name="member2_ic" onkeypress="return inputNumber(event);" >
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="number" class="form-control" min="0" name="member3_ic" placeholder="CAN Dollar">
+							            <input type="text" class="form-control" id="member3_ic_id" name="member3_ic" onkeypress="return inputNumber(event);" >
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="number" class="form-control" min="0" name="member4_ic" placeholder="CAN Dollar">
+							            <input type="text" class="form-control" id="member4_ic_id" name="member4_ic" onkeypress="return inputNumber(event);" >
 						        	</div>
 			                    </td>
 			                </tr>			
@@ -404,25 +617,25 @@
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="number" class="form-control" min="0" name="member1_cc" placeholder="CAN Dollar" value="500" required="required">
+							            <input type="text" class="form-control" id="member1_cc_id" name="member1_cc" value="500" required="required" onkeypress="return inputNumber(event);">
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="number" class="form-control" min="0" name="member2_cc" placeholder="CAN Dollar" value="600" required="required">
+							            <input type="text" class="form-control" id="member2_cc_id" name="member2_cc" value="600" required="required" onkeypress="return inputNumber(event);">
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="number" class="form-control" min="0" name="member3_cc" placeholder="CAN Dollar" value="750" required="required">
+							            <input type="text" class="form-control" id="member3_cc_id" name="member3_cc" value="750" required="required" onkeypress="return inputNumber(event);">
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="number" class="form-control" min="0" name="member4_cc" placeholder="CAN Dollar" value="1000" required="required">
+							            <input type="text" class="form-control" id="member4_cc_id" name="member4_cc" value="1,000" required="required" onkeypress="return inputNumber(event);">
 						        	</div>
 			                    </td>
 			                </tr>			
@@ -455,18 +668,23 @@
 			                </tr>
 			                <tr class="success">
 			                    <th>Your Share ($)</th>
-			                    <td><input type="text" class="form-control" name="member1_ysc" disabled/></td>
-			                    <td><input type="text" class="form-control" name="member2_ysc" disabled/></td>
-			                    <td><input type="text" class="form-control" name="member3_ysc" disabled/></td>
-			                    <td><input type="text" class="form-control" name="member4_ysc" disabled/></td>
+			                    <td><input type="text" class="blue-color form-control" name="member1_ysc" disabled/></td>
+			                    <td><input type="text" class="red-color form-control" name="member2_ysc" disabled/></td>
+			                    <td><input type="text" class="orange-color form-control" name="member3_ysc" disabled/></td>
+			                    <td><input type="text" class="green-color form-control" name="member4_ysc" disabled/></td>
 			                </tr>
 			
 			                <tr class="success">
 			                    <th>Your Share (%)</th>
-			                    <td><input type="text" class="form-control" name="member1_ysp" disabled/></td>
-			                    <td><input type="text" class="form-control" name="member2_ysp" disabled/></td>
-			                    <td><input type="text" class="form-control" name="member3_ysp" disabled/></td>
-			                    <td><input type="text" class="form-control" name="member4_ysp" disabled/></td>
+			                    <td><input type="text" class="blue-color form-control" name="member1_ysp" disabled/></td>
+			                    <td><input type="text" class="red-color form-control" name="member2_ysp" disabled/></td>
+			                    <td><input type="text" class="orange-color form-control" name="member3_ysp" disabled/></td>
+			                    <td><input type="text" class="green-color form-control" name="member4_ysp" disabled/></td>
+			                </tr>
+			                
+			                <tr class="success">
+			                    <th>Total Share (#)</th>
+			                    <td colspan="4"><b><input type="text" class="form-control centered" name="totalshare" disabled/></b></td>
 			                </tr>
 						</tbody>
 		            </table>
