@@ -7,11 +7,14 @@
         <meta name="description" content="">
         <meta name="author" content="Anh Tran">
 	    <link rel="shortcut icon" href="assets/ico/favicon.ico">
-	    <link href="assets/css/bootstrap.css" rel="stylesheet">
+	    <link href="assets/css/bootstrap.css" rel="stylesheet">	 
 	    <link href="assets/css/style.css" rel="stylesheet">
+	    <link href="assets/css/bootstrap-datepicker3.css" rel="stylesheet">
 	    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
         <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>        
+        <script src="assets/js/bootstrap.min.js"></script>      
+        <script src="assets/js/moment.min.js"></script>      
+        <script src="assets/js/bootstrap-datepicker.min.js"></script> 
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		
         <style>
@@ -166,41 +169,62 @@
                 var opportunityCostPerHour = calculateOpportunityCostPerHour(form.member1_ocs.value);
                 var theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member1_hw.value);
                 var shareCash = calculateShareCash(form.member1_cc.value, theoreticalContribution);
-                form.member1_ysc.value = Number(shareCash).toFixed(2);
+                form.member1_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
 
                 /* member 2 */
                 opportunityCostPerHour = calculateOpportunityCostPerHour(form.member2_ocs.value);
                 theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member2_hw.value);
                 shareCash = calculateShareCash(form.member2_cc.value, theoreticalContribution);
-                form.member2_ysc.value = Number(shareCash).toFixed(2);
+                form.member2_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
 
                 /* member 3 */
                 opportunityCostPerHour = calculateOpportunityCostPerHour(form.member3_ocs.value);
                 theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member3_hw.value);
                 shareCash = calculateShareCash(form.member3_cc.value, theoreticalContribution);
-                form.member3_ysc.value = Number(shareCash).toFixed(2);
+                form.member3_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
 
                 /* member 4 */
                 opportunityCostPerHour = calculateOpportunityCostPerHour(form.member4_ocs.value);
                 theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member4_hw.value);
                 shareCash = calculateShareCash(form.member4_cc.value, theoreticalContribution);
-                form.member4_ysc.value = Number(shareCash).toFixed(2);
+                form.member4_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
 
-                var total = parseFloat(form.member1_ysc.value) + parseFloat(form.member2_ysc.value)
-                        + parseFloat(form.member3_ysc.value) + parseFloat(form.member4_ysc.value);
-                form.member1_ysp.value = Number((form.member1_ysc.value * 100) / total).toFixed(2);
-                form.member2_ysp.value = Number((form.member2_ysc.value * 100) / total).toFixed(2);
-                form.member3_ysp.value = Number((form.member3_ysc.value * 100) / total).toFixed(2);
-                form.member4_ysp.value = Number((form.member4_ysc.value * 100) / total).toFixed(2);
+                var total = parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10) 
+                		+ parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10)
+                        + parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10) 
+                        + parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10);
+                        
+                form.member1_ysp.value = Number((parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+                form.member2_ysp.value = Number((parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+                form.member3_ysp.value = Number((parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+                form.member4_ysp.value = Number((parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
                 
-                form.totalshare.value = total;
+                form.totalshare.value = Number(total).toFixed(2);
                 
                 document.getElementById("graph_id").style.display = 'block';
                 
-                showPieGraph(parseFloat(form.member1_ysc.value), parseFloat(form.member2_ysc.value),
-                			parseFloat(form.member3_ysc.value),parseFloat(form.member4_ysc.value));
-                showBarGraph(parseFloat(form.member1_ysc.value), parseFloat(form.member2_ysc.value),
-                			parseFloat(form.member3_ysc.value),parseFloat(form.member4_ysc.value));
+                var member_name1 = form.member1_name.value;
+                if(isEmpty(member_name1)) {
+                	member_name1 = "Member A";
+                }
+                var member_name2 = form.member2_name.value;
+                if(isEmpty(member_name2)) {
+                	member_name2 = "Member B";
+                }
+                var member_name3 = form.member3_name.value;
+                if(isEmpty(member_name3)) {
+                	member_name3 = "Member C";
+                }
+                var member_name4 = form.member4_name.value;
+                if(isEmpty(member_name4)) {
+                	member_name4 = "Member D";
+                }
+                showPieGraph(member_name1, member_name2, member_name3, member_name4,
+                			parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10), parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10),
+                			parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10),parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10));
+                showBarGraph(member_name1, member_name2, member_name3, member_name4,
+                			parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10), parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10),
+                			parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10),parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10));
             }
 
             function calculateOpportunityCostPerHour(opportunityCostPerSalary) {
@@ -218,16 +242,16 @@
                 return (num * 4) + theoreticalContribution;
             }
             
-            function showPieGraph(shareCash1, shareCash2, shareCash3, shareCash4) {
+            function showPieGraph(member_name1, member_name2, member_name3, member_name4, shareCash1, shareCash2, shareCash3, shareCash4) {
             	//google.charts.load('current', {'packages':['corechart']});
 			    google.charts.setOnLoadCallback(drawChart);			
 			    function drawChart() {
 			        var data = google.visualization.arrayToDataTable([
 			          ['Staff', 'Share'],
-			          ['Member A', shareCash1],
-			          ['Member B', shareCash2],
-			          ['Member C', shareCash3],
-			          ['Member D', shareCash4]
+			          [member_name1, shareCash1],
+			          [member_name2, shareCash2],
+			          [member_name3, shareCash3],
+			          [member_name4, shareCash4]
 			        ]);
 			
 			        var options = {
@@ -239,16 +263,16 @@
 			    }
             }
             
-            function showBarGraph(shareCash1, shareCash2, shareCash3, shareCash4) {
+            function showBarGraph(member_name1, member_name2, member_name3, member_name4, shareCash1, shareCash2, shareCash3, shareCash4) {
             	//google.charts.load('current', {'packages':['corechart']});
 			    google.charts.setOnLoadCallback(drawChart);			
 			    function drawChart() {
 			        var data = google.visualization.arrayToDataTable([
 			          ['Staff', 'Value', { role: 'style' }],
-			          ['Member A', shareCash1, 'color: #3266CC'],
-			          ['Member B', shareCash2, 'color: #DC3812'],
-			          ['Member C', shareCash3, 'color: #FE9900'],
-			          ['Member D', shareCash4, 'color: #109717']
+			          [member_name1, shareCash1, 'color: #3266CC'],
+			          [member_name2, shareCash2, 'color: #DC3812'],
+			          [member_name3, shareCash3, 'color: #FE9900'],
+			          [member_name4, shareCash4, 'color: #109717']
 			        ]);
 			
 			        var options = {
@@ -450,7 +474,39 @@
 					}
 				});
 			});
-
+        </script>
+        
+        <script>
+			$(function() {
+				var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+				$('#member1_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+				
+				$('#member2_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+				
+				$('#member3_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+				
+				$('#member4_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+			});
         </script>
 
 	</head>
@@ -642,25 +698,25 @@
 			                <tr class="active">
 			                    <th>Date Joined The Project</th>
 			                    <td>
-			                    	<div class="input-group">
+			                    	<div class="input-group date" id='member1_datetimepicker'>
 			                    		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							            <input type="text" class="form-control" min="0" name="member1_djtp" placeholder="yyyy/mm/dd">
 						        	</div>
 			                    </td>
 			                    <td>
-			                    	<div class="input-group">
+			                    	<div class="input-group date" id='member2_datetimepicker'>
 			                    		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							            <input type="text" class="form-control" min="0" name="member2_djtp" placeholder="yyyy/mm/dd">
 						        	</div>
 			                    </td>
 			                    <td>
-			                    	<div class="input-group">
+			                    	<div class="input-group date" id='member3_datetimepicker'>
 			                    		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							            <input type="text" class="form-control" min="0" name="member3_djtp" placeholder="yyyy/mm/dd">
 						        	</div>
 			                    </td>
 			                    <td>
-			                    	<div class="input-group">
+			                    	<div class="input-group date" id='member4_datetimepicker'>
 			                    		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 							            <input type="text" class="form-control" min="0" name="member4_djtp" placeholder="yyyy/mm/dd">
 						        	</div>
