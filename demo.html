@@ -27,7 +27,7 @@
 
             .chart-config {
                 width: 100%;
-                height: 400px;
+                height: 360px;
                 float: left;
             }
             
@@ -64,9 +64,25 @@
         		document.getElementById("barChartContainer").innerHTML = "";
 				var x = document.getElementById('graph_id');
 			    if (x.style.display != 'none') {
-			    	showPieGraph(parseFloat(document.forms[0].member1_ysc.value), parseFloat(document.forms[0].member2_ysc.value),
+			    	var member_name1 = document.forms[0].member1_name.value;
+	                if(isEmpty(member_name1)) {
+	                	member_name1 = "Member A";
+	                }
+	                var member_name2 = document.forms[0].member2_name.value;
+	                if(isEmpty(member_name2)) {
+	                	member_name2 = "Member B";
+	                }
+	                var member_name3 = document.forms[0].member3_name.value;
+	                if(isEmpty(member_name3)) {
+	                	member_name3 = "Member C";
+	                }
+	                var member_name4 = document.forms[0].member4_name.value;
+	                if(isEmpty(member_name4)) {
+	                	member_name4 = "Member D";
+	                }
+			    	showPieGraph(member_name1, member_name2, member_name3, member_name4, parseFloat(document.forms[0].member1_ysc.value), parseFloat(document.forms[0].member2_ysc.value),
                 			parseFloat(document.forms[0].member3_ysc.value),parseFloat(document.forms[0].member4_ysc.value));
-                	showBarGraph(parseFloat(document.forms[0].member1_ysc.value), parseFloat(document.forms[0].member2_ysc.value),
+                	showBarGraph(member_name1, member_name2, member_name3, member_name4, parseFloat(document.forms[0].member1_ysc.value), parseFloat(document.forms[0].member2_ysc.value),
                 			parseFloat(document.forms[0].member3_ysc.value),parseFloat(document.forms[0].member4_ysc.value));
 			    }
         	}
@@ -89,10 +105,10 @@
         		form.member2_hw.value = "40";
         		form.member3_hw.value = "50";
         		form.member4_hw.value = "60";
-        		form.member1_ic.value = "";
-        		form.member2_ic.value = "";
-        		form.member3_ic.value = "";
-        		form.member4_ic.value = "";
+        		form.member1_ic.value = "0";
+        		form.member2_ic.value = "0";
+        		form.member3_ic.value = "0";
+        		form.member4_ic.value = "0";
         		form.member1_cc.value = "500";
         		form.member2_cc.value = "600";
         		form.member3_cc.value = "750";
@@ -145,6 +161,19 @@
         			return false;
         		}
         		
+        		if(isEmpty(form.member1_ic.value) || parseFloat(form.member1_ic.value) < 0) {
+        			return false;
+        		}
+        		if(isEmpty(form.member2_ic.value) || parseFloat(form.member2_ic.value) < 0) {
+        			return false;
+        		}
+        		if(isEmpty(form.member3_ic.value) || parseFloat(form.member3_ic.value) < 0) {
+        			return false;
+        		}
+        		if(isEmpty(form.member4_ic.value) || parseFloat(form.member4_ic.value) < 0) {
+        			return false;
+        		}
+        		
         		if(isEmpty(form.member1_cc.value) || parseFloat(form.member1_cc.value) < 0) {
         			return false;
         		}
@@ -166,27 +195,31 @@
 				}          	
 
                 /* member 1 */
+                var contributionCase = calculateContributionCash(form.member1_ic.value, form.member1_cc.value);
                 var opportunityCostPerHour = calculateOpportunityCostPerHour(form.member1_ocs.value);
                 var theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member1_hw.value);
-                var shareCash = calculateShareCash(form.member1_cc.value, theoreticalContribution);
+                var shareCash = calculateShareCash(contributionCase, theoreticalContribution);
                 form.member1_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
 
                 /* member 2 */
+                contributionCase = calculateContributionCash(form.member2_ic.value, form.member2_cc.value);
                 opportunityCostPerHour = calculateOpportunityCostPerHour(form.member2_ocs.value);
                 theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member2_hw.value);
-                shareCash = calculateShareCash(form.member2_cc.value, theoreticalContribution);
+                shareCash = calculateShareCash(contributionCase, theoreticalContribution);
                 form.member2_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
 
                 /* member 3 */
+                contributionCase = calculateContributionCash(form.member3_ic.value, form.member3_cc.value);
                 opportunityCostPerHour = calculateOpportunityCostPerHour(form.member3_ocs.value);
                 theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member3_hw.value);
-                shareCash = calculateShareCash(form.member3_cc.value, theoreticalContribution);
+                shareCash = calculateShareCash(contributionCase, theoreticalContribution);
                 form.member3_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
 
                 /* member 4 */
+                contributionCase = calculateContributionCash(form.member4_ic.value, form.member4_cc.value);
                 opportunityCostPerHour = calculateOpportunityCostPerHour(form.member4_ocs.value);
                 theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member4_hw.value);
-                shareCash = calculateShareCash(form.member4_cc.value, theoreticalContribution);
+                shareCash = calculateShareCash(contributionCase, theoreticalContribution);
                 form.member4_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
 
                 var total = parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10) 
@@ -226,20 +259,25 @@
                 			parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10), parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10),
                 			parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10),parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10));
             }
+            
+            function calculateContributionCash(investedCash, contributedCash) {
+            	var num1 = parseFloat(investedCash.replace(/,/g, ''), 10);
+            	var num2 = parseFloat(contributedCash.replace(/,/g, ''), 10);
+            	return (num1 + num2);
+            }
 
             function calculateOpportunityCostPerHour(opportunityCostPerSalary) {
-            	var num = parseInt(opportunityCostPerSalary.replace(/,/g, ''), 10);
+            	var num = parseFloat(opportunityCostPerSalary.replace(/,/g, ''), 10);
                 return (num/52.1429)/37.5;
             }
 
             function calculateTheoreticalContribution(opportunityCostPerHour, hourWorked) {
-            	var num = parseInt(hourWorked.replace(/,/g, ''), 10);
+            	var num = parseFloat(hourWorked.replace(/,/g, ''), 10);
                 return opportunityCostPerHour * num;
             }
 
             function calculateShareCash(contributionCash, theoreticalContribution) {
-            	var num = parseInt(contributionCash.replace(/,/g, ''), 10);
-                return (num * 4) + theoreticalContribution;
+                return (contributionCash * 4) + theoreticalContribution;
             }
             
             function showPieGraph(member_name1, member_name2, member_name3, member_name4, shareCash1, shareCash2, shareCash3, shareCash4) {
@@ -255,7 +293,7 @@
 			        ]);
 			
 			        var options = {
-			          title: 'Equity Split'
+			          title: ''
 			        };
 			
 			        var chart = new google.visualization.PieChart(document.getElementById('pieChartContainer'));
@@ -276,7 +314,7 @@
 			        ]);
 			
 			        var options = {
-			          title: 'Equity Split'
+			          title: ''
 			        };
 			
 			        var chart = new google.visualization.BarChart(document.getElementById('barChartContainer'));
@@ -289,6 +327,9 @@
 				var key = window.event ? evt.keyCode : evt.which;
 				if (evt.keyCode == 8) {
 				    return true;
+				}
+				else if (key == 46) {
+					return true;
 				}
 				else if ( key < 48 || key > 57 ) {
 				    return false;
@@ -303,7 +344,7 @@
 						$("#member1_ocs_id").val(0);
 					}
 					else {
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member1_ocs_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
@@ -314,7 +355,7 @@
 						$("#member2_ocs_id").val(0);
 					}
 					else {
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member2_ocs_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
@@ -325,7 +366,7 @@
 						$("#member3_ocs_id").val(0);
 					}
 					else {
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member3_ocs_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
@@ -336,7 +377,7 @@
 						$("#member4_ocs_id").val(0);
 					}
 					else {
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member4_ocs_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
@@ -347,7 +388,7 @@
 						$("#member1_hw_id").val(0);
 					}
 					else {
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member1_hw_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
@@ -358,7 +399,7 @@
 						$("#member2_hw_id").val(0);
 					}
 					else {
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member2_hw_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
@@ -369,7 +410,7 @@
 						$("#member3_hw_id").val(0);
 					}
 					else {
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member3_hw_id").val(Number(my_val).toLocaleString('en'));						
 					}
 				});
@@ -380,7 +421,7 @@
 						$("#member4_hw_id").val(0);
 					}
 					else {
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member4_hw_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
@@ -391,7 +432,7 @@
 						$("#member1_ic_id").val(0);
 					}
 					else {
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member1_ic_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
@@ -402,7 +443,7 @@
 						$("#member2_ic_id").val(0);
 					}
 					else {
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member2_ic_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
@@ -413,7 +454,7 @@
 						$("#member3_ic_id").val(0);
 					}
 					else {
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member3_ic_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
@@ -424,7 +465,7 @@
 						$("#member4_ic_id").val(0);
 					}
 					else {
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member4_ic_id").val(Number(my_val).toLocaleString('en'));
 					}
 					
@@ -436,7 +477,7 @@
 						$("#member1_cc_id").val(0);
 					}
 					else {
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member1_cc_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
@@ -447,7 +488,7 @@
 						$("#member2_cc_id").val(0);
 					}
 					else {	
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member2_cc_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
@@ -458,7 +499,7 @@
 						$("#member3_cc_id").val(0);
 					}
 					else {
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member3_cc_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
@@ -469,7 +510,7 @@
 						$("#member4_cc_id").val(0);
 					}
 					else {
-						my_val = parseInt(my_val.replace(/,/g, ''), 10);
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member4_cc_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
@@ -646,30 +687,30 @@
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="text" class="form-control" id="member1_ic_id" name="member1_ic" onkeypress="return inputNumber(event);" >
+							            <input type="text" class="form-control" id="member1_ic_id" name="member1_ic" value="0" onkeypress="return inputNumber(event);" >
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="text" class="form-control" id="member2_ic_id" name="member2_ic" onkeypress="return inputNumber(event);" >
+							            <input type="text" class="form-control" id="member2_ic_id" name="member2_ic" value="0" onkeypress="return inputNumber(event);" >
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="text" class="form-control" id="member3_ic_id" name="member3_ic" onkeypress="return inputNumber(event);" >
+							            <input type="text" class="form-control" id="member3_ic_id" name="member3_ic" value="0" onkeypress="return inputNumber(event);" >
 						        	</div>
 			                    </td>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
-							            <input type="text" class="form-control" id="member4_ic_id" name="member4_ic" onkeypress="return inputNumber(event);" >
+							            <input type="text" class="form-control" id="member4_ic_id" name="member4_ic" value="0" onkeypress="return inputNumber(event);" >
 						        	</div>
 			                    </td>
 			                </tr>			
 			                <tr class="active">
-			                    <th>Contribution Cash</th>
+			                    <th>Contributed Cash</th>
 			                    <td>
 			                    	<div class="input-group">
 							            <span class="input-group-addon">$</span>
@@ -759,10 +800,12 @@
 		        <tbody>
 		            <tr>
 		                <td>
+		                	<h4 class="centered">Equity Split</h4>
 		                	<div class="chart-config" id="pieChartContainer" >
 							</div>
 		                </td>
 		                <td>
+		                	<h4 class="centered">Equity Split</h4>
 		                	<div class="chart-config" id="barChartContainer">
 							</div>
 		                </td>
