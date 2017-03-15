@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Anh Tran">
+	    <link rel="shortcut icon" href="assets/ico/favicon.ico">
+	    <link href="assets/css/bootstrap.css" rel="stylesheet">	 
+	    <link href="assets/css/style.css" rel="stylesheet">
+	    <link href="assets/css/bootstrap-datepicker3.css" rel="stylesheet">
+	    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>      
+        <script src="assets/js/moment.min.js"></script>      
+        <script src="assets/js/bootstrap-datepicker.min.js"></script> 
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		
+        <style>
+        	.bs-example {
+		    	margin-left: 5%;
+		    	margin-right: 5%;
+		    	margin-top: 40px;
+		    	margin-bottom: 20px;
+		    }
+
+            .chart-config {
+                width: 100%;
+                height: 360px;
+                float: left;
+            }
+            
+            #graph_id td {
+            	width: 50%;
+            }
+            
+            th {
+            	width: 20%;
+            	vertical-align: middle !important;
+            }
+            
+            .blue-color {
+            	color: #3266CC;
+            }
+            
+            .red-color {
+            	color: #DC3812;
+            }
+            
+            .orange-color {
+            	color: #FE9900;
+            }
+            
+            .green-color {
+            	color: #109717;
+            }
+   
+        </style>
+
+        <script type="text/javascript">
+        	function resizeChart() {
+        		document.getElementById("pieChartContainer").innerHTML = "";
+        		document.getElementById("barChartContainer").innerHTML = "";
+				var x = document.getElementById('graph_id');
+			    if (x.style.display != 'none') {
+			    	var member_name1 = document.forms[0].member1_name.value;
+	                if(isEmpty(member_name1)) {
+	                	member_name1 = "Member A";
+	                }
+	                var member_name2 = document.forms[0].member2_name.value;
+	                if(isEmpty(member_name2)) {
+	                	member_name2 = "Member B";
+	                }
+	                var member_name3 = document.forms[0].member3_name.value;
+	                if(isEmpty(member_name3)) {
+	                	member_name3 = "Member C";
+	                }
+	                var member_name4 = document.forms[0].member4_name.value;
+	                if(isEmpty(member_name4)) {
+	                	member_name4 = "Member D";
+	                }
+			    	showPieGraph(member_name1, member_name2, member_name3, member_name4, parseFloat(document.forms[0].member1_ysc.value), parseFloat(document.forms[0].member2_ysc.value),
+                			parseFloat(document.forms[0].member3_ysc.value),parseFloat(document.forms[0].member4_ysc.value));
+                	showBarGraph(member_name1, member_name2, member_name3, member_name4, parseFloat(document.forms[0].member1_ysc.value), parseFloat(document.forms[0].member2_ysc.value),
+                			parseFloat(document.forms[0].member3_ysc.value),parseFloat(document.forms[0].member4_ysc.value));
+			    }
+        	}
+
+        	function loadBody() {
+	            document.getElementById("graph_id").style.display = 'none';
+	            google.charts.load('current', {'packages':['corechart']});
+	        }
+	        
+        	function resetData(form) {
+        		form.member1_name.value = "";
+        		form.member2_name.value = "";
+        		form.member3_name.value = "";
+        		form.member4_name.value = "";
+        		form.member1_ocs.value = "100,000";
+        		form.member2_ocs.value = "100,000";
+        		form.member3_ocs.value = "100,000";
+        		form.member4_ocs.value = "100,000";
+        		form.member1_hw.value = "30";
+        		form.member2_hw.value = "40";
+        		form.member3_hw.value = "50";
+        		form.member4_hw.value = "60";
+        		form.member1_ic.value = "0";
+        		form.member2_ic.value = "0";
+        		form.member3_ic.value = "0";
+        		form.member4_ic.value = "0";
+        		form.member1_cc.value = "500";
+        		form.member2_cc.value = "600";
+        		form.member3_cc.value = "750";
+        		form.member4_cc.value = "1,000";
+        		form.member1_djtp.value = "";
+        		form.member2_djtp.value = "";
+        		form.member3_djtp.value = "";
+        		form.member4_djtp.value = ""; 		
+        		form.member1_ysc.value = "";
+        		form.member2_ysc.value = "";
+        		form.member3_ysc.value = "";
+        		form.member4_ysc.value = "";
+        		form.member1_ysp.value = "";
+        		form.member2_ysp.value = "";
+        		form.member3_ysp.value = "";
+        		form.member4_ysp.value = "";
+        		
+        		var x = document.getElementById('graph_id');
+			    if (x.style.display != 'none') {
+			        x.style.display = 'none';
+			    }
+        	}
+        	function isEmpty(str) {
+			    return (!str || 0 === str.length);
+			}
+        	function dataValid(form) {
+        		if(isEmpty(form.member1_ocs.value) || parseFloat(form.member1_ocs.value) < 0) {
+        			return false;
+        		}
+        		if(isEmpty(form.member2_ocs.value) || parseFloat(form.member2_ocs.value) < 0) {
+        			return false;
+        		}
+        		if(isEmpty(form.member3_ocs.value) || parseFloat(form.member3_ocs.value) < 0) {
+        			return false;
+        		}
+        		if(isEmpty(form.member4_ocs.value) || parseFloat(form.member4_ocs.value) < 0) {
+        			return false;
+        		}
+        		
+        		if(isEmpty(form.member1_hw.value) || parseFloat(form.member1_hw.value) < 0) {
+        			return false;
+        		}
+        		if(isEmpty(form.member2_hw.value) || parseFloat(form.member2_hw.value) < 0) {
+        			return false;
+        		}
+        		if(isEmpty(form.member3_hw.value) || parseFloat(form.member3_hw.value) < 0) {
+        			return false;
+        		}
+        		if(isEmpty(form.member4_hw.value) || parseFloat(form.member4_hw.value) < 0) {
+        			return false;
+        		}
+        		
+        		if(isEmpty(form.member1_ic.value) || parseFloat(form.member1_ic.value) < 0) {
+        			return false;
+        		}
+        		if(isEmpty(form.member2_ic.value) || parseFloat(form.member2_ic.value) < 0) {
+        			return false;
+        		}
+        		if(isEmpty(form.member3_ic.value) || parseFloat(form.member3_ic.value) < 0) {
+        			return false;
+        		}
+        		if(isEmpty(form.member4_ic.value) || parseFloat(form.member4_ic.value) < 0) {
+        			return false;
+        		}
+        		
+        		if(isEmpty(form.member1_cc.value) || parseFloat(form.member1_cc.value) < 0) {
+        			return false;
+        		}
+        		if(isEmpty(form.member2_cc.value) || parseFloat(form.member2_cc.value) < 0) {
+        			return false;
+        		}
+        		if(isEmpty(form.member3_cc.value) || parseFloat(form.member3_cc.value) < 0) {
+        			return false;
+        		}
+        		if(isEmpty(form.member4_cc.value) || parseFloat(form.member4_cc.value) < 0) {
+        			return false;
+        		}
+        		
+        		return true;
+        	}
+            function calculation(form) {
+				if(dataValid(form) == false)  {
+					return;
+				}          	
+
+                /* member 1 */
+                var contributionCase = calculateContributionCash(form.member1_ic.value, form.member1_cc.value);
+                var opportunityCostPerHour = calculateOpportunityCostPerHour(form.member1_ocs.value);
+                var theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member1_hw.value);
+                var shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+                form.member1_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+
+                /* member 2 */
+                contributionCase = calculateContributionCash(form.member2_ic.value, form.member2_cc.value);
+                opportunityCostPerHour = calculateOpportunityCostPerHour(form.member2_ocs.value);
+                theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member2_hw.value);
+                shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+                form.member2_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+
+                /* member 3 */
+                contributionCase = calculateContributionCash(form.member3_ic.value, form.member3_cc.value);
+                opportunityCostPerHour = calculateOpportunityCostPerHour(form.member3_ocs.value);
+                theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member3_hw.value);
+                shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+                form.member3_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+
+                /* member 4 */
+                contributionCase = calculateContributionCash(form.member4_ic.value, form.member4_cc.value);
+                opportunityCostPerHour = calculateOpportunityCostPerHour(form.member4_ocs.value);
+                theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member4_hw.value);
+                shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+                form.member4_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+
+                var total = parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10) 
+                		+ parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10)
+                        + parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10) 
+                        + parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10);
+                        
+                form.member1_ysp.value = Number((parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+                form.member2_ysp.value = Number((parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+                form.member3_ysp.value = Number((parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+                form.member4_ysp.value = Number((parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+                
+                form.totalshare.value = Number(total).toFixed(2);
+                
+                document.getElementById("graph_id").style.display = 'block';
+                
+                var member_name1 = form.member1_name.value;
+                if(isEmpty(member_name1)) {
+                	member_name1 = "Member A";
+                }
+                var member_name2 = form.member2_name.value;
+                if(isEmpty(member_name2)) {
+                	member_name2 = "Member B";
+                }
+                var member_name3 = form.member3_name.value;
+                if(isEmpty(member_name3)) {
+                	member_name3 = "Member C";
+                }
+                var member_name4 = form.member4_name.value;
+                if(isEmpty(member_name4)) {
+                	member_name4 = "Member D";
+                }
+                showPieGraph(member_name1, member_name2, member_name3, member_name4,
+                			parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10), parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10),
+                			parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10),parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10));
+                showBarGraph(member_name1, member_name2, member_name3, member_name4,
+                			parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10), parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10),
+                			parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10),parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10));
+            }
+            
+            function calculateContributionCash(investedCash, contributedCash) {
+            	var num1 = parseFloat(investedCash.replace(/,/g, ''), 10);
+            	var num2 = parseFloat(contributedCash.replace(/,/g, ''), 10);
+            	return (num1 + num2);
+            }
+
+            function calculateOpportunityCostPerHour(opportunityCostPerSalary) {
+            	var num = parseFloat(opportunityCostPerSalary.replace(/,/g, ''), 10);
+                return (num/52.1429)/37.5;
+            }
+
+            function calculateTheoreticalContribution(opportunityCostPerHour, hourWorked) {
+            	var num = parseFloat(hourWorked.replace(/,/g, ''), 10);
+                return opportunityCostPerHour * num;
+            }
+
+            function calculateShareCash(contributionCash, theoreticalContribution) {
+                return (contributionCash * 4) + theoreticalContribution;
+            }
+            
+            function showPieGraph(member_name1, member_name2, member_name3, member_name4, shareCash1, shareCash2, shareCash3, shareCash4) {
+            	//google.charts.load('current', {'packages':['corechart']});
+			    google.charts.setOnLoadCallback(drawChart);			
+			    function drawChart() {
+			        var data = google.visualization.arrayToDataTable([
+			          ['Staff', 'Share'],
+			          [member_name1, shareCash1],
+			          [member_name2, shareCash2],
+			          [member_name3, shareCash3],
+			          [member_name4, shareCash4]
+			        ]);
+			
+			        var options = {
+			          title: ''
+			        };
+			
+			        var chart = new google.visualization.PieChart(document.getElementById('pieChartContainer'));
+			        chart.draw(data, options);
+			    }
+            }
+            
+            function showBarGraph(member_name1, member_name2, member_name3, member_name4, shareCash1, shareCash2, shareCash3, shareCash4) {
+            	//google.charts.load('current', {'packages':['corechart']});
+			    google.charts.setOnLoadCallback(drawChart);			
+			    function drawChart() {
+			        var data = google.visualization.arrayToDataTable([
+			          ['Staff', 'Value', { role: 'style' }],
+			          [member_name1, shareCash1, 'color: #3266CC'],
+			          [member_name2, shareCash2, 'color: #DC3812'],
+			          [member_name3, shareCash3, 'color: #FE9900'],
+			          [member_name4, shareCash4, 'color: #109717']
+			        ]);
+			
+			        var options = {
+			          title: ''
+			        };
+			
+			        var chart = new google.visualization.BarChart(document.getElementById('barChartContainer'));
+			        chart.draw(data, options);
+			    }
+            }            
+        </script>
+        <script>
+			function inputNumber(evt) {
+				var key = window.event ? evt.keyCode : evt.which;
+				if (evt.keyCode == 8) {
+				    return true;
+				}
+				else if (key == 46) {
+					return true;
+				}
+				else if ( key < 48 || key > 57 ) {
+				    return false;
+				}
+				else return true;
+			}
+
+			$(document).ready(function() {
+				$("#member1_ocs_id").focusout(function() {
+					var my_val = $("#member1_ocs_id").val();
+					if(isEmpty(my_val)) {
+						$("#member1_ocs_id").val(0);
+					}
+					else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member1_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member2_ocs_id").focusout(function() {
+					var my_val = $("#member2_ocs_id").val();
+					if(isEmpty(my_val)) {
+						$("#member2_ocs_id").val(0);
+					}
+					else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member2_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member3_ocs_id").focusout(function() {
+					var my_val = $("#member3_ocs_id").val();
+					if(isEmpty(my_val)) {
+						$("#member3_ocs_id").val(0);
+					}
+					else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member3_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member4_ocs_id").focusout(function() {
+					var my_val = $("#member4_ocs_id").val();
+					if(isEmpty(my_val)) {
+						$("#member4_ocs_id").val(0);
+					}
+					else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member4_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member1_hw_id").focusout(function() {
+					var my_val = $("#member1_hw_id").val();
+					if(isEmpty(my_val)) {
+						$("#member1_hw_id").val(0);
+					}
+					else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member1_hw_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member2_hw_id").focusout(function() {
+					var my_val = $("#member2_hw_id").val();
+					if(isEmpty(my_val)) {
+						$("#member2_hw_id").val(0);
+					}
+					else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member2_hw_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member3_hw_id").focusout(function() {
+					var my_val = $("#member3_hw_id").val();
+					if(isEmpty(my_val)) {
+						$("#member3_hw_id").val(0);
+					}
+					else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member3_hw_id").val(Number(my_val).toLocaleString('en'));						
+					}
+				});
+				
+				$("#member4_hw_id").focusout(function() {
+					var my_val = $("#member4_hw_id").val();
+					if(isEmpty(my_val)) {
+						$("#member4_hw_id").val(0);
+					}
+					else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member4_hw_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member1_ic_id").focusout(function() {
+					var my_val = $("#member1_ic_id").val();
+					if(isEmpty(my_val)) {
+						$("#member1_ic_id").val(0);
+					}
+					else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member1_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member2_ic_id").focusout(function() {
+					var my_val = $("#member2_ic_id").val();
+					if(isEmpty(my_val)) {
+						$("#member2_ic_id").val(0);
+					}
+					else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member2_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member3_ic_id").focusout(function() {
+					var my_val = $("#member3_ic_id").val();
+					if(isEmpty(my_val)) {
+						$("#member3_ic_id").val(0);
+					}
+					else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member3_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member4_ic_id").focusout(function() {
+					var my_val = $("#member4_ic_id").val();
+					if(isEmpty(my_val)) {
+						$("#member4_ic_id").val(0);
+					}
+					else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member4_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+					
+				});
+				
+				$("#member1_cc_id").focusout(function() {
+					var my_val = $("#member1_cc_id").val();
+					if(isEmpty(my_val)) {
+						$("#member1_cc_id").val(0);
+					}
+					else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member1_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member2_cc_id").focusout(function() {
+					var my_val = $("#member2_cc_id").val();
+					if(isEmpty(my_val)) {
+						$("#member2_cc_id").val(0);
+					}
+					else {	
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member2_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member3_cc_id").focusout(function() {
+					var my_val = $("#member3_cc_id").val();
+					if(isEmpty(my_val)) {
+						$("#member3_cc_id").val(0);
+					}
+					else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member3_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member4_cc_id").focusout(function() {
+					var my_val = $("#member4_cc_id").val();
+					if(isEmpty(my_val)) {
+						$("#member4_cc_id").val(0);
+					}
+					else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member4_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+			});
+        </script>
+        
+        <script>
+			$(function() {
+				var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+				$('#member1_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+				
+				$('#member2_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+				
+				$('#member3_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+				
+				$('#member4_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+			});
+        </script>
+
+	</head>
+
+	<body onload="loadBody()" onresize="resizeChart()">	
+		<script>(function(d, s, id) {
+		    var js, fjs = d.getElementsByTagName(s)[0];
+		    if (d.getElementById(id)) return;
+		    js = d.createElement(s); js.id = id;
+		    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1766789033574076";
+		    fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+		
+		<!-- Fixed navbar -->
+		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+		    <div class="container">
+		        <div class="navbar-header">
+		            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		                <span class="sr-only">Toggle navigation</span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		            </button>
+		            <a href="#back-to-top" class="navbar-brand" ><img class="pull-left" id="logo" src="assets/img/es_full_logo_bg.png"></a>
+		        </div>
+		        <div class="navbar-collapse collapse navbar-right">
+		            <ul class="nav navbar-nav">
+		                <li><a href="index.html">HOME</a></li>
+		                <li><a href="index.html#about">ABOUT</a></li>
+		                <li class="active"><a href="demo.html">DEMO</a></li>
+		                <li><a href="index.html#contact">CONTACT</a></li>
+		                <li><a href="blog.html">BLOG</a></li>
+		            </ul>
+		        </div><!--/.nav-collapse -->
+		    </div>
+		</div>
+				
+		<br><br><br><br>
+		<h1 class="centered">Equity Split Calculation</h1>
+		<form id="calculateform_id" name="calculateform_name" method="post" onsubmit="return false;">
+		    <div>
+		        <div class="bs-example">
+		            <table class="table table-bordered">
+		            	<thead>
+			                <tr class="info">
+			                    <th></th>
+			                    <th><h4>Member A</h4></th>
+			                    <th><h4>Member B</h4></th>
+			                    <th><h4>Member C</h4></th>
+			                    <th><h4>Member D</h4></th>
+			                </tr>
+						</thead>
+						
+						<tbody>
+			                <tr class="active">
+			                    <th>Name</th>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+							            <input type="text" class="form-control" placeholder="name" name="member1_name">
+							        </div>
+			                    </td>
+			                    <td><div class="input-group">
+							            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+							            <input type="text" class="form-control" placeholder="name" name="member2_name">
+							        </div>
+							    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+							            <input type="text" class="form-control" placeholder="name" name="member3_name">
+							        </div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+							            <input type="text" class="form-control" placeholder="name" name="member4_name">
+							        </div>
+			                    </td>
+			                </tr>
+			                <tr class="active">
+			                    <th>Opportunity Cost / Salary</th>
+			                    <td>
+							       <div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="text" id="member1_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member1_ocs" value="100,000" required="required">
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="text" id="member2_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member2_ocs" value="100,000" required="required">
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="text" id="member3_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member3_ocs" value="100,000" required="required">
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="text" id="member4_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member4_ocs" value="100,000" required="required">
+						        	</div>
+			                    </td>
+			                </tr>			
+			                <tr class="active">
+			                    <th>Hours Worked</th>
+			                    <td>
+			                    	<div class="input-group">
+			                    		<span class="input-group-addon">#</span>
+							            <input type="text" class="form-control" id="member1_hw_id" name="member1_hw" onkeypress="return inputNumber(event);" value="30" required="required">
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+			                    		<span class="input-group-addon">#</span>
+							            <input type="text" class="form-control" id="member2_hw_id" name="member2_hw" onkeypress="return inputNumber(event);" value="40" required="required">
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+			                    		<span class="input-group-addon">#</span>
+							            <input type="text" class="form-control" id="member3_hw_id" name="member3_hw" onkeypress="return inputNumber(event);" value="50" required="required">
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+			                    		<span class="input-group-addon">#</span>
+							            <input type="text" class="form-control" id="member4_hw_id" name="member4_hw" onkeypress="return inputNumber(event);" value="60" required="required">
+						        	</div>
+			                    </td>
+			                </tr>			
+			                <tr class="active">
+			                    <th>Invested Cash</th>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="text" class="form-control" id="member1_ic_id" name="member1_ic" value="0" onkeypress="return inputNumber(event);" >
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="text" class="form-control" id="member2_ic_id" name="member2_ic" value="0" onkeypress="return inputNumber(event);" >
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="text" class="form-control" id="member3_ic_id" name="member3_ic" value="0" onkeypress="return inputNumber(event);" >
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="text" class="form-control" id="member4_ic_id" name="member4_ic" value="0" onkeypress="return inputNumber(event);" >
+						        	</div>
+			                    </td>
+			                </tr>			
+			                <tr class="active">
+			                    <th>Contributed Cash</th>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="text" class="form-control" id="member1_cc_id" name="member1_cc" value="500" required="required" onkeypress="return inputNumber(event);">
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="text" class="form-control" id="member2_cc_id" name="member2_cc" value="600" required="required" onkeypress="return inputNumber(event);">
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="text" class="form-control" id="member3_cc_id" name="member3_cc" value="750" required="required" onkeypress="return inputNumber(event);">
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group">
+							            <span class="input-group-addon">$</span>
+							            <input type="text" class="form-control" id="member4_cc_id" name="member4_cc" value="1,000" required="required" onkeypress="return inputNumber(event);">
+						        	</div>
+			                    </td>
+			                </tr>			
+			                <tr class="active">
+			                    <th>Date Joined The Project</th>
+			                    <td>
+			                    	<div class="input-group date" id='member1_datetimepicker'>
+			                    		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+							            <input type="text" class="form-control" min="0" name="member1_djtp" placeholder="yyyy/mm/dd">
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group date" id='member2_datetimepicker'>
+			                    		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+							            <input type="text" class="form-control" min="0" name="member2_djtp" placeholder="yyyy/mm/dd">
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group date" id='member3_datetimepicker'>
+			                    		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+							            <input type="text" class="form-control" min="0" name="member3_djtp" placeholder="yyyy/mm/dd">
+						        	</div>
+			                    </td>
+			                    <td>
+			                    	<div class="input-group date" id='member4_datetimepicker'>
+			                    		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+							            <input type="text" class="form-control" min="0" name="member4_djtp" placeholder="yyyy/mm/dd">
+						        	</div>
+			                    </td>
+			                </tr>
+			                <tr class="success">
+			                    <th>Your Share ($)</th>
+			                    <td><input type="text" class="blue-color form-control" name="member1_ysc" disabled/></td>
+			                    <td><input type="text" class="red-color form-control" name="member2_ysc" disabled/></td>
+			                    <td><input type="text" class="orange-color form-control" name="member3_ysc" disabled/></td>
+			                    <td><input type="text" class="green-color form-control" name="member4_ysc" disabled/></td>
+			                </tr>
+			
+			                <tr class="success">
+			                    <th>Your Share (%)</th>
+			                    <td><input type="text" class="blue-color form-control" name="member1_ysp" disabled/></td>
+			                    <td><input type="text" class="red-color form-control" name="member2_ysp" disabled/></td>
+			                    <td><input type="text" class="orange-color form-control" name="member3_ysp" disabled/></td>
+			                    <td><input type="text" class="green-color form-control" name="member4_ysp" disabled/></td>
+			                </tr>
+			                
+			                <tr class="success">
+			                    <th>Total Share (#)</th>
+			                    <td colspan="4"><b><input type="text" class="form-control centered" name="totalshare" disabled/></b></td>
+			                </tr>
+						</tbody>
+		            </table>
+		        </div>
+	
+		    </div>
+		</form>
+		
+		<div class="CalculationBut">
+		      <input type="submit" name="calculationID" value="Calculation" class="btn btn-theme calculationID" onclick="calculation(calculateform_id)" />
+		      <input type="button" name="resetID" value="Reset" class="btn btn-theme calculationID" onclick="resetData(calculateform_id)" />
+		</div>
+
+		<div id="graph_id" class="bs-example">
+		    <table class="table table-bordered">
+		        <tbody>
+		            <tr>
+		                <td>
+		                	<h4 class="centered">Equity Split</h4>
+		                	<div class="chart-config" id="pieChartContainer" >
+							</div>
+		                </td>
+		                <td>
+		                	<h4 class="centered">Equity Split</h4>
+		                	<div class="chart-config" id="barChartContainer">
+							</div>
+		                </td>
+		            </tr>
+		        </tbody>
+		    </table>
+		</div>
+		<br>
+		<div class="bs-example">
+			<table class="table table-bordered">
+				<tbody>
+					<tr>
+						<td>
+							<div id="disqus_thread"></div>
+							<script>
+								/**
+								 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+								 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+								
+								 var disqus_config = function () {
+									 this.page.url = "http://www.equity-split.com/";  // Replace PAGE_URL with your page's canonical URL variable
+									 this.page.identifier = "equity-split"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+								 };
+								 
+								(function() {// DON'T EDIT BELOW THIS LINE
+									var d = document,
+									    s = d.createElement('script');
+									s.src = 'https://equity-split.disqus.com/embed.js';
+									s.setAttribute('data-timestamp', +new Date());
+									(d.head || d.body).appendChild(s);
+								})();
+							</script>
+							<noscript>
+								Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+							</noscript>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+        <br><br><br>                     
+		<div id="footerwrap">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<h4>Social Links</h4>
+						<div class="hline-w"></div>
+						<p>
+							<a href="https://www.facebook.com/equitysplit/"  target="_blank"><i class="fa fa-facebook"></i></a>
+							<a href="https://twitter.com/equity_split"  target="_blank"><i class="fa fa-twitter"></i></a>
+							<a href="https://www.linkedin.com/company/10975490"  target="_blank"><i class="fa fa-linkedin"></i></a>
+							<a href="https://www.reddit.com/user/equity_split/"  target="_blank"><i class="fa fa-reddit-alien"></i></a>
+						</p>
+					</div>
+				</div><!--/row -->
+			</div> <!-- /row -->
+			<div class="container">
+				<div class="row centered">
+					<p>Copyright &copy; 2017 Cohesive Bits.</p>
+				</div>
+			</div><!--/container -->
+		</div><!--/footerwrap -->
+
+		<script id="dsq-count-scr" src="//equity-split.disqus.com/count.js" async></script>
+		<script src="assets/js/retina-1.1.0.js"></script>
+		<script src="assets/js/jquery.hoverdir.js"></script>
+		<script src="assets/js/jquery.hoverex.min.js"></script>
+		<script src="assets/js/jquery.prettyPhoto.js"></script>
+		<script src="assets/js/jquery.isotope.min.js"></script>
+		<script src="assets/js/custom.js"></script>
+	</body>
+</html>
