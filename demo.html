@@ -64,26 +64,8 @@
         		document.getElementById("barChartContainer").innerHTML = "";
 				var x = document.getElementById('graph_id');
 			    if (x.style.display != 'none') {
-			    	var member_name1 = document.forms[0].member1_name.value;
-	                if(isEmpty(member_name1)) {
-	                	member_name1 = "Member A";
-	                }
-	                var member_name2 = document.forms[0].member2_name.value;
-	                if(isEmpty(member_name2)) {
-	                	member_name2 = "Member B";
-	                }
-	                var member_name3 = document.forms[0].member3_name.value;
-	                if(isEmpty(member_name3)) {
-	                	member_name3 = "Member C";
-	                }
-	                var member_name4 = document.forms[0].member4_name.value;
-	                if(isEmpty(member_name4)) {
-	                	member_name4 = "Member D";
-	                }
-			    	showPieGraph(member_name1, member_name2, member_name3, member_name4, parseFloat(document.forms[0].member1_ysc.value), parseFloat(document.forms[0].member2_ysc.value),
-                			parseFloat(document.forms[0].member3_ysc.value),parseFloat(document.forms[0].member4_ysc.value));
-                	showBarGraph(member_name1, member_name2, member_name3, member_name4, parseFloat(document.forms[0].member1_ysc.value), parseFloat(document.forms[0].member2_ysc.value),
-                			parseFloat(document.forms[0].member3_ysc.value),parseFloat(document.forms[0].member4_ysc.value));
+			    	refreshBarChart(document.forms[0]);
+                	refreshPieChart(document.forms[0]);
 			    }
         	}
 
@@ -125,6 +107,8 @@
         		form.member2_ysp.value = "";
         		form.member3_ysp.value = "";
         		form.member4_ysp.value = "";
+        		form.totalshare.value = "";
+        		document.getElementById("totalshare_id").disabled = true;
         		
         		var x = document.getElementById('graph_id');
 			    if (x.style.display != 'none') {
@@ -232,11 +216,18 @@
                 form.member3_ysp.value = Number((parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
                 form.member4_ysp.value = Number((parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
                 
-                form.totalshare.value = Number(total).toFixed(2);
+                form.totalshare.value = Number(Number(total).toFixed(2)).toLocaleString("en");
+                if(total > 0) {
+                	document.getElementById("totalshare_id").disabled = false;
+                }
                 
                 document.getElementById("graph_id").style.display = 'block';
-                
-                var member_name1 = form.member1_name.value;
+                refreshBarChart(form);
+                refreshPieChart(form);
+            }
+            
+            function refreshPieChart(form) {
+            	var member_name1 = form.member1_name.value;
                 if(isEmpty(member_name1)) {
                 	member_name1 = "Member A";
                 }
@@ -252,12 +243,35 @@
                 if(isEmpty(member_name4)) {
                 	member_name4 = "Member D";
                 }
+                
                 showPieGraph(member_name1, member_name2, member_name3, member_name4,
                 			parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10), parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10),
                 			parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10),parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10));
+                
+            }
+            
+            function refreshBarChart(form) {
+            	var member_name1 = form.member1_name.value;
+                if(isEmpty(member_name1)) {
+                	member_name1 = "Member A";
+                }
+                var member_name2 = form.member2_name.value;
+                if(isEmpty(member_name2)) {
+                	member_name2 = "Member B";
+                }
+                var member_name3 = form.member3_name.value;
+                if(isEmpty(member_name3)) {
+                	member_name3 = "Member C";
+                }
+                var member_name4 = form.member4_name.value;
+                if(isEmpty(member_name4)) {
+                	member_name4 = "Member D";
+                }
+                
                 showBarGraph(member_name1, member_name2, member_name3, member_name4,
                 			parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10), parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10),
                 			parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10),parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10));
+                
             }
             
             function calculateContributionCash(investedCash, contributedCash) {
@@ -514,6 +528,50 @@
 						$("#member4_cc_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
+				
+				$("#totalshare_id").focusout(function() {
+					var my_val = $("#totalshare_id").val();
+					if(isEmpty(my_val)) {
+						var total = parseFloat(document.forms[0].member1_ysc.value.replace(/,/g, ''), 10) 
+	                				+ parseFloat(document.forms[0].member2_ysc.value.replace(/,/g, ''), 10)
+	                        			+ parseFloat(document.forms[0].member3_ysc.value.replace(/,/g, ''), 10) 
+	                        				+ parseFloat(document.forms[0].member4_ysc.value.replace(/,/g, ''), 10);
+	                    document.forms[0].totalshare.value = Number(total).toFixed(2);  
+					}
+					else {
+						/* recalculate member's share (#) */
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#totalshare_id").val(Number(my_val).toLocaleString('en'));
+
+						var new_member1_ysc = (parseFloat(document.forms[0].member1_ysp.value.replace(/,/g, ''), 10) * my_val) / 100.0;
+						document.forms[0].member1_ysc.value = Number(Number(new_member1_ysc).toFixed(2)).toLocaleString('en');
+						
+						var new_member2_ysc = (parseFloat(document.forms[0].member2_ysp.value.replace(/,/g, ''), 10) * my_val) / 100.0;
+						document.forms[0].member2_ysc.value = Number(Number(new_member2_ysc).toFixed(2)).toLocaleString('en');
+						
+						var new_member3_ysc = (parseFloat(document.forms[0].member3_ysp.value.replace(/,/g, ''), 10) * my_val) / 100.0;
+						document.forms[0].member3_ysc.value = Number(Number(new_member3_ysc).toFixed(2)).toLocaleString('en');
+						
+						var new_member4_ysc = (parseFloat(document.forms[0].member4_ysp.value.replace(/,/g, ''), 10) * my_val) / 100.0;
+						document.forms[0].member4_ysc.value = Number(Number(new_member4_ysc).toFixed(2)).toLocaleString('en');
+						
+						/* calculate bar chart */
+						refreshBarChart(document.forms[0]);
+					}
+				});
+				
+				$('#totalshare_id').on('keypress', function (e) {
+			        if(e.which === 13){
+			            $('#totalshare_id').trigger('focusout');
+			            $('#totalshare_id').blur();
+			        }
+			        else {
+			        	if(e.which != 46 && e.which != 8 && (e.which < 48 || e.which > 57)) {
+			        		return false;
+			        	}
+			        }
+			   });
+				
 			});
         </script>
         
@@ -781,7 +839,7 @@
 			                
 			                <tr class="success">
 			                    <th>Total Share (#)</th>
-			                    <td colspan="4"><b><input type="text" class="form-control centered" name="totalshare" disabled/></b></td>
+			                    <td colspan="4"><b><input type="text" id="totalshare_id" class="form-control centered" name="totalshare" disabled/></b></td>
 			                </tr>
 						</tbody>
 		            </table>
