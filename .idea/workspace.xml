@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3d768ca1-d879-4520-9501-9bfc9017b07e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo.html" afterPath="$PROJECT_DIR$/demo.html" />
     </list>
     <ignored path="equitysplit.github.io.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,8 +27,8 @@
       <file leaf-file-name="demo.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/demo.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="935" column="43" selection-start-line="935" selection-start-column="43" selection-end-line="935" selection-end-column="43" />
+            <state relative-caret-position="673">
+              <caret line="937" column="7" selection-start-line="937" selection-start-column="7" selection-end-line="937" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -616,7 +615,7 @@
       <workItem from="1488737272357" duration="7066000" />
       <workItem from="1489112404178" duration="418000" />
       <workItem from="1489112836191" duration="1574000" />
-      <workItem from="1489940413544" duration="3655000" />
+      <workItem from="1489940413544" duration="3847000" />
     </task>
     <task id="LOCAL-00001" summary="blog pages">
       <created>1487541734502</created>
@@ -723,11 +722,18 @@
       <option name="project" value="LOCAL" />
       <updated>1489944041491</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="update index.html">
+      <created>1489944765609</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1489944765609</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27706000" />
+    <option name="totallyTimeSpent" value="27898000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
@@ -805,7 +811,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="blog pages" />
     <MESSAGE value="changed the button format and added footer" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed the button format and added footer" />
+    <MESSAGE value="update index.html" />
+    <option name="LAST_COMMIT_MESSAGE" value="update index.html" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1158,8 +1165,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/demo.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="935" column="43" selection-start-line="935" selection-start-column="43" selection-end-line="935" selection-end-column="43" />
+        <state relative-caret-position="673">
+          <caret line="937" column="7" selection-start-line="937" selection-start-column="7" selection-end-line="937" selection-end-column="7" />
           <folding />
         </state>
       </provider>
