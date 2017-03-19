@@ -610,7 +610,7 @@
 
 	</head>
 
-	<body onload="loadBody()" onresize="resizeChart()">	
+	<button onload="loadBody()" onresize="resizeChart()">
 		<script>(function(d, s, id) {
 		    var js, fjs = d.getElementsByTagName(s)[0];
 		    if (d.getElementById(id)) return;
@@ -848,10 +848,12 @@
 		    </div>
 		</form>
 		
-		<div class="CalculationBut">
-		      <input type="submit" name="calculationID" value="Calculation" class="btn btn-theme calculationID" onclick="calculation(calculateform_id)" />
-		      <input type="button" name="resetID" value="Reset" class="btn btn-theme calculationID" onclick="resetData(calculateform_id)" />
-		</div>
+
+
+	<div class=" CalculationBut col-md-12">
+		<button class="btn btn-theme btn-responsive" type="submit" name="calculationID" onclick="calculation(calculateform_id)">Calculate</button>
+		<button class="btn btn-theme btn-responsive" type="button" name="resetID"   onclick="resetData(calculateform_id)" >Reset</button>
+	</div>
 
 		<div id="graph_id" class="bs-example">
 		    <table class="table table-bordered">
