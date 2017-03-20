@@ -22,7 +22,6 @@
 				margin-left: 5%;
 				margin-right: 5%;
 				margin-top: 40px;
-				margin-bottom: 20px;
 			}
 
 			.chart-config {
@@ -56,18 +55,15 @@
 				color: #109717;
 			}
 			
-			.add-row-button {
-				float: left; 
-				margin-left: 5%;
-			}
-			
 			.next-icon {
 				float: right;
 				margin-right: 5%;
 			}
 			
-			.remove-row-button {
+			.add-remove-icon {
 				float: left;
+				margin-top: -20px;
+				margin-left: 5%;
 			}
 			
 			.hide-row-table {
@@ -537,6 +533,14 @@
 						--count;
 					}
 				}); 
+				
+				$('a[href="#add"]').click(function(){
+					addRow();
+				});
+				
+				$('a[href="#remove"]').click(function(){
+					removeRow();
+				});
 
 				$("#member1_ocs_id").focusout(function() {
 					var my_val = $("#member1_ocs_id").val();
@@ -841,9 +845,9 @@
 						<thead>
 							<tr id="tr_id_0" class="info">
 								<th><h4>Name</h4></th>
-								<th><h4>Your Share ($)</h4></th>
-								<th><h4>Your Share (#)</h4></th>
-								<th><h4>Your Share (%)</h4></th>
+								<th><h4>Your Share</h4></th>
+								<th><h4>Your Share</h4></th>
+								<th><h4>Your Share</h4></th>
 								<th><h4>Non Cash</h4></th>
 								<th><h4>Contributed Cash</h4></th>
 								<th><h4>Invested Cash</h4></th>
@@ -1648,11 +1652,14 @@
 			</div>
 		</form>
 
-
+		<div class="add-remove-icon">
+			<p class="image-font">
+				<a href="#add" onclick="return false;"><span class="glyphicon glyphicon-plus-sign"></span> </a>
+				<a href="#remove" onclick="return false;"><span class="glyphicon glyphicon-minus-sign"></span> </a>
+			</p>
+		</div>
 		
 		<div class=" CalculationBut col-md-12">
-			<button type="button" name="addrowID" class="btn btn-theme btn-width btn-responsive add-row-button" onclick="addRow()">Add</button>
-			<button type="button" name="removerowID" class="btn btn-theme btn-width btn-responsive remove-row-button" onclick="removeRow()">Remove</button>
 			<button class="btn btn-theme btn-width btn-responsive" type="submit" name="calculationID" onclick="calculation(calculateform_id)">Calculate</button>
 			<button class="btn btn-theme btn-width btn-responsive" type="button" name="resetID"   onclick="resetData(calculateform_id)" >Reset</button>
 		</div><br><br>
