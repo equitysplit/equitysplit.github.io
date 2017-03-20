@@ -169,95 +169,241 @@
 			function isEmpty(str) {
 				return (!str || 0 === str.length);
 			}
-
-			function dataValid(form) {
-				if (isEmpty(form.member1_ocs.value) || parseFloat(form.member1_ocs.value) < 0) {
-					return false;
-				}
-				if (isEmpty(form.member2_ocs.value) || parseFloat(form.member2_ocs.value) < 0) {
-					return false;
-				}
-				if (isEmpty(form.member3_ocs.value) || parseFloat(form.member3_ocs.value) < 0) {
-					return false;
-				}
-				if (isEmpty(form.member4_ocs.value) || parseFloat(form.member4_ocs.value) < 0) {
-					return false;
-				}
-
-				if (isEmpty(form.member1_hw.value) || parseFloat(form.member1_hw.value) < 0) {
-					return false;
-				}
-				if (isEmpty(form.member2_hw.value) || parseFloat(form.member2_hw.value) < 0) {
-					return false;
-				}
-				if (isEmpty(form.member3_hw.value) || parseFloat(form.member3_hw.value) < 0) {
-					return false;
-				}
-				if (isEmpty(form.member4_hw.value) || parseFloat(form.member4_hw.value) < 0) {
-					return false;
-				}
-
-				if (isEmpty(form.member1_ic.value) || parseFloat(form.member1_ic.value) < 0) {
-					return false;
-				}
-				if (isEmpty(form.member2_ic.value) || parseFloat(form.member2_ic.value) < 0) {
-					return false;
-				}
-				if (isEmpty(form.member3_ic.value) || parseFloat(form.member3_ic.value) < 0) {
-					return false;
-				}
-				if (isEmpty(form.member4_ic.value) || parseFloat(form.member4_ic.value) < 0) {
-					return false;
-				}
-
-				if (isEmpty(form.member1_cc.value) || parseFloat(form.member1_cc.value) < 0) {
-					return false;
-				}
-				if (isEmpty(form.member2_cc.value) || parseFloat(form.member2_cc.value) < 0) {
-					return false;
-				}
-				if (isEmpty(form.member3_cc.value) || parseFloat(form.member3_cc.value) < 0) {
-					return false;
-				}
-				if (isEmpty(form.member4_cc.value) || parseFloat(form.member4_cc.value) < 0) {
-					return false;
-				}
-
-				return true;
+			
+			function diffCurrentDay(b) {
+				var a = moment(new Date(),'YYYY/MM/DD');
+				var b = moment(b,'YYYY/MM/DD');
+				return a.diff(b, 'days');
+			}
+			
+			function calculateIndividualEfficiency(wh, dotp) {
+				var num1 = parseFloat(wh.replace(/,/g, ''), 10);
+				var num2 = parseFloat(dotp.replace(/,/g, ''), 10);
+				return (num1/(num2*(5/7)*7.5)) * 100;
 			}
 
 			function calculation(form) {
-				if (dataValid(form) == false) {
-					return;
+				var activeRow = 0;
+				var total = 0;
+				var contributionCase;
+				var opportunityCostPerHour;
+				var theoreticalContribution;
+				var shareCash;
+				for (i = 1; i < document.getElementById("cal_table_id").rows.length; i++) { 
+					var x = document.getElementById('tr_id_' + i);
+					if (x.style.display == 'table-row') {
+						++activeRow;
+						switch(i) {
+							case 1:
+								/* member 1 */
+								contributionCase = calculateContributionCash(form.member1_ic.value, form.member1_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member1_ocs.value);
+								form.member1_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member1_dotp.value = Number(diffCurrentDay(form.member1_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member1_hw.value, form.member1_dotp.value);
+								form.member1_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member1_hw.value);
+								form.member1_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member1_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 2:
+								/* member 2 */
+								contributionCase = calculateContributionCash(form.member2_ic.value, form.member2_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member2_ocs.value);
+								form.member2_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member2_dotp.value = Number(diffCurrentDay(form.member2_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member2_hw.value, form.member2_dotp.value);
+								form.member2_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member2_hw.value);
+								form.member2_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member2_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 3:
+								/* member 3 */
+								contributionCase = calculateContributionCash(form.member3_ic.value, form.member3_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member3_ocs.value);
+								form.member3_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member3_dotp.value = Number(diffCurrentDay(form.member3_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member3_hw.value, form.member3_dotp.value);
+								form.member3_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member3_hw.value);
+								form.member3_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member3_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 4:
+								/* member 4 */
+								contributionCase = calculateContributionCash(form.member4_ic.value, form.member4_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member4_ocs.value);
+								form.member4_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member4_dotp.value = Number(diffCurrentDay(form.member4_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member4_hw.value, form.member4_dotp.value);
+								form.member4_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member4_hw.value);
+								form.member4_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member4_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 5:
+								/* member 5 */
+								contributionCase = calculateContributionCash(form.member5_ic.value, form.member5_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member5_ocs.value);
+								form.member5_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member5_dotp.value = Number(diffCurrentDay(form.member5_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member5_hw.value, form.member5_dotp.value);
+								form.member5_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member5_hw.value);
+								form.member5_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member5_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 6:
+								/* member 6 */
+								contributionCase = calculateContributionCash(form.member6_ic.value, form.member6_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member6_ocs.value);
+								form.member6_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member6_dotp.value = Number(diffCurrentDay(form.member6_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member6_hw.value, form.member6_dotp.value);
+								form.member6_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member6_hw.value);
+								form.member6_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member6_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 7:
+								/* member 7 */
+								contributionCase = calculateContributionCash(form.member7_ic.value, form.member7_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member7_ocs.value);
+								form.member7_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member7_dotp.value = Number(diffCurrentDay(form.member7_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member7_hw.value, form.member7_dotp.value);
+								form.member7_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member7_hw.value);
+								form.member7_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member7_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 8:
+								/* member 8 */
+								contributionCase = calculateContributionCash(form.member8_ic.value, form.member8_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member8_ocs.value);
+								form.member8_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member8_dotp.value = Number(diffCurrentDay(form.member8_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member8_hw.value, form.member8_dotp.value);
+								form.member8_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member8_hw.value);
+								form.member8_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member8_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 9:
+								/* member 9 */
+								contributionCase = calculateContributionCash(form.member9_ic.value, form.member9_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member9_ocs.value);
+								form.member9_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member9_dotp.value = Number(diffCurrentDay(form.member9_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member9_hw.value, form.member9_dotp.value);
+								form.member9_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member9_hw.value);
+								form.member9_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member9_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+								
+						} /* switch */
+						total = total + parseFloat(shareCash, 10);
+						
+					} /* if */
+					
+				} /* for */
+				
+				alert(total);
+				
+				for (i = 1; i < document.getElementById("cal_table_id").rows.length; i++) { 
+					var x = document.getElementById('tr_id_' + i);
+					if (x.style.display == 'table-row') {
+						switch(i) {
+							case 1:
+								form.member1_ysp.value = Number((parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 2:
+								form.member2_ysp.value = Number((parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 3:
+								form.member3_ysp.value = Number((parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 4:
+								form.member4_ysp.value = Number((parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 5:
+								form.member5_ysp.value = Number((parseFloat(form.member5_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 6:
+								form.member6_ysp.value = Number((parseFloat(form.member6_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 7:
+								form.member7_ysp.value = Number((parseFloat(form.member7_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 8:
+								form.member8_ysp.value = Number((parseFloat(form.member8_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 9:
+								form.member9_ysp.value = Number((parseFloat(form.member9_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+						}
+					}
 				}
-
-				/* member 1 */
-				var contributionCase = calculateContributionCash(form.member1_ic.value, form.member1_cc.value);
-				var opportunityCostPerHour = calculateOpportunityCostPerHour(form.member1_ocs.value);
-				var theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member1_hw.value);
-				var shareCash = calculateShareCash(contributionCase, theoreticalContribution);
-				form.member1_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
-
-				/* member 2 */
-				contributionCase = calculateContributionCash(form.member2_ic.value, form.member2_cc.value);
-				opportunityCostPerHour = calculateOpportunityCostPerHour(form.member2_ocs.value);
-				theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member2_hw.value);
-				shareCash = calculateShareCash(contributionCase, theoreticalContribution);
-				form.member2_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
-
-				/* member 3 */
-				contributionCase = calculateContributionCash(form.member3_ic.value, form.member3_cc.value);
-				opportunityCostPerHour = calculateOpportunityCostPerHour(form.member3_ocs.value);
-				theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member3_hw.value);
-				shareCash = calculateShareCash(contributionCase, theoreticalContribution);
-				form.member3_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
-
-				/* member 4 */
-				contributionCase = calculateContributionCash(form.member4_ic.value, form.member4_cc.value);
-				opportunityCostPerHour = calculateOpportunityCostPerHour(form.member4_ocs.value);
-				theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member4_hw.value);
-				shareCash = calculateShareCash(contributionCase, theoreticalContribution);
-				form.member4_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+				
+				
+				
+				/*
 
 				var total = parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10) + parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10) + parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10) + parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10);
 
@@ -274,6 +420,7 @@
 				document.getElementById("graph_id").style.display = 'block';
 				refreshBarChart(form);
 				refreshPieChart(form);
+				*/
 			}
 
 			function refreshPieChart(form) {
@@ -774,6 +921,41 @@
 					todayHighlight : true,
 					autoclose : true,
 				});
+				
+				$('#member5_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+				
+				$('#member6_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+				
+				$('#member7_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+				
+				$('#member8_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+				
+				$('#member9_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
 			});
 		</script>
 
@@ -890,13 +1072,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member1_nc_id" name="member1_nc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="blue-color form-control" id="member1_nc_id" name="member1_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member1_cc_id" name="member1_cc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="form-control" id="member1_cc_id" name="member1_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
@@ -914,13 +1096,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">#</span>
-									<input type="text" class="form-control" id="member1_dotp_id" name="member1_dotp" onkeypress="return inputNumber(event);" value="30" required="required">
+									<input type="text" class="blue-color form-control" id="member1_dotp_id" name="member1_dotp" disabled>
 								</div></td>	
 								
 								<td>
-								<div class="input-group date" id='member1_vt_datetimepicker'>
+								<div class="input-group date">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member1_vt" placeholder="yyyy/mm/dd">
+									<input type="text" class="blue-color form-control" name="member1_vt" disabled>
 								</div></td>	
 								
 								<td>
@@ -932,7 +1114,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">%</span>
-									<input type="text" class="blue-color form-control" name="member1_ie"/>
+									<input type="text" class="blue-color form-control" name="member1_ie" disabled/>
 								</div></td>
 								
 								<td>
@@ -944,7 +1126,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" id="member1_sph_id" class="form-control" onkeypress="return inputNumber(event);" name="member1_sph" value="100,000" required="required">
+									<input type="text" id="member1_sph_id" class="blue-color form-control" name="member1_sph" disabled>
 								</div></td>	
 								
 								<!--
@@ -981,13 +1163,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member2_nc_id" name="member2_nc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="blue-color form-control" id="member2_nc_id" name="member2_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member2_cc_id" name="member2_cc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="form-control" id="member2_cc_id" name="member2_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
@@ -1005,13 +1187,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">#</span>
-									<input type="text" class="form-control" id="member2_dotp_id" name="member2_dotp" onkeypress="return inputNumber(event);" value="30" required="required">
+									<input type="text" class="blue-color form-control" id="member2_dotp_id" name="member2_dotp" disabled>
 								</div></td>	
 								
 								<td>
-								<div class="input-group date" id='member2_vt_datetimepicker'>
+								<div class="input-group date">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member2_vt" placeholder="yyyy/mm/dd">
+									<input type="text" class="blue-color form-control" name="member2_vt" disabled>
 								</div></td>	
 								
 								<td>
@@ -1023,7 +1205,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">%</span>
-									<input type="text" class="blue-color form-control" name="member2_ie"/>
+									<input type="text" class="blue-color form-control" name="member2_ie" disabled/>
 								</div></td>
 								
 								<td>
@@ -1035,7 +1217,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" id="member2_sph_id" class="form-control" onkeypress="return inputNumber(event);" name="member2_sph" value="100,000" required="required">
+									<input type="text" id="member2_sph_id" class="blue-color form-control" name="member2_sph" disabled>
 								</div></td>	
 								
 								<!--
@@ -1072,13 +1254,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member3_nc_id" name="member3_nc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="blue-color form-control" id="member3_nc_id" name="member3_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member3_cc_id" name="member3_cc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="form-control" id="member3_cc_id" name="member3_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
@@ -1096,13 +1278,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">#</span>
-									<input type="text" class="form-control" id="member3_dotp_id" name="member3_dotp" onkeypress="return inputNumber(event);" value="30" required="required">
+									<input type="text" class="blue-color form-control" id="member3_dotp_id" name="member3_dotp" disabled>
 								</div></td>	
 								
 								<td>
-								<div class="input-group date" id='member3_vt_datetimepicker'>
+								<div class="input-group date">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member3_vt" placeholder="yyyy/mm/dd">
+									<input type="text" class="blue-color form-control" name="member3_vt" disabled>
 								</div></td>	
 								
 								<td>
@@ -1114,7 +1296,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">%</span>
-									<input type="text" class="blue-color form-control" name="member3_ie"/>
+									<input type="text" class="blue-color form-control" name="member3_ie" disabled/>
 								</div></td>
 								
 								<td>
@@ -1126,7 +1308,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" id="member3_sph_id" class="form-control" onkeypress="return inputNumber(event);" name="member3_sph" value="100,000" required="required">
+									<input type="text" id="member3_sph_id" class="blue-color form-control" name="member3_sph" disabled>
 								</div></td>	
 								
 								<!--
@@ -1163,13 +1345,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member4_nc_id" name="member4_nc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="blue-color form-control" id="member4_nc_id" name="member4_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member4_cc_id" name="member4_cc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="form-control" id="member4_cc_id" name="member4_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
@@ -1187,13 +1369,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">#</span>
-									<input type="text" class="form-control" id="member4_dotp_id" name="member4_dotp" onkeypress="return inputNumber(event);" value="30" required="required">
+									<input type="text" class="blue-color form-control" id="member4_dotp_id" name="member4_dotp" disabled>
 								</div></td>	
 								
 								<td>
-								<div class="input-group date" id='member4_vt_datetimepicker'>
+								<div class="input-group date">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member4_vt" placeholder="yyyy/mm/dd">
+									<input type="text" class="blue-color form-control" name="member4_vt" disabled>
 								</div></td>	
 								
 								<td>
@@ -1205,7 +1387,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">%</span>
-									<input type="text" class="blue-color form-control" name="member4_ie"/>
+									<input type="text" class="blue-color form-control" name="member4_ie" disabled/>
 								</div></td>
 								
 								<td>
@@ -1217,7 +1399,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" id="member4_sph_id" class="form-control" onkeypress="return inputNumber(event);" name="member4_sph" value="100,000" required="required">
+									<input type="text" id="member4_sph_id" class="blue-color form-control" name="member4_sph" disabled>
 								</div></td>	
 							</tr>
 							<tr id="tr_id_5" class="active hide-row-table">
@@ -1248,13 +1430,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member5_nc_id" name="member5_nc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="blue-color form-control" id="member5_nc_id" name="member5_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member5_cc_id" name="member5_cc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="form-control" id="member5_cc_id" name="member5_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
@@ -1272,13 +1454,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">#</span>
-									<input type="text" class="form-control" id="member5_dotp_id" name="member5_dotp" onkeypress="return inputNumber(event);" value="30" required="required">
+									<input type="text" class="blue-color form-control" id="member5_dotp_id" name="member5_dotp" disabled>
 								</div></td>	
 								
 								<td>
-								<div class="input-group date" id='member5_vt_datetimepicker'>
+								<div class="input-group date">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member5_vt" placeholder="yyyy/mm/dd">
+									<input type="text" class="blue-color form-control" name="member5_vt" disabled>
 								</div></td>	
 								
 								<td>
@@ -1290,7 +1472,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">%</span>
-									<input type="text" class="blue-color form-control" name="member5_ie"/>
+									<input type="text" class="blue-color form-control" name="member5_ie" disabled/>
 								</div></td>
 								
 								<td>
@@ -1302,7 +1484,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" id="member5_sph_id" class="form-control" onkeypress="return inputNumber(event);" name="member5_sph" value="100,000" required="required">
+									<input type="text" id="member5_sph_id" class="blue-color form-control" name="member5_sph" disabled>
 								</div></td>	
 							</tr>
 							<tr id="tr_id_6" class="active hide-row-table">
@@ -1333,13 +1515,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member6_nc_id" name="member6_nc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="blue-color form-control" id="member6_nc_id" name="member6_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member6_cc_id" name="member6_cc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="form-control" id="member6_cc_id" name="member6_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
@@ -1357,13 +1539,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">#</span>
-									<input type="text" class="form-control" id="member6_dotp_id" name="member6_dotp" onkeypress="return inputNumber(event);" value="30" required="required">
+									<input type="text" class="blue-color form-control" id="member6_dotp_id" name="member6_dotp" disabled>
 								</div></td>	
 								
 								<td>
-								<div class="input-group date" id='member6_vt_datetimepicker'>
+								<div class="input-group date">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member6_vt" placeholder="yyyy/mm/dd">
+									<input type="text" class="blue-color form-control" name="member6_vt" disabled>
 								</div></td>	
 								
 								<td>
@@ -1375,7 +1557,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">%</span>
-									<input type="text" class="blue-color form-control" name="member6_ie"/>
+									<input type="text" class="blue-color form-control" name="member6_ie" disabled/>
 								</div></td>
 								
 								<td>
@@ -1387,7 +1569,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" id="member6_sph_id" class="form-control" onkeypress="return inputNumber(event);" name="member6_sph" value="100,000" required="required">
+									<input type="text" id="member6_sph_id" class="blue-color form-control" name="member6_sph" disabled>
 								</div></td>	
 							</tr>
 							<tr id="tr_id_7" class="active hide-row-table">
@@ -1418,13 +1600,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member7_nc_id" name="member7_nc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="blue-color form-control" id="member7_nc_id" name="member7_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member7_cc_id" name="member7_cc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="form-control" id="member7_cc_id" name="member7_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
@@ -1442,13 +1624,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">#</span>
-									<input type="text" class="form-control" id="member7_dotp_id" name="member7_dotp" onkeypress="return inputNumber(event);" value="30" required="required">
+									<input type="text" class="blue-color form-control" id="member7_dotp_id" name="member7_dotp" disabled>
 								</div></td>	
 								
 								<td>
-								<div class="input-group date" id='member7_vt_datetimepicker'>
+								<div class="input-group date">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member7_vt" placeholder="yyyy/mm/dd">
+									<input type="text" class="blue-color form-control" name="member7_vt" disabled>
 								</div></td>	
 								
 								<td>
@@ -1460,7 +1642,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">%</span>
-									<input type="text" class="blue-color form-control" name="member7_ie"/>
+									<input type="text" class="blue-color form-control" name="member7_ie" disabled/>
 								</div></td>
 								
 								<td>
@@ -1472,7 +1654,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" id="member7_sph_id" class="form-control" onkeypress="return inputNumber(event);" name="member7_sph" value="100,000" required="required">
+									<input type="text" id="member7_sph_id" class="blue-color form-control" name="member7_sph" disabled>
 								</div></td>	
 							</tr>
 							<tr id="tr_id_8" class="active hide-row-table">
@@ -1503,13 +1685,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member8_nc_id" name="member8_nc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="blue-color form-control" id="member8_nc_id" name="member8_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member8_cc_id" name="member8_cc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="form-control" id="member8_cc_id" name="member8_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
@@ -1527,13 +1709,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">#</span>
-									<input type="text" class="form-control" id="member8_dotp_id" name="member8_dotp" onkeypress="return inputNumber(event);" value="30" required="required">
+									<input type="text" class="blue-color form-control" id="member8_dotp_id" name="member8_dotp" disabled>
 								</div></td>	
 								
 								<td>
-								<div class="input-group date" id='member8_vt_datetimepicker'>
+								<div class="input-group date">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member8_vt" placeholder="yyyy/mm/dd">
+									<input type="text" class="blue-color form-control" name="member8_vt" disabled>
 								</div></td>	
 								
 								<td>
@@ -1545,7 +1727,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">%</span>
-									<input type="text" class="blue-color form-control" name="member8_ie"/>
+									<input type="text" class="blue-color form-control" name="member8_ie" disabled/>
 								</div></td>
 								
 								<td>
@@ -1557,7 +1739,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" id="member8_sph_id" class="form-control" onkeypress="return inputNumber(event);" name="member8_sph" value="100,000" required="required">
+									<input type="text" id="member8_sph_id" class="blue-color form-control" name="member8_sph" disabled>
 								</div></td>	
 							</tr>
 							<tr id="tr_id_9" class="active hide-row-table">
@@ -1588,13 +1770,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member9_nc_id" name="member9_nc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="blue-color form-control" id="member9_nc_id" name="member9_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" class="form-control" id="member9_cc_id" name="member9_cc" value="500" required="required" onkeypress="return inputNumber(event);">
+									<input type="text" class="form-control" id="member9_cc_id" name="member9_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
@@ -1612,13 +1794,13 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">#</span>
-									<input type="text" class="form-control" id="member9_dotp_id" name="member9_dotp" onkeypress="return inputNumber(event);" value="30" required="required">
+									<input type="text" class="blue-color form-control" id="member9_dotp_id" name="member9_dotp" disabled>
 								</div></td>	
 								
 								<td>
-								<div class="input-group date" id='member9_vt_datetimepicker'>
+								<div class="input-group date">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member9_vt" placeholder="yyyy/mm/dd">
+									<input type="text" class="blue-color form-control" name="member9_vt" disabled>
 								</div></td>	
 								
 								<td>
@@ -1630,7 +1812,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">%</span>
-									<input type="text" class="blue-color form-control" name="member9_ie"/>
+									<input type="text" class="blue-color form-control" name="member9_ie" disabled/>
 								</div></td>
 								
 								<td>
@@ -1642,7 +1824,7 @@
 								<td>
 								<div class="input-group">
 									<span class="input-group-addon">$</span>
-									<input type="text" id="member9_sph_id" class="form-control" onkeypress="return inputNumber(event);" name="member9_sph" value="100,000" required="required">
+									<input type="text" id="member9_sph_id" class="blue-color form-control" name="member9_sph" disabled>
 								</div></td>	
 							</tr>
 						</tbody>
