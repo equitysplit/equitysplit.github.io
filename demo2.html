@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="Anh Tran">
+		<link rel="shortcut icon" href="assets/ico/favicon.ico">
+		<link href="assets/css/bootstrap.css" rel="stylesheet">
+		<link href="assets/css/style.css" rel="stylesheet">
+		<link href="assets/css/bootstrap-datepicker3.css" rel="stylesheet">
+		<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/moment.min.js"></script>
+		<script src="assets/js/bootstrap-datepicker.min.js"></script>
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+		<style>
+			.bs-example {
+				margin-left: 5%;
+				margin-right: 5%;
+				margin-top: 40px;
+			}
+
+			.chart-config {
+				width: 100%;
+				height: 360px;
+				float: left;
+			}
+
+			#graph_id td {
+				width: 50%;
+			}
+
+			th {
+				width: 20%;
+				vertical-align: middle !important;
+			}
+
+			.blue-color {
+				color: #3266CC;
+			}
+
+			.red-color {
+				color: #DC3812;
+			}
+
+			.orange-color {
+				color: #FE9900;
+			}
+
+			.green-color {
+				color: #109717;
+			}
+			
+			.next-icon {
+				float: right;
+				margin-right: 5%;
+			}
+			
+			.add-remove-icon {
+				float: left;
+				margin-top: -20px;
+				margin-left: 5%;
+			}
+			
+			.hide-row-table {
+				display:none;
+			}
+			
+			.image-font {
+				font-size: 20px;
+			}
+			
+			.header-font {
+				font-size: 16px;
+			}
+			
+		</style>
+
+		<script type="text/javascript">
+			function resizeChart() {
+				document.getElementById("pieChartContainer").innerHTML = "";
+				document.getElementById("barChartContainer").innerHTML = "";
+				var x = document.getElementById('graph_id');
+				if (x.style.display != 'none') {
+					//refreshBarChart(document.forms[0]);
+					//refreshPieChart(document.forms[0]);
+				}
+			}
+
+			function loadBody() {
+				document.getElementById("graph_id").style.display = 'none';
+				document.getElementById("tr_id_1").style.display = 'table-row';
+				document.getElementById("tr_id_2").style.display = 'none';
+				document.getElementById("tr_id_3").style.display = 'none';
+				document.getElementById("tr_id_4").style.display = 'none';
+				document.getElementById("tr_id_5").style.display = 'none';
+				document.getElementById("tr_id_6").style.display = 'none';
+				document.getElementById("tr_id_7").style.display = 'none';
+				document.getElementById("tr_id_8").style.display = 'none';
+				document.getElementById("tr_id_9").style.display = 'none';
+				document.getElementById("tr_id_10").style.display = 'none';
+			}
+			
+			function addRow() {
+				for (i = 1; i < document.getElementById("cal_table_id").rows.length; i++) { 
+					var x = document.getElementById('tr_id_' + i);
+					if (x.style.display == 'none') {
+						x.style.display = 'table-row';
+						break;
+					}
+				}
+			}
+
+			function removeRow() {
+				for (i = document.getElementById("cal_table_id").rows.length -1 ; i >= 1; i--) { 
+					var x = document.getElementById('tr_id_' + i);
+					if (x.style.display == 'table-row') {
+						x.style.display = 'none';
+						break;
+					}
+				}
+			}
+			
+			function resetData(form) {
+				form.reset();
+				var x = document.getElementById('graph_id');
+				if (x.style.display != 'none') {
+					x.style.display = 'none';
+				}
+			}
+
+			function isEmpty(str) {
+				return (!str || 0 === str.length);
+			}
+			
+			function diffCurrentDay(b) {
+				var a = moment(new Date(),'YYYY/MM/DD');
+				var b = moment(b,'YYYY/MM/DD');
+				return a.diff(b, 'days');
+			}
+			
+			function calculateIndividualEfficiency(wh, dotp) {
+				var num1 = parseFloat(wh.replace(/,/g, ''), 10);
+				var num2 = parseFloat(dotp.replace(/,/g, ''), 10);
+				return (num1/(num2*(5/7)*7.5)) * 100;
+			}
+
+			function calculation(form) {
+				var activeRow = 0;
+				var total = 0;
+				var contributionCase;
+				var opportunityCostPerHour;
+				var theoreticalContribution;
+				var shareCash;
+				for (i = 1; i < document.getElementById("cal_table_id").rows.length; i++) { 
+					var x = document.getElementById('tr_id_' + i);
+					if (x.style.display == 'table-row') {
+						++activeRow;
+						switch(i) {
+							case 1:
+								/* member 1 */
+								contributionCase = calculateContributionCash(form.member1_ic.value, form.member1_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member1_ocs.value);
+								form.member1_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member1_dotp.value = Number(diffCurrentDay(form.member1_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member1_hw.value, form.member1_dotp.value);
+								form.member1_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member1_hw.value);
+								form.member1_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member1_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 2:
+								/* member 2 */
+								contributionCase = calculateContributionCash(form.member2_ic.value, form.member2_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member2_ocs.value);
+								form.member2_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member2_dotp.value = Number(diffCurrentDay(form.member2_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member2_hw.value, form.member2_dotp.value);
+								form.member2_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member2_hw.value);
+								form.member2_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member2_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 3:
+								/* member 3 */
+								contributionCase = calculateContributionCash(form.member3_ic.value, form.member3_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member3_ocs.value);
+								form.member3_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member3_dotp.value = Number(diffCurrentDay(form.member3_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member3_hw.value, form.member3_dotp.value);
+								form.member3_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member3_hw.value);
+								form.member3_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member3_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 4:
+								/* member 4 */
+								contributionCase = calculateContributionCash(form.member4_ic.value, form.member4_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member4_ocs.value);
+								form.member4_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member4_dotp.value = Number(diffCurrentDay(form.member4_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member4_hw.value, form.member4_dotp.value);
+								form.member4_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member4_hw.value);
+								form.member4_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member4_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 5:
+								/* member 5 */
+								contributionCase = calculateContributionCash(form.member5_ic.value, form.member5_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member5_ocs.value);
+								form.member5_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member5_dotp.value = Number(diffCurrentDay(form.member5_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member5_hw.value, form.member5_dotp.value);
+								form.member5_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member5_hw.value);
+								form.member5_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member5_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 6:
+								/* member 6 */
+								contributionCase = calculateContributionCash(form.member6_ic.value, form.member6_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member6_ocs.value);
+								form.member6_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member6_dotp.value = Number(diffCurrentDay(form.member6_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member6_hw.value, form.member6_dotp.value);
+								form.member6_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member6_hw.value);
+								form.member6_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member6_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 7:
+								/* member 7 */
+								contributionCase = calculateContributionCash(form.member7_ic.value, form.member7_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member7_ocs.value);
+								form.member7_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member7_dotp.value = Number(diffCurrentDay(form.member7_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member7_hw.value, form.member7_dotp.value);
+								form.member7_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member7_hw.value);
+								form.member7_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member7_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 8:
+								/* member 8 */
+								contributionCase = calculateContributionCash(form.member8_ic.value, form.member8_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member8_ocs.value);
+								form.member8_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member8_dotp.value = Number(diffCurrentDay(form.member8_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member8_hw.value, form.member8_dotp.value);
+								form.member8_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member8_hw.value);
+								form.member8_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member8_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+							case 9:
+								/* member 9 */
+								contributionCase = calculateContributionCash(form.member9_ic.value, form.member9_cc.value);
+								/* salary per hour */
+								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member9_ocs.value);
+								form.member9_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
+								/* days on the project */
+								form.member9_dotp.value = Number(diffCurrentDay(form.member9_djtp.value)).toLocaleString("en");
+								/* individual efficiency */
+								var ie = calculateIndividualEfficiency(form.member9_hw.value, form.member9_dotp.value);
+								form.member9_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
+								/* non cash */
+								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member9_hw.value);
+								form.member9_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
+								/* share case $ */
+								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
+								form.member9_ysc.value = Number(Number(shareCash).toFixed(2)).toLocaleString("en");
+								break;
+								
+						} /* switch */
+						total = total + parseFloat(shareCash, 10);
+						
+					} /* if */
+					
+				} /* for */
+				
+				for (i = 1; i < document.getElementById("cal_table_id").rows.length; i++) { 
+					var x = document.getElementById('tr_id_' + i);
+					if (x.style.display == 'table-row') {
+						switch(i) {
+							case 1:
+								form.member1_ysp.value = Number((parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 2:
+								form.member2_ysp.value = Number((parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 3:
+								form.member3_ysp.value = Number((parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 4:
+								form.member4_ysp.value = Number((parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 5:
+								form.member5_ysp.value = Number((parseFloat(form.member5_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 6:
+								form.member6_ysp.value = Number((parseFloat(form.member6_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 7:
+								form.member7_ysp.value = Number((parseFloat(form.member7_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 8:
+								form.member8_ysp.value = Number((parseFloat(form.member8_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+							case 9:
+								form.member9_ysp.value = Number((parseFloat(form.member9_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								break;
+						}
+					}
+				}
+				
+				document.getElementById("graph_id").style.display = 'block';
+				
+				showPieGraph(form);
+				
+				/*
+
+				var total = parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10) + parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10) + parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10) + parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10);
+
+				form.member1_ysp.value = Number((parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+				form.member2_ysp.value = Number((parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+				form.member3_ysp.value = Number((parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+				form.member4_ysp.value = Number((parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+
+				form.totalshare.value = Number(Number(total).toFixed(2)).toLocaleString("en");
+				if (total > 0) {
+					document.getElementById("totalshare_id").disabled = false;
+				}
+
+				document.getElementById("graph_id").style.display = 'block';
+				refreshBarChart(form);
+				refreshPieChart(form);
+				*/
+			}
+
+			function calculateContributionCash(investedCash, contributedCash) {
+				var num1 = parseFloat(investedCash.replace(/,/g, ''), 10);
+				var num2 = parseFloat(contributedCash.replace(/,/g, ''), 10);
+				return (num1 + num2);
+			}
+
+			function calculateOpportunityCostPerHour(opportunityCostPerSalary) {
+				var num = parseFloat(opportunityCostPerSalary.replace(/,/g, ''), 10);
+				return (num / 52.1429) / 37.5;
+			}
+
+			function calculateTheoreticalContribution(opportunityCostPerHour, hourWorked) {
+				var num = parseFloat(hourWorked.replace(/,/g, ''), 10);
+				return opportunityCostPerHour * num;
+			}
+
+			function calculateShareCash(contributionCash, theoreticalContribution) {
+				return (contributionCash * 4) + theoreticalContribution;
+			}
+
+			function showPieGraph(form) {
+				google.charts.load('current', {'packages' : ['corechart']});
+				google.charts.setOnLoadCallback(drawChart);
+				function drawChart() {
+					var dataTable = new google.visualization.DataTable();
+					dataTable.addColumn('string', 'Staff');
+					dataTable.addColumn('number', 'Share');
+					for (i = 1; i < document.getElementById("cal_table_id").rows.length; i++) { 
+					var x = document.getElementById('tr_id_' + i);
+					if (x.style.display == 'table-row') {
+						switch(i) {
+							case 1:
+								var member_name1 = form.member1_name.value;
+								if (isEmpty(member_name1)) {
+									member_name1 = "Member 1";
+								}
+								var temp = [member_name1, parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10)];
+								dataTable.addRow(temp);   
+								break;
+							case 2:
+								var member_name2 = form.member2_name.value;
+								if (isEmpty(member_name2)) {
+									member_name2 = "Member 2";
+								}
+								var temp = [member_name2, parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10)];
+								dataTable.addRow(temp);   
+								break;
+							}
+							
+						}
+					}
+
+					var options = {
+						title : ''
+					};
+
+					var chart = new google.visualization.PieChart(document.getElementById('pieChartContainer'));
+					chart.draw(dataTable, options);
+				}
+
+			}
+
+			function showBarGraph(member_name1, member_name2, member_name3, member_name4, shareCash1, shareCash2, shareCash3, shareCash4) {
+				//google.charts.load('current', {'packages':['corechart']});
+				google.charts.setOnLoadCallback(drawChart);
+				function drawChart() {
+					var data = google.visualization.arrayToDataTable([['Staff', 'Value', {
+						role : 'style'
+					}], [member_name1, shareCash1, 'color: #3266CC'], [member_name2, shareCash2, 'color: #DC3812'], [member_name3, shareCash3, 'color: #FE9900'], [member_name4, shareCash4, 'color: #109717']]);
+
+					var options = {
+						title : ''
+					};
+
+					var chart = new google.visualization.BarChart(document.getElementById('barChartContainer'));
+					chart.draw(data, options);
+				}
+			}
+			
+		</script>
+		<script>
+			function inputNumber(evt) {
+				var key = window.event ? evt.keyCode : evt.which;
+				if (evt.keyCode == 8) {
+					return true;
+				} else if (key == 46) {
+					return true;
+				} else if (key < 48 || key > 57) {
+					return false;
+				} else
+					return true;
+			}
+
+
+			$(document).ready(function() {
+				$('th:nth-child(6)').hide();
+				$('td:nth-child(6)').hide();
+				$('th:nth-child(7)').hide();
+				$('td:nth-child(7)').hide();
+				$('th:nth-child(8)').hide();
+				$('td:nth-child(8)').hide();
+				$('th:nth-child(9)').hide();
+				$('td:nth-child(9)').hide();
+				$('th:nth-child(10)').hide();
+				$('td:nth-child(10)').hide();
+				$('th:nth-child(11)').hide();
+				$('td:nth-child(11)').hide();
+				$('th:nth-child(12)').hide();
+				$('td:nth-child(12)').hide();
+				$('th:nth-child(13)').hide();
+				$('td:nth-child(13)').hide();
+				$('th:nth-child(14)').hide();
+				$('td:nth-child(14)').hide();
+				
+				var count = 0;
+				
+				$('a[href="#next"]').click(function(){
+					switch(count) {
+						case 0:
+							$('th:nth-child(2)').hide();
+							$('td:nth-child(2)').hide();
+						    $('th:nth-child(6)').show();
+							$('td:nth-child(6)').show();
+							break;
+						case 1:
+							$('th:nth-child(3)').hide();
+							$('td:nth-child(3)').hide();
+						    $('th:nth-child(7)').show();
+							$('td:nth-child(7)').show();
+							break;
+						case 2:
+							$('th:nth-child(4)').hide();
+							$('td:nth-child(4)').hide();
+						    $('th:nth-child(8)').show();
+							$('td:nth-child(8)').show();
+							break;
+						case 3:
+							$('th:nth-child(5)').hide();
+							$('td:nth-child(5)').hide();
+						    $('th:nth-child(9)').show();
+							$('td:nth-child(9)').show();
+							break;
+						case 4:
+							$('th:nth-child(6)').hide();
+							$('td:nth-child(6)').hide();
+						    $('th:nth-child(10)').show();
+							$('td:nth-child(10)').show();
+							break;
+						case 5:
+							$('th:nth-child(7)').hide();
+							$('td:nth-child(7)').hide();
+						    $('th:nth-child(11)').show();
+							$('td:nth-child(11)').show();
+							break;
+						case 6:
+							$('th:nth-child(8)').hide();
+							$('td:nth-child(8)').hide();
+						    $('th:nth-child(12)').show();
+							$('td:nth-child(12)').show();
+							break;
+						case 7:
+							$('th:nth-child(9)').hide();
+							$('td:nth-child(9)').hide();
+						    $('th:nth-child(13)').show();
+							$('td:nth-child(13)').show();
+							break;
+						case 8:
+							$('th:nth-child(10)').hide();
+							$('td:nth-child(10)').hide();
+						    $('th:nth-child(14)').show();
+							$('td:nth-child(14)').show();
+							break;
+					}
+					if(count <= 8) {
+						++count;
+					}
+				}); 
+				
+				$('a[href="#back"]').click(function(){
+					switch(count) {
+						case 1:
+							$('th:nth-child(2)').show();
+							$('td:nth-child(2)').show();
+						    $('th:nth-child(6)').hide();
+							$('td:nth-child(6)').hide();
+							break;
+						case 2:
+							$('th:nth-child(3)').show();
+							$('td:nth-child(3)').show();
+						    $('th:nth-child(7)').hide();
+							$('td:nth-child(7)').hide();
+							break;
+						case 3:
+							$('th:nth-child(4)').show();
+							$('td:nth-child(4)').show();
+						    $('th:nth-child(8)').hide();
+							$('td:nth-child(8)').hide();
+							break;
+						case 4:
+							$('th:nth-child(5)').show();
+							$('td:nth-child(5)').show();
+						    $('th:nth-child(9)').hide();
+							$('td:nth-child(9)').hide();
+							break;
+						case 5:
+							$('th:nth-child(6)').show();
+							$('td:nth-child(6)').show();
+						    $('th:nth-child(10)').hide();
+							$('td:nth-child(10)').hide();
+							break;
+						case 6:
+							$('th:nth-child(7)').show();
+							$('td:nth-child(7)').show();
+						    $('th:nth-child(11)').hide();
+							$('td:nth-child(11)').hide();
+							break;
+						case 7:
+							$('th:nth-child(8)').show();
+							$('td:nth-child(8)').show();
+						    $('th:nth-child(12)').hide();
+							$('td:nth-child(12)').hide();
+							break;
+						case 8:
+							$('th:nth-child(9)').show();
+							$('td:nth-child(9)').show();
+						    $('th:nth-child(13)').hide();
+							$('td:nth-child(13)').hide();
+							break;
+						case 9:
+							$('th:nth-child(10)').show();
+							$('td:nth-child(10)').show();
+						    $('th:nth-child(14)').hide();
+							$('td:nth-child(14)').hide();
+							break;
+					}
+					if(count > 0) {
+						--count;
+					}
+				}); 
+				
+				$('a[href="#add"]').click(function(){
+					addRow();
+				});
+				
+				$('a[href="#remove"]').click(function(){
+					removeRow();
+				});
+
+				$("#member1_ocs_id").focusout(function() {
+					var my_val = $("#member1_ocs_id").val();
+					if (isEmpty(my_val)) {
+						$("#member1_ocs_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member1_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#member2_ocs_id").focusout(function() {
+					var my_val = $("#member2_ocs_id").val();
+					if (isEmpty(my_val)) {
+						$("#member2_ocs_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member2_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#member3_ocs_id").focusout(function() {
+					var my_val = $("#member3_ocs_id").val();
+					if (isEmpty(my_val)) {
+						$("#member3_ocs_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member3_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#member4_ocs_id").focusout(function() {
+					var my_val = $("#member4_ocs_id").val();
+					if (isEmpty(my_val)) {
+						$("#member4_ocs_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member4_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#member1_hw_id").focusout(function() {
+					var my_val = $("#member1_hw_id").val();
+					if (isEmpty(my_val)) {
+						$("#member1_hw_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member1_hw_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#member2_hw_id").focusout(function() {
+					var my_val = $("#member2_hw_id").val();
+					if (isEmpty(my_val)) {
+						$("#member2_hw_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member2_hw_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#member3_hw_id").focusout(function() {
+					var my_val = $("#member3_hw_id").val();
+					if (isEmpty(my_val)) {
+						$("#member3_hw_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member3_hw_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#member4_hw_id").focusout(function() {
+					var my_val = $("#member4_hw_id").val();
+					if (isEmpty(my_val)) {
+						$("#member4_hw_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member4_hw_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#member1_ic_id").focusout(function() {
+					var my_val = $("#member1_ic_id").val();
+					if (isEmpty(my_val)) {
+						$("#member1_ic_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member1_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#member2_ic_id").focusout(function() {
+					var my_val = $("#member2_ic_id").val();
+					if (isEmpty(my_val)) {
+						$("#member2_ic_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member2_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#member3_ic_id").focusout(function() {
+					var my_val = $("#member3_ic_id").val();
+					if (isEmpty(my_val)) {
+						$("#member3_ic_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member3_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#member4_ic_id").focusout(function() {
+					var my_val = $("#member4_ic_id").val();
+					if (isEmpty(my_val)) {
+						$("#member4_ic_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member4_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+
+				});
+
+				$("#member1_cc_id").focusout(function() {
+					var my_val = $("#member1_cc_id").val();
+					if (isEmpty(my_val)) {
+						$("#member1_cc_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member1_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#member2_cc_id").focusout(function() {
+					var my_val = $("#member2_cc_id").val();
+					if (isEmpty(my_val)) {
+						$("#member2_cc_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member2_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#member3_cc_id").focusout(function() {
+					var my_val = $("#member3_cc_id").val();
+					if (isEmpty(my_val)) {
+						$("#member3_cc_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member3_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#member4_cc_id").focusout(function() {
+					var my_val = $("#member4_cc_id").val();
+					if (isEmpty(my_val)) {
+						$("#member4_cc_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member4_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#totalshare_id").focusout(function() {
+					var my_val = $("#totalshare_id").val();
+					if (isEmpty(my_val)) {
+						var total = parseFloat(document.forms[0].member1_ysc.value.replace(/,/g, ''), 10) + parseFloat(document.forms[0].member2_ysc.value.replace(/,/g, ''), 10) + parseFloat(document.forms[0].member3_ysc.value.replace(/,/g, ''), 10) + parseFloat(document.forms[0].member4_ysc.value.replace(/,/g, ''), 10);
+						document.forms[0].totalshare.value = Number(total).toFixed(2);
+					} else {
+						/* recalculate member's share (#) */
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#totalshare_id").val(Number(my_val).toLocaleString('en'));
+
+						var new_member1_ysc = (parseFloat(document.forms[0].member1_ysp.value.replace(/,/g, ''), 10) * my_val) / 100.0;
+						document.forms[0].member1_ysc.value = Number(Number(new_member1_ysc).toFixed(2)).toLocaleString('en');
+
+						var new_member2_ysc = (parseFloat(document.forms[0].member2_ysp.value.replace(/,/g, ''), 10) * my_val) / 100.0;
+						document.forms[0].member2_ysc.value = Number(Number(new_member2_ysc).toFixed(2)).toLocaleString('en');
+
+						var new_member3_ysc = (parseFloat(document.forms[0].member3_ysp.value.replace(/,/g, ''), 10) * my_val) / 100.0;
+						document.forms[0].member3_ysc.value = Number(Number(new_member3_ysc).toFixed(2)).toLocaleString('en');
+
+						var new_member4_ysc = (parseFloat(document.forms[0].member4_ysp.value.replace(/,/g, ''), 10) * my_val) / 100.0;
+						document.forms[0].member4_ysc.value = Number(Number(new_member4_ysc).toFixed(2)).toLocaleString('en');
+
+						/* calculate bar chart */
+						//refreshBarChart(document.forms[0]);
+					}
+				});
+
+				$('#totalshare_id').on('keypress', function(e) {
+					if (e.which === 13) {
+						$('#totalshare_id').trigger('focusout');
+						$('#totalshare_id').blur();
+					} else {
+						if (e.which != 46 && e.which != 8 && (e.which < 48 || e.which > 57)) {
+							return false;
+						}
+					}
+				});
+
+			});
+		</script>
+
+		<script>
+			$(function() {
+				var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+				$('#member1_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+
+				$('#member2_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+
+				$('#member3_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+
+				$('#member4_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+				
+				$('#member5_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+				
+				$('#member6_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+				
+				$('#member7_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+				
+				$('#member8_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+				
+				$('#member9_datetimepicker').datepicker({
+					format : 'yyyy/mm/dd',
+					container : container,
+					todayHighlight : true,
+					autoclose : true,
+				});
+			});
+		</script>
+
+	</head>
+
+	<body onload="loadBody()" onresize="resizeChart()">
+		<script>
+			( function(d, s, id) {
+					var js,
+					    fjs = d.getElementsByTagName(s)[0];
+					if (d.getElementById(id))
+						return;
+					js = d.createElement(s);
+					js.id = id;
+					js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1766789033574076";
+					fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));
+		</script>
+
+		<!-- Fixed navbar -->
+		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="#back-to-top" class="navbar-brand" ><img class="pull-left" id="logo" src="assets/img/es_full_logo_bg.png"></a>
+				</div>
+				<div class="navbar-collapse collapse navbar-right">
+					<ul class="nav navbar-nav">
+						<li>
+							<a href="index.html">HOME</a>
+						</li>
+						<li>
+							<a href="index.html#about">ABOUT</a>
+						</li>
+						<li class="active">
+							<a href="demo.html">DEMO</a>
+						</li>
+						<li>
+							<a href="index.html#contact">CONTACT</a>
+						</li>
+						<li>
+							<a href="blog.html">BLOG</a>
+						</li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+
+		<br>
+		<br>
+		<br>
+		<br>
+		<h1 class="centered">Equity Split Calculation</h1>
+		<div class="next-icon">
+			<p class="image-font">
+				<a href="#back" onclick="return false;"><span class="glyphicon glyphicon-circle-arrow-left"></span> </a>
+				<a href="#next" onclick="return false;"><span class="glyphicon glyphicon-circle-arrow-right"></span> </a>
+			</p>
+		</div>
+		<form id="calculateform_id" name="calculateform_name" method="post" onsubmit="return false;">
+			<div>
+				<div class="bs-example">
+					<table id="cal_table_id" class="table table-bordered">
+						<thead>
+							<tr id="tr_id_0" class="info header-font">
+								<th>Name</th>
+								<th>Your Share $</th>
+								<th>Your Share #</th>
+								<th>Your Share %</th>
+								<th>Non Cash</th>
+								<th>Contributed Cash</th>
+								<th>Invested Cash</th>
+								<th>Date Joined The Project</th>
+								<th>Date On The Project</th>
+								<th>Vested Time</th>
+								<th>Hours Worked</th>
+								<th>Individual Efficiency</th>
+								<th>Salary</th>
+								<th>Salary Per Hour</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr id="tr_id_1" class="active">
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+									<input type="text" class="form-control" placeholder="name" name="member1_name">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" name="member1_ysc" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" name="member1_yss" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member1_ysp" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" id="member1_nc_id" name="member1_nc" disabled>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member1_cc_id" name="member1_cc" value="0" required="required" onkeypress="return inputNumber(event);">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member1_ic_id" name="member1_ic" value="0" onkeypress="return inputNumber(event);" >
+								</div></td>
+								
+								<td>
+								<div class="input-group date" id='member1_datetimepicker'>
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="form-control" min="0" name="member1_djtp" placeholder="yyyy/mm/dd">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" id="member1_dotp_id" name="member1_dotp" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group date">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="blue-color form-control" name="member1_vt" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="form-control" id="member1_hw_id" name="member1_hw" onkeypress="return inputNumber(event);" value="30" required="required">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member1_ie" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member1_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member1_ocs" value="100,000" required="required">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member1_sph_id" class="blue-color form-control" name="member1_sph" disabled>
+								</div></td>	
+								
+								<!--
+								<td rowspan="6"><b>
+								<input type="text" id="totalshare_id" name="totalshare" disabled/>
+								</b></td>
+								-->
+							</tr>
+							<tr id="tr_id_2" class="active hide-row-table">
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+									<input type="text" class="form-control" placeholder="name" name="member2_name">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" name="member2_ysc" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" name="member2_yss" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member2_ysp" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" id="member2_nc_id" name="member2_nc" disabled>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member2_cc_id" name="member2_cc" value="0" required="required" onkeypress="return inputNumber(event);">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member2_ic_id" name="member2_ic" value="0" onkeypress="return inputNumber(event);" >
+								</div></td>
+								
+								<td>
+								<div class="input-group date" id='member2_datetimepicker'>
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="form-control" min="0" name="member2_djtp" placeholder="yyyy/mm/dd">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" id="member2_dotp_id" name="member2_dotp" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group date">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="blue-color form-control" name="member2_vt" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="form-control" id="member2_hw_id" name="member2_hw" onkeypress="return inputNumber(event);" value="30" required="required">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member2_ie" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member2_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member2_ocs" value="100,000" required="required">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member2_sph_id" class="blue-color form-control" name="member2_sph" disabled>
+								</div></td>	
+								
+								<!--
+								<td rowspan="6"><b>
+								<input type="text" id="totalshare_id" name="totalshare" disabled/>
+								</b></td>
+								-->
+							</tr>
+							<tr id="tr_id_3" class="active hide-row-table">
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+									<input type="text" class="form-control" placeholder="name" name="member3_name">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" name="member3_ysc" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" name="member3_yss" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member3_ysp" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" id="member3_nc_id" name="member3_nc" disabled>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member3_cc_id" name="member3_cc" value="0" required="required" onkeypress="return inputNumber(event);">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member3_ic_id" name="member3_ic" value="0" onkeypress="return inputNumber(event);" >
+								</div></td>
+								
+								<td>
+								<div class="input-group date" id='member3_datetimepicker'>
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="form-control" min="0" name="member3_djtp" placeholder="yyyy/mm/dd">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" id="member3_dotp_id" name="member3_dotp" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group date">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="blue-color form-control" name="member3_vt" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="form-control" id="member3_hw_id" name="member3_hw" onkeypress="return inputNumber(event);" value="30" required="required">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member3_ie" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member3_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member3_ocs" value="100,000" required="required">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member3_sph_id" class="blue-color form-control" name="member3_sph" disabled>
+								</div></td>	
+								
+								<!--
+								<td rowspan="6"><b>
+								<input type="text" id="totalshare_id" name="totalshare" disabled/>
+								</b></td>
+								-->
+							</tr>
+							<tr id="tr_id_4" class="active hide-row-table">
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+									<input type="text" class="form-control" placeholder="name" name="member4_name">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" name="member4_ysc" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" name="member4_yss" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member4_ysp" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" id="member4_nc_id" name="member4_nc" disabled>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member4_cc_id" name="member4_cc" value="0" required="required" onkeypress="return inputNumber(event);">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member4_ic_id" name="member4_ic" value="0" onkeypress="return inputNumber(event);" >
+								</div></td>
+								
+								<td>
+								<div class="input-group date" id='member4_datetimepicker'>
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="form-control" min="0" name="member4_djtp" placeholder="yyyy/mm/dd">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" id="member4_dotp_id" name="member4_dotp" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group date">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="blue-color form-control" name="member4_vt" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="form-control" id="member4_hw_id" name="member4_hw" onkeypress="return inputNumber(event);" value="30" required="required">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member4_ie" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member4_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member4_ocs" value="100,000" required="required">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member4_sph_id" class="blue-color form-control" name="member4_sph" disabled>
+								</div></td>	
+							</tr>
+							<tr id="tr_id_5" class="active hide-row-table">
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+									<input type="text" class="form-control" placeholder="name" name="member5_name">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" name="member5_ysc" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" name="member5_yss" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member5_ysp" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" id="member5_nc_id" name="member5_nc" disabled>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member5_cc_id" name="member5_cc" value="0" required="required" onkeypress="return inputNumber(event);">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member5_ic_id" name="member5_ic" value="0" onkeypress="return inputNumber(event);" >
+								</div></td>
+								
+								<td>
+								<div class="input-group date" id='member5_datetimepicker'>
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="form-control" min="0" name="member5_djtp" placeholder="yyyy/mm/dd">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" id="member5_dotp_id" name="member5_dotp" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group date">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="blue-color form-control" name="member5_vt" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="form-control" id="member5_hw_id" name="member5_hw" onkeypress="return inputNumber(event);" value="30" required="required">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member5_ie" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member5_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member5_ocs" value="100,000" required="required">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member5_sph_id" class="blue-color form-control" name="member5_sph" disabled>
+								</div></td>	
+							</tr>
+							<tr id="tr_id_6" class="active hide-row-table">
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+									<input type="text" class="form-control" placeholder="name" name="member6_name">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" name="member6_ysc" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" name="member6_yss" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member6_ysp" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" id="member6_nc_id" name="member6_nc" disabled>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member6_cc_id" name="member6_cc" value="0" required="required" onkeypress="return inputNumber(event);">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member6_ic_id" name="member6_ic" value="0" onkeypress="return inputNumber(event);" >
+								</div></td>
+								
+								<td>
+								<div class="input-group date" id='member6_datetimepicker'>
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="form-control" min="0" name="member6_djtp" placeholder="yyyy/mm/dd">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" id="member6_dotp_id" name="member6_dotp" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group date">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="blue-color form-control" name="member6_vt" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="form-control" id="member6_hw_id" name="member6_hw" onkeypress="return inputNumber(event);" value="30" required="required">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member6_ie" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member6_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member6_ocs" value="100,000" required="required">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member6_sph_id" class="blue-color form-control" name="member6_sph" disabled>
+								</div></td>	
+							</tr>
+							<tr id="tr_id_7" class="active hide-row-table">
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+									<input type="text" class="form-control" placeholder="name" name="member7_name">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" name="member7_ysc" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" name="member7_yss" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member7_ysp" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" id="member7_nc_id" name="member7_nc" disabled>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member7_cc_id" name="member7_cc" value="0" required="required" onkeypress="return inputNumber(event);">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member7_ic_id" name="member7_ic" value="0" onkeypress="return inputNumber(event);" >
+								</div></td>
+								
+								<td>
+								<div class="input-group date" id='member7_datetimepicker'>
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="form-control" min="0" name="member7_djtp" placeholder="yyyy/mm/dd">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" id="member7_dotp_id" name="member7_dotp" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group date">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="blue-color form-control" name="member7_vt" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="form-control" id="member7_hw_id" name="member7_hw" onkeypress="return inputNumber(event);" value="30" required="required">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member7_ie" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member7_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member7_ocs" value="100,000" required="required">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member7_sph_id" class="blue-color form-control" name="member7_sph" disabled>
+								</div></td>	
+							</tr>
+							<tr id="tr_id_8" class="active hide-row-table">
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+									<input type="text" class="form-control" placeholder="name" name="member8_name">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" name="member8_ysc" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" name="member8_yss" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member8_ysp" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" id="member8_nc_id" name="member8_nc" disabled>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member8_cc_id" name="member8_cc" value="0" required="required" onkeypress="return inputNumber(event);">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member8_ic_id" name="member8_ic" value="0" onkeypress="return inputNumber(event);" >
+								</div></td>
+								
+								<td>
+								<div class="input-group date" id='member8_datetimepicker'>
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="form-control" min="0" name="member8_djtp" placeholder="yyyy/mm/dd">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" id="member8_dotp_id" name="member8_dotp" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group date">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="blue-color form-control" name="member8_vt" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="form-control" id="member8_hw_id" name="member8_hw" onkeypress="return inputNumber(event);" value="30" required="required">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member8_ie" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member8_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member8_ocs" value="100,000" required="required">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member8_sph_id" class="blue-color form-control" name="member8_sph" disabled>
+								</div></td>	
+							</tr>
+							<tr id="tr_id_9" class="active hide-row-table">
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+									<input type="text" class="form-control" placeholder="name" name="member9_name">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" name="member9_ysc" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" name="member9_yss" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member9_ysp" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="blue-color form-control" id="member9_nc_id" name="member9_nc" disabled>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member9_cc_id" name="member9_cc" value="0" required="required" onkeypress="return inputNumber(event);">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" id="member9_ic_id" name="member9_ic" value="0" onkeypress="return inputNumber(event);" >
+								</div></td>
+								
+								<td>
+								<div class="input-group date" id='member9_datetimepicker'>
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="form-control" min="0" name="member9_djtp" placeholder="yyyy/mm/dd">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="blue-color form-control" id="member9_dotp_id" name="member9_dotp" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group date">
+									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="blue-color form-control" name="member9_vt" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">#</span>
+									<input type="text" class="form-control" id="member9_hw_id" name="member9_hw" onkeypress="return inputNumber(event);" value="30" required="required">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">%</span>
+									<input type="text" class="blue-color form-control" name="member9_ie" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member9_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member9_ocs" value="100,000" required="required">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" id="member9_sph_id" class="blue-color form-control" name="member9_sph" disabled>
+								</div></td>	
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</form>
+
+		<div class="add-remove-icon">
+			<p class="image-font">
+				<a href="#add" onclick="return false;"><span class="glyphicon glyphicon-plus-sign"></span> </a>
+				<a href="#remove" onclick="return false;"><span class="glyphicon glyphicon-minus-sign"></span> </a>
+			</p>
+		</div>
+		
+		<div class=" CalculationBut col-md-12">
+			<button class="btn btn-theme btn-width btn-responsive" type="submit" name="calculationID" onclick="calculation(calculateform_id)">Calculate</button>
+			<button class="btn btn-theme btn-width btn-responsive" type="button" name="resetID"   onclick="resetData(calculateform_id)" >Reset</button>
+		</div><br><br>
+
+		<div id="graph_id" class="bs-example">
+			<table class="table table-bordered">
+				<tbody>
+					<tr>
+						<td><h4 class="centered">Equity Split</h4><div class="chart-config" id="pieChartContainer" ></div></td>
+						<td><h4 class="centered">Equity Split</h4><div class="chart-config" id="barChartContainer"></div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br>
+		<div class="bs-example">
+			<table class="table table-bordered">
+				<tbody>
+					<tr>
+						<td><div id="disqus_thread"></div>
+						<script>
+							/**
+							 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+							 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+							var disqus_config = function() {
+								this.page.url = "http://www.equity-split.com/";
+								// Replace PAGE_URL with your page's canonical URL variable
+								this.page.identifier = "equity-split";
+								// Replace PAGE_IDENTIFIER with your page's unique identifier variable
+							};
+
+							(function() {// DON'T EDIT BELOW THIS LINE
+								var d = document,
+								    s = d.createElement('script');
+								s.src = 'https://equity-split.disqus.com/embed.js';
+								s.setAttribute('data-timestamp', +new Date());
+								(d.head || d.body).appendChild(s);
+							})();
+						</script>
+						<noscript>
+							Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+						</noscript></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br>
+		<br>
+		<br>
+		<div id="footerwrap">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<h4>Social Links</h4>
+						<div class="hline-w"></div>
+						<p>
+							<a href="https://www.facebook.com/equitysplit/"  target="_blank"><i class="fa fa-facebook"></i></a>
+							<a href="https://twitter.com/equity_split"  target="_blank"><i class="fa fa-twitter"></i></a>
+							<a href="https://www.linkedin.com/company/10975490"  target="_blank"><i class="fa fa-linkedin"></i></a>
+							<a href="https://www.reddit.com/user/equity_split/"  target="_blank"><i class="fa fa-reddit-alien"></i></a>
+						</p>
+					</div>
+				</div><!--/row -->
+			</div>
+			<!-- /row -->
+			<div class="container">
+				<div class="row centered">
+					<p>
+						Copyright &copy; 2017 Cohesive Bits.
+					</p>
+				</div>
+			</div><!--/container -->
+		</div><!--/footerwrap -->
+
+		<script id="dsq-count-scr" src="//equity-split.disqus.com/count.js" async></script>
+		<script src="assets/js/retina-1.1.0.js"></script>
+		<script src="assets/js/jquery.hoverdir.js"></script>
+		<script src="assets/js/jquery.hoverex.min.js"></script>
+		<script src="assets/js/jquery.prettyPhoto.js"></script>
+		<script src="assets/js/jquery.isotope.min.js"></script>
+		<script src="assets/js/custom.js"></script>
+	</body>
+</html>
