@@ -19,8 +19,8 @@
 
 		<style>
 			.bs-example {
-				margin-left: 5%;
-				margin-right: 5%;
+				margin-left: 2%;
+				margin-right: 2%;
 				margin-top: 40px;
 			}
 
@@ -29,13 +29,55 @@
 				height: 360px;
 				float: left;
 			}
+			
+			#graph_id {
+				display:none;
+			}
 
 			#graph_id td {
 				width: 50%;
 			}
+			
+			.first_field {
+				width: 140px;
+			}
+			
+			#cal_table_id td {
+				padding: 1px;
+			}
+			
+			#cal_table_id tr td:nth-child(1),
+			#cal_table_id tr th:nth-child(1),
+			#cal_table_id tr td:nth-child(2),
+			#cal_table_id tr th:nth-child(2),
+			#cal_table_id tr td:nth-child(3),
+			#cal_table_id tr th:nth-child(3),
+			#cal_table_id tr td:nth-child(4),
+			#cal_table_id tr th:nth-child(4),
+			#cal_table_id tr td:nth-child(5),
+			#cal_table_id tr th:nth-child(5),
+			#cal_table_id tr td:nth-child(6),
+			#cal_table_id tr th:nth-child(6),
+			#cal_table_id tr td:nth-child(7),
+			#cal_table_id tr th:nth-child(7),
+			#cal_table_id tr td:nth-child(8),
+			#cal_table_id tr th:nth-child(8),
+			#cal_table_id tr td:nth-child(9),
+			#cal_table_id tr th:nth-child(9),
+			#cal_table_id tr td:nth-child(10),
+			#cal_table_id tr th:nth-child(10),
+			#cal_table_id tr td:nth-child(11),
+			#cal_table_id tr th:nth-child(11),
+			#cal_table_id tr td:nth-child(12),
+			#cal_table_id tr th:nth-child(12),
+			#cal_table_id tr td:nth-child(13),
+			#cal_table_id tr th:nth-child(13),
+			#cal_table_id tr td:nth-child(14),
+			#cal_table_id tr th:nth-child(14) {
+			    display: none;
+			}
 
 			th {
-				width: 20%;
 				vertical-align: middle !important;
 			}
 
@@ -55,15 +97,15 @@
 				color: #109717;
 			}
 			
-			.next-icon {
+			.next-back-icon {
 				float: right;
-				margin-right: 5%;
+				margin-right: 2%;
 			}
 			
 			.add-remove-icon {
 				float: left;
 				margin-top: -20px;
-				margin-left: 5%;
+				margin-left: 2%;
 			}
 			
 			.hide-row-table {
@@ -75,20 +117,354 @@
 			}
 			
 			.header-font {
-				font-size: 16px;
+				font-size: 14px;
+			}
+			
+			.total-color {
+				background-color: #ffb84d !important;
 			}
 			
 		</style>
 
 		<script type="text/javascript">
+			/* global variables */
+			var count = 0;
+			var min = 0;
+			var max = 0;
+			var boundmax = 0;	
 			function resizeChart() {
 				document.getElementById("pieChartContainer").innerHTML = "";
 				document.getElementById("barChartContainer").innerHTML = "";
 				var x = document.getElementById('graph_id');
 				if (x.style.display != 'none') {
-					//refreshBarChart(document.forms[0]);
-					//refreshPieChart(document.forms[0]);
+					showPieGraph(document.forms[0]);
+					showBarGraph(document.forms[0]);
 				}
+				
+				var screenSize = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+				if(screenSize >= 1920) {
+					$('#cal_table_id th:nth-child(2)').show();
+					$('#cal_table_id td:nth-child(2)').show();
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').show();
+					$('#cal_table_id td:nth-child(8)').show();
+					$('#cal_table_id th:nth-child(9)').show();
+					$('#cal_table_id td:nth-child(9)').show();
+					$('#cal_table_id th:nth-child(10)').show();
+					$('#cal_table_id td:nth-child(10)').show();
+					$('#cal_table_id th:nth-child(11)').show();
+					$('#cal_table_id td:nth-child(11)').show();
+					$('#cal_table_id th:nth-child(12)').show();
+					$('#cal_table_id td:nth-child(12)').show();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 13;
+				}
+				else if(screenSize < 1920 && screenSize >= 1760) {
+					$('#cal_table_id th:nth-child(2)').show();
+					$('#cal_table_id td:nth-child(2)').show();
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').show();
+					$('#cal_table_id td:nth-child(8)').show();
+					$('#cal_table_id th:nth-child(9)').show();
+					$('#cal_table_id td:nth-child(9)').show();
+					$('#cal_table_id th:nth-child(10)').show();
+					$('#cal_table_id td:nth-child(10)').show();
+					$('#cal_table_id th:nth-child(11)').show();
+					$('#cal_table_id td:nth-child(11)').show();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 12;
+				}
+				else if(screenSize < 1760 && screenSize >= 1600) {
+					$('#cal_table_id th:nth-child(2)').show();
+					$('#cal_table_id td:nth-child(2)').show();
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').show();
+					$('#cal_table_id td:nth-child(8)').show();
+					$('#cal_table_id th:nth-child(9)').show();
+					$('#cal_table_id td:nth-child(9)').show();
+					$('#cal_table_id th:nth-child(10)').show();
+					$('#cal_table_id td:nth-child(10)').show();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 11;
+				}
+				else if(screenSize < 1600 && screenSize >= 1440) {
+					$('#cal_table_id th:nth-child(2)').show();
+					$('#cal_table_id td:nth-child(2)').show();
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').show();
+					$('#cal_table_id td:nth-child(8)').show();
+					$('#cal_table_id th:nth-child(9)').show();
+					$('#cal_table_id td:nth-child(9)').show();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 10;
+				}
+				else if(screenSize < 1440 && screenSize >= 1280) {
+					$('#cal_table_id th:nth-child(2)').show();
+					$('#cal_table_id td:nth-child(2)').show();
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').show();
+					$('#cal_table_id td:nth-child(8)').show();
+					$('#cal_table_id th:nth-child(9)').hide();
+					$('#cal_table_id td:nth-child(9)').hide();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 9;
+				}
+				else if(screenSize < 1280 && screenSize >= 1120) {
+					$('#cal_table_id th:nth-child(2)').show();
+					$('#cal_table_id td:nth-child(2)').show();
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').hide();
+					$('#cal_table_id td:nth-child(8)').hide();
+					$('#cal_table_id th:nth-child(9)').hide();
+					$('#cal_table_id td:nth-child(9)').hide();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 8;
+				}
+				else if (screenSize < 1120 && screenSize >= 960) {
+					$('#cal_table_id th:nth-child(2)').show();
+					$('#cal_table_id td:nth-child(2)').show();
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').hide();
+					$('#cal_table_id td:nth-child(7)').hide();
+					$('#cal_table_id th:nth-child(8)').hide();
+					$('#cal_table_id td:nth-child(8)').hide();
+					$('#cal_table_id th:nth-child(9)').hide();
+					$('#cal_table_id td:nth-child(9)').hide();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 7;
+				}
+				else if (screenSize < 960 && screenSize >= 700) {
+					$('#cal_table_id th:nth-child(2)').show();
+					$('#cal_table_id td:nth-child(2)').show();
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').hide();
+					$('#cal_table_id td:nth-child(6)').hide();
+					$('#cal_table_id th:nth-child(7)').hide();
+					$('#cal_table_id td:nth-child(7)').hide();
+					$('#cal_table_id th:nth-child(8)').hide();
+					$('#cal_table_id td:nth-child(8)').hide();
+					$('#cal_table_id th:nth-child(9)').hide();
+					$('#cal_table_id td:nth-child(9)').hide();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 6;
+				}
+				else if (screenSize < 700 && screenSize >= 540) {
+					$('#cal_table_id th:nth-child(2)').show();
+					$('#cal_table_id td:nth-child(2)').show();
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').hide();
+					$('#cal_table_id td:nth-child(5)').hide();
+					$('#cal_table_id th:nth-child(6)').hide();
+					$('#cal_table_id td:nth-child(6)').hide();
+					$('#cal_table_id th:nth-child(7)').hide();
+					$('#cal_table_id td:nth-child(7)').hide();
+					$('#cal_table_id th:nth-child(8)').hide();
+					$('#cal_table_id td:nth-child(8)').hide();
+					$('#cal_table_id th:nth-child(9)').hide();
+					$('#cal_table_id td:nth-child(9)').hide();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 5;
+				}
+				else if (screenSize < 540 && screenSize >= 380) {
+					$('#cal_table_id th:nth-child(2)').show();
+					$('#cal_table_id td:nth-child(2)').show();
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').hide();
+					$('#cal_table_id td:nth-child(4)').hide();
+					$('#cal_table_id th:nth-child(5)').hide();
+					$('#cal_table_id td:nth-child(5)').hide();
+					$('#cal_table_id th:nth-child(6)').hide();
+					$('#cal_table_id td:nth-child(6)').hide();
+					$('#cal_table_id th:nth-child(7)').hide();
+					$('#cal_table_id td:nth-child(7)').hide();
+					$('#cal_table_id th:nth-child(8)').hide();
+					$('#cal_table_id td:nth-child(8)').hide();
+					$('#cal_table_id th:nth-child(9)').hide();
+					$('#cal_table_id td:nth-child(9)').hide();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 4;
+				}
+				else if (screenSize < 380) {
+					$('#cal_table_id th:nth-child(2)').show();
+					$('#cal_table_id td:nth-child(2)').show();
+					$('#cal_table_id th:nth-child(3)').hide();
+					$('#cal_table_id td:nth-child(3)').hide();
+					$('#cal_table_id th:nth-child(4)').hide();
+					$('#cal_table_id td:nth-child(4)').hide();
+					$('#cal_table_id th:nth-child(5)').hide();
+					$('#cal_table_id td:nth-child(5)').hide();
+					$('#cal_table_id th:nth-child(6)').hide();
+					$('#cal_table_id td:nth-child(6)').hide();
+					$('#cal_table_id th:nth-child(7)').hide();
+					$('#cal_table_id td:nth-child(7)').hide();
+					$('#cal_table_id th:nth-child(8)').hide();
+					$('#cal_table_id td:nth-child(8)').hide();
+					$('#cal_table_id th:nth-child(9)').hide();
+					$('#cal_table_id td:nth-child(9)').hide();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 3;
+				}
+				
+				count = 0;
+				min = 2;
+				boundmax = 14 - max;
 			}
 
 			function loadBody() {
@@ -102,11 +478,11 @@
 				document.getElementById("tr_id_7").style.display = 'none';
 				document.getElementById("tr_id_8").style.display = 'none';
 				document.getElementById("tr_id_9").style.display = 'none';
-				document.getElementById("tr_id_10").style.display = 'none';
+				document.getElementById("tr_id_999").style.display = 'table-row';
 			}
 			
 			function addRow() {
-				for (i = 1; i < document.getElementById("cal_table_id").rows.length; i++) { 
+				for (i = 1; i < document.getElementById("cal_table_id").rows.length - 1; i++) { 
 					var x = document.getElementById('tr_id_' + i);
 					if (x.style.display == 'none') {
 						x.style.display = 'table-row';
@@ -116,7 +492,7 @@
 			}
 
 			function removeRow() {
-				for (i = document.getElementById("cal_table_id").rows.length -1 ; i >= 1; i--) { 
+				for (i = document.getElementById("cal_table_id").rows.length -2 ; i >= 2; i--) { 
 					var x = document.getElementById('tr_id_' + i);
 					if (x.style.display == 'table-row') {
 						x.style.display = 'none';
@@ -131,6 +507,7 @@
 				if (x.style.display != 'none') {
 					x.style.display = 'none';
 				}
+				document.getElementById("member999_yss_id").disabled = true;
 			}
 
 			function isEmpty(str) {
@@ -152,11 +529,16 @@
 			function calculation(form) {
 				var activeRow = 0;
 				var total = 0;
+				var total_non_cash = 0;
+				var total_contributed_cash = 0;
+				var total_invested_cash = 0;
+				var total_day_on_project = 0;
+				var total_hour_work = 0;
 				var contributionCase;
 				var opportunityCostPerHour;
 				var theoreticalContribution;
 				var shareCash;
-				for (i = 1; i < document.getElementById("cal_table_id").rows.length; i++) { 
+				for (i = 1; i < document.getElementById("cal_table_id").rows.length - 1; i++) { 
 					var x = document.getElementById('tr_id_' + i);
 					if (x.style.display == 'table-row') {
 						++activeRow;
@@ -164,16 +546,20 @@
 							case 1:
 								/* member 1 */
 								contributionCase = calculateContributionCash(form.member1_ic.value, form.member1_cc.value);
+								total_contributed_cash = total_contributed_cash + parseFloat(form.member1_cc.value.replace(/,/g, ''), 10);
+								total_invested_cash = total_invested_cash + parseFloat(form.member1_ic.value.replace(/,/g, ''), 10);
 								/* salary per hour */
 								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member1_ocs.value);
 								form.member1_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
 								/* days on the project */
 								form.member1_dotp.value = Number(diffCurrentDay(form.member1_djtp.value)).toLocaleString("en");
+								total_day_on_project += parseFloat(form.member1_dotp.value.replace(/,/g, ''), 10);
 								/* individual efficiency */
 								var ie = calculateIndividualEfficiency(form.member1_hw.value, form.member1_dotp.value);
 								form.member1_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
 								/* non cash */
 								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member1_hw.value);
+								total_hour_work += parseFloat(form.member1_hw.value.replace(/,/g, ''), 10);
 								form.member1_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
 								/* share case $ */
 								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
@@ -182,16 +568,20 @@
 							case 2:
 								/* member 2 */
 								contributionCase = calculateContributionCash(form.member2_ic.value, form.member2_cc.value);
+								total_contributed_cash = total_contributed_cash + parseFloat(form.member2_cc.value.replace(/,/g, ''), 10);
+								total_invested_cash = total_invested_cash + parseFloat(form.member2_ic.value.replace(/,/g, ''), 10);
 								/* salary per hour */
 								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member2_ocs.value);
 								form.member2_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
 								/* days on the project */
 								form.member2_dotp.value = Number(diffCurrentDay(form.member2_djtp.value)).toLocaleString("en");
+								total_day_on_project += parseFloat(form.member2_dotp.value.replace(/,/g, ''), 10);
 								/* individual efficiency */
 								var ie = calculateIndividualEfficiency(form.member2_hw.value, form.member2_dotp.value);
 								form.member2_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
 								/* non cash */
 								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member2_hw.value);
+								total_hour_work += parseFloat(form.member2_hw.value.replace(/,/g, ''), 10);
 								form.member2_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
 								/* share case $ */
 								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
@@ -200,16 +590,20 @@
 							case 3:
 								/* member 3 */
 								contributionCase = calculateContributionCash(form.member3_ic.value, form.member3_cc.value);
+								total_contributed_cash = total_contributed_cash + parseFloat(form.member3_cc.value.replace(/,/g, ''), 10);
+								total_invested_cash = total_invested_cash + parseFloat(form.member3_ic.value.replace(/,/g, ''), 10);
 								/* salary per hour */
 								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member3_ocs.value);
 								form.member3_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
 								/* days on the project */
 								form.member3_dotp.value = Number(diffCurrentDay(form.member3_djtp.value)).toLocaleString("en");
+								total_day_on_project += parseFloat(form.member3_dotp.value.replace(/,/g, ''), 10);
 								/* individual efficiency */
 								var ie = calculateIndividualEfficiency(form.member3_hw.value, form.member3_dotp.value);
 								form.member3_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
 								/* non cash */
 								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member3_hw.value);
+								total_hour_work += parseFloat(form.member3_hw.value.replace(/,/g, ''), 10);
 								form.member3_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
 								/* share case $ */
 								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
@@ -218,16 +612,20 @@
 							case 4:
 								/* member 4 */
 								contributionCase = calculateContributionCash(form.member4_ic.value, form.member4_cc.value);
+								total_contributed_cash = total_contributed_cash + parseFloat(form.member4_cc.value.replace(/,/g, ''), 10);
+								total_invested_cash = total_invested_cash + parseFloat(form.member4_ic.value.replace(/,/g, ''), 10);
 								/* salary per hour */
 								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member4_ocs.value);
 								form.member4_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
 								/* days on the project */
 								form.member4_dotp.value = Number(diffCurrentDay(form.member4_djtp.value)).toLocaleString("en");
+								total_day_on_project += parseFloat(form.member4_dotp.value.replace(/,/g, ''), 10);
 								/* individual efficiency */
 								var ie = calculateIndividualEfficiency(form.member4_hw.value, form.member4_dotp.value);
 								form.member4_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
 								/* non cash */
 								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member4_hw.value);
+								total_hour_work += parseFloat(form.member4_hw.value.replace(/,/g, ''), 10);
 								form.member4_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
 								/* share case $ */
 								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
@@ -236,16 +634,20 @@
 							case 5:
 								/* member 5 */
 								contributionCase = calculateContributionCash(form.member5_ic.value, form.member5_cc.value);
+								total_contributed_cash = total_contributed_cash + parseFloat(form.member5_cc.value.replace(/,/g, ''), 10);
+								total_invested_cash = total_invested_cash + parseFloat(form.member5_ic.value.replace(/,/g, ''), 10);
 								/* salary per hour */
 								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member5_ocs.value);
 								form.member5_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
 								/* days on the project */
 								form.member5_dotp.value = Number(diffCurrentDay(form.member5_djtp.value)).toLocaleString("en");
+								total_day_on_project += parseFloat(form.member5_dotp.value.replace(/,/g, ''), 10);
 								/* individual efficiency */
 								var ie = calculateIndividualEfficiency(form.member5_hw.value, form.member5_dotp.value);
 								form.member5_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
 								/* non cash */
 								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member5_hw.value);
+								total_hour_work += parseFloat(form.member5_hw.value.replace(/,/g, ''), 10);
 								form.member5_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
 								/* share case $ */
 								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
@@ -254,16 +656,20 @@
 							case 6:
 								/* member 6 */
 								contributionCase = calculateContributionCash(form.member6_ic.value, form.member6_cc.value);
+								total_contributed_cash = total_contributed_cash + parseFloat(form.member6_cc.value.replace(/,/g, ''), 10);
+								total_invested_cash = total_invested_cash + parseFloat(form.member6_ic.value.replace(/,/g, ''), 10);
 								/* salary per hour */
 								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member6_ocs.value);
 								form.member6_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
 								/* days on the project */
 								form.member6_dotp.value = Number(diffCurrentDay(form.member6_djtp.value)).toLocaleString("en");
+								total_day_on_project += parseFloat(form.member6_dotp.value.replace(/,/g, ''), 10);
 								/* individual efficiency */
 								var ie = calculateIndividualEfficiency(form.member6_hw.value, form.member6_dotp.value);
 								form.member6_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
 								/* non cash */
 								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member6_hw.value);
+								total_hour_work += parseFloat(form.member6_hw.value.replace(/,/g, ''), 10);
 								form.member6_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
 								/* share case $ */
 								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
@@ -272,16 +678,20 @@
 							case 7:
 								/* member 7 */
 								contributionCase = calculateContributionCash(form.member7_ic.value, form.member7_cc.value);
+								total_contributed_cash = total_contributed_cash + parseFloat(form.member7_cc.value.replace(/,/g, ''), 10);
+								total_invested_cash = total_invested_cash + parseFloat(form.member7_ic.value.replace(/,/g, ''), 10);
 								/* salary per hour */
 								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member7_ocs.value);
 								form.member7_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
 								/* days on the project */
 								form.member7_dotp.value = Number(diffCurrentDay(form.member7_djtp.value)).toLocaleString("en");
+								total_day_on_project += parseFloat(form.member7_dotp.value.replace(/,/g, ''), 10);
 								/* individual efficiency */
 								var ie = calculateIndividualEfficiency(form.member7_hw.value, form.member7_dotp.value);
 								form.member7_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
 								/* non cash */
 								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member7_hw.value);
+								total_hour_work += parseFloat(form.member7_hw.value.replace(/,/g, ''), 10);
 								form.member7_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
 								/* share case $ */
 								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
@@ -290,16 +700,20 @@
 							case 8:
 								/* member 8 */
 								contributionCase = calculateContributionCash(form.member8_ic.value, form.member8_cc.value);
+								total_contributed_cash = total_contributed_cash + parseFloat(form.member8_cc.value.replace(/,/g, ''), 10);
+								total_invested_cash = total_invested_cash + parseFloat(form.member8_ic.value.replace(/,/g, ''), 10);
 								/* salary per hour */
 								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member8_ocs.value);
 								form.member8_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
 								/* days on the project */
 								form.member8_dotp.value = Number(diffCurrentDay(form.member8_djtp.value)).toLocaleString("en");
+								total_day_on_project += parseFloat(form.member8_dotp.value.replace(/,/g, ''), 10);
 								/* individual efficiency */
 								var ie = calculateIndividualEfficiency(form.member8_hw.value, form.member8_dotp.value);
 								form.member8_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
 								/* non cash */
 								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member8_hw.value);
+								total_hour_work += parseFloat(form.member8_hw.value.replace(/,/g, ''), 10);
 								form.member8_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
 								/* share case $ */
 								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
@@ -308,16 +722,20 @@
 							case 9:
 								/* member 9 */
 								contributionCase = calculateContributionCash(form.member9_ic.value, form.member9_cc.value);
+								total_contributed_cash = total_contributed_cash + parseFloat(form.member9_cc.value.replace(/,/g, ''), 10);
+								total_invested_cash = total_invested_cash + parseFloat(form.member9_ic.value.replace(/,/g, ''), 10);
 								/* salary per hour */
 								opportunityCostPerHour = calculateOpportunityCostPerHour(form.member9_ocs.value);
 								form.member9_sph.value = Number(Number(opportunityCostPerHour).toFixed(2)).toLocaleString("en");
 								/* days on the project */
 								form.member9_dotp.value = Number(diffCurrentDay(form.member9_djtp.value)).toLocaleString("en");
+								total_day_on_project += parseFloat(form.member9_dotp.value.replace(/,/g, ''), 10);
 								/* individual efficiency */
 								var ie = calculateIndividualEfficiency(form.member9_hw.value, form.member9_dotp.value);
 								form.member9_ie.value = Number(Number(ie).toFixed(2)).toLocaleString("en");					
 								/* non cash */
 								theoreticalContribution = calculateTheoreticalContribution(opportunityCostPerHour, form.member9_hw.value);
+								total_hour_work += parseFloat(form.member9_hw.value.replace(/,/g, ''), 10);
 								form.member9_nc.value = Number(Number(theoreticalContribution).toFixed(2)).toLocaleString("en");
 								/* share case $ */
 								shareCash = calculateShareCash(contributionCase, theoreticalContribution);
@@ -325,13 +743,14 @@
 								break;
 								
 						} /* switch */
-						total = total + parseFloat(shareCash, 10);
+						total = total + parseFloat(Number(shareCash).toFixed(2), 10);
+						total_non_cash = total_non_cash + parseFloat(Number(theoreticalContribution).toFixed(2), 10);
 						
 					} /* if */
 					
 				} /* for */
 				
-				for (i = 1; i < document.getElementById("cal_table_id").rows.length; i++) { 
+				for (i = 1; i < document.getElementById("cal_table_id").rows.length - 1; i++) { 
 					var x = document.getElementById('tr_id_' + i);
 					if (x.style.display == 'table-row') {
 						switch(i) {
@@ -366,28 +785,29 @@
 					}
 				}
 				
-				document.getElementById("graph_id").style.display = 'block';
+				form.member1_yss.value = "";
+				form.member2_yss.value = "";
+				form.member3_yss.value = "";
+				form.member4_yss.value = "";
+				form.member5_yss.value = "";
+				form.member6_yss.value = "";
+				form.member7_yss.value = "";
+				form.member8_yss.value = "";
+				form.member9_yss.value = "";
+				form.member999_yss.value = "";
+				/* calculate total row */
+				form.member999_ysc.value = Number(Number(total).toFixed(2)).toLocaleString("en");
+				document.getElementById("member999_yss_id").disabled = false;
+				form.member999_ysp.value = "100.00";
+				form.member999_nc.value = Number(Number(total_non_cash).toFixed(2)).toLocaleString("en");
+				form.member999_cc.value = Number(Number(total_contributed_cash).toFixed(2)).toLocaleString("en");
+				form.member999_ic.value = Number(Number(total_invested_cash).toFixed(2)).toLocaleString("en");
+				form.member999_dotp.value = Number(Number(total_day_on_project).toFixed(2)).toLocaleString("en");
+				form.member999_hw.value = Number(Number(total_hour_work).toFixed(2)).toLocaleString("en");
 				
+				document.getElementById("graph_id").style.display = 'block';
 				showPieGraph(form);
-				
-				/*
-
-				var total = parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10) + parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10) + parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10) + parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10);
-
-				form.member1_ysp.value = Number((parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
-				form.member2_ysp.value = Number((parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
-				form.member3_ysp.value = Number((parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
-				form.member4_ysp.value = Number((parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
-
-				form.totalshare.value = Number(Number(total).toFixed(2)).toLocaleString("en");
-				if (total > 0) {
-					document.getElementById("totalshare_id").disabled = false;
-				}
-
-				document.getElementById("graph_id").style.display = 'block';
-				refreshBarChart(form);
-				refreshPieChart(form);
-				*/
+				showBarGraph(form);
 			}
 
 			function calculateContributionCash(investedCash, contributedCash) {
@@ -417,29 +837,87 @@
 					var dataTable = new google.visualization.DataTable();
 					dataTable.addColumn('string', 'Staff');
 					dataTable.addColumn('number', 'Share');
-					for (i = 1; i < document.getElementById("cal_table_id").rows.length; i++) { 
-					var x = document.getElementById('tr_id_' + i);
-					if (x.style.display == 'table-row') {
-						switch(i) {
-							case 1:
-								var member_name1 = form.member1_name.value;
-								if (isEmpty(member_name1)) {
-									member_name1 = "Member 1";
-								}
-								var temp = [member_name1, parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10)];
-								dataTable.addRow(temp);   
-								break;
-							case 2:
-								var member_name2 = form.member2_name.value;
-								if (isEmpty(member_name2)) {
-									member_name2 = "Member 2";
-								}
-								var temp = [member_name2, parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10)];
-								dataTable.addRow(temp);   
-								break;
+					for (i = 1; i < document.getElementById("cal_table_id").rows.length - 1; i++) { 
+						var x = document.getElementById('tr_id_' + i);
+						if (x.style.display == 'table-row') {
+							switch(i) {
+								case 1:
+									var member_name1 = form.member1_name.value;
+									if (isEmpty(member_name1)) {
+										member_name1 = "Member 1";
+									}
+									var temp = [member_name1, parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10)];
+									dataTable.addRow(temp);   
+									break;
+								case 2:
+									var member_name2 = form.member2_name.value;
+									if (isEmpty(member_name2)) {
+										member_name2 = "Member 2";
+									}
+									var temp = [member_name2, parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10)];
+									dataTable.addRow(temp);   
+									break;
+								case 3:
+									var member_name3 = form.member3_name.value;
+									if (isEmpty(member_name3)) {
+										member_name3 = "Member 3";
+									}
+									var temp = [member_name3, parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10)];
+									dataTable.addRow(temp);   
+									break;
+								case 4:
+									var member_name4 = form.member4_name.value;
+									if (isEmpty(member_name4)) {
+										member_name4 = "Member 4";
+									}
+									var temp = [member_name4, parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10)];
+									dataTable.addRow(temp);   
+									break;
+								case 5:
+									var member_name5 = form.member5_name.value;
+									if (isEmpty(member_name5)) {
+										member_name5 = "Member 5";
+									}
+									var temp = [member_name5, parseFloat(form.member5_ysc.value.replace(/,/g, ''), 10)];
+									dataTable.addRow(temp);   
+									break;
+								case 6:
+									var member_name6 = form.member6_name.value;
+									if (isEmpty(member_name6)) {
+										member_name6 = "Member 6";
+									}
+									var temp = [member_name6, parseFloat(form.member6_ysc.value.replace(/,/g, ''), 10)];
+									dataTable.addRow(temp);   
+									break;
+								case 7:
+									var member_name7 = form.member7_name.value;
+									if (isEmpty(member_name7)) {
+										member_name7 = "Member 7";
+									}
+									var temp = [member_name7, parseFloat(form.member7_ysc.value.replace(/,/g, ''), 10)];
+									dataTable.addRow(temp);   
+									break;
+								case 8:
+									var member_name8 = form.member8_name.value;
+									if (isEmpty(member_name8)) {
+										member_name8 = "Member 8";
+									}
+									var temp = [member_name8, parseFloat(form.member8_ysc.value.replace(/,/g, ''), 10)];
+									dataTable.addRow(temp);   
+									break;
+								case 9:
+									var member_name9 = form.member9_name.value;
+									if (isEmpty(member_name9)) {
+										member_name9 = "Member 9";
+									}
+									var temp = [member_name9, parseFloat(form.member9_ysc.value.replace(/,/g, ''), 10)];
+									dataTable.addRow(temp);   
+									break;	
+									
 							}
-							
+								
 						}
+						
 					}
 
 					var options = {
@@ -452,25 +930,106 @@
 
 			}
 
-			function showBarGraph(member_name1, member_name2, member_name3, member_name4, shareCash1, shareCash2, shareCash3, shareCash4) {
+			function showBarGraph(form) {
 				//google.charts.load('current', {'packages':['corechart']});
 				google.charts.setOnLoadCallback(drawChart);
 				function drawChart() {
-					var data = google.visualization.arrayToDataTable([['Staff', 'Value', {
-						role : 'style'
-					}], [member_name1, shareCash1, 'color: #3266CC'], [member_name2, shareCash2, 'color: #DC3812'], [member_name3, shareCash3, 'color: #FE9900'], [member_name4, shareCash4, 'color: #109717']]);
+					var dataTable = new google.visualization.DataTable();
+					dataTable.addColumn('string', 'Staff');
+					dataTable.addColumn('number', 'Share');
+					dataTable.addColumn({type: 'string', role: 'style'});
+					
+					for (i = 1; i < document.getElementById("cal_table_id").rows.length - 1; i++) { 
+						var x = document.getElementById('tr_id_' + i);
+						if (x.style.display == 'table-row') {
+							switch(i) {
+								case 1:
+									var member_name1 = form.member1_name.value;
+									if (isEmpty(member_name1)) {
+										member_name1 = "Member 1";
+									}
+									var temp = [member_name1, parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10), 'color: #3266CC'];
+									dataTable.addRow(temp);   
+									break;
+								case 2:
+									var member_name2 = form.member2_name.value;
+									if (isEmpty(member_name2)) {
+										member_name2 = "Member 2";
+									}
+									var temp = [member_name2, parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10), 'color: #DC3812'];
+									dataTable.addRow(temp);   
+									break;
+								case 3:
+									var member_name3 = form.member3_name.value;
+									if (isEmpty(member_name3)) {
+										member_name3 = "Member 3";
+									}
+									var temp = [member_name3, parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10), 'color: #FE9900'];
+									dataTable.addRow(temp);   
+									break;
+								case 4:
+									var member_name4 = form.member4_name.value;
+									if (isEmpty(member_name4)) {
+										member_name4 = "Member 4";
+									}
+									var temp = [member_name4, parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10), 'color: #109717'];
+									dataTable.addRow(temp);   
+									break;
+								case 5:
+									var member_name5 = form.member5_name.value;
+									if (isEmpty(member_name5)) {
+										member_name5 = "Member 5";
+									}
+									var temp = [member_name5, parseFloat(form.member5_ysc.value.replace(/,/g, ''), 10), 'color: #990099'];
+									dataTable.addRow(temp);   
+									break;
+								case 6:
+									var member_name6 = form.member6_name.value;
+									if (isEmpty(member_name6)) {
+										member_name6 = "Member 6";
+									}
+									var temp = [member_name6, parseFloat(form.member6_ysc.value.replace(/,/g, ''), 10), 'color: #0099C5'];
+									dataTable.addRow(temp);   
+									break;
+								case 7:
+									var member_name7 = form.member7_name.value;
+									if (isEmpty(member_name7)) {
+										member_name7 = "Member 7";
+									}
+									var temp = [member_name7, parseFloat(form.member7_ysc.value.replace(/,/g, ''), 10), 'color: #DD4578'];
+									dataTable.addRow(temp);   
+									break;
+								case 8:
+									var member_name8 = form.member8_name.value;
+									if (isEmpty(member_name8)) {
+										member_name8 = "Member 8";
+									}
+									var temp = [member_name8, parseFloat(form.member8_ysc.value.replace(/,/g, ''), 10), 'color: #66AA00'];
+									dataTable.addRow(temp);   
+									break;
+								case 9:
+									var member_name9 = form.member9_name.value;
+									if (isEmpty(member_name9)) {
+										member_name9 = "Member 9";
+									}
+									var temp = [member_name9, parseFloat(form.member9_ysc.value.replace(/,/g, ''), 10), 'color: #B82D30'];
+									dataTable.addRow(temp);   
+									break;
+							}
+								
+						}
+						
+					}
 
 					var options = {
 						title : ''
 					};
 
 					var chart = new google.visualization.BarChart(document.getElementById('barChartContainer'));
-					chart.draw(data, options);
+					chart.draw(dataTable, options);
 				}
 			}
 			
-		</script>
-		<script>
 			function inputNumber(evt) {
 				var key = window.event ? evt.keyCode : evt.which;
 				if (evt.keyCode == 8) {
@@ -482,88 +1041,395 @@
 				} else
 					return true;
 			}
-
-
+			
+		</script>
+		<script type="text/javascript">
 			$(document).ready(function() {
-				$('th:nth-child(6)').hide();
-				$('td:nth-child(6)').hide();
-				$('th:nth-child(7)').hide();
-				$('td:nth-child(7)').hide();
-				$('th:nth-child(8)').hide();
-				$('td:nth-child(8)').hide();
-				$('th:nth-child(9)').hide();
-				$('td:nth-child(9)').hide();
-				$('th:nth-child(10)').hide();
-				$('td:nth-child(10)').hide();
-				$('th:nth-child(11)').hide();
-				$('td:nth-child(11)').hide();
-				$('th:nth-child(12)').hide();
-				$('td:nth-child(12)').hide();
-				$('th:nth-child(13)').hide();
-				$('td:nth-child(13)').hide();
-				$('th:nth-child(14)').hide();
-				$('td:nth-child(14)').hide();
+				var screenSize = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+				$('#cal_table_id th:nth-child(1)').show();
+				$('#cal_table_id td:nth-child(1)').show();
+				$('#cal_table_id th:nth-child(2)').show();
+				$('#cal_table_id td:nth-child(2)').show();
+				if(screenSize >= 1920) {
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').show();
+					$('#cal_table_id td:nth-child(8)').show();
+					$('#cal_table_id th:nth-child(9)').show();
+					$('#cal_table_id td:nth-child(9)').show();
+					$('#cal_table_id th:nth-child(10)').show();
+					$('#cal_table_id td:nth-child(10)').show();
+					$('#cal_table_id th:nth-child(11)').show();
+					$('#cal_table_id td:nth-child(11)').show();
+					$('#cal_table_id th:nth-child(12)').show();
+					$('#cal_table_id td:nth-child(12)').show();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 13;
+				}
+				else if(screenSize < 1920 && screenSize >= 1760) {
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').show();
+					$('#cal_table_id td:nth-child(8)').show();
+					$('#cal_table_id th:nth-child(9)').show();
+					$('#cal_table_id td:nth-child(9)').show();
+					$('#cal_table_id th:nth-child(10)').show();
+					$('#cal_table_id td:nth-child(10)').show();
+					$('#cal_table_id th:nth-child(11)').show();
+					$('#cal_table_id td:nth-child(11)').show();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 12;
+				}
+				else if(screenSize < 1760 && screenSize >= 1600) {
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').show();
+					$('#cal_table_id td:nth-child(8)').show();
+					$('#cal_table_id th:nth-child(9)').show();
+					$('#cal_table_id td:nth-child(9)').show();
+					$('#cal_table_id th:nth-child(10)').show();
+					$('#cal_table_id td:nth-child(10)').show();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 11;
+				}
+				else if(screenSize < 1600 && screenSize >= 1440) {
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').show();
+					$('#cal_table_id td:nth-child(8)').show();
+					$('#cal_table_id th:nth-child(9)').show();
+					$('#cal_table_id td:nth-child(9)').show();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 10;
+				}
+				else if(screenSize < 1440 && screenSize >= 1280) {
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').show();
+					$('#cal_table_id td:nth-child(8)').show();
+					$('#cal_table_id th:nth-child(9)').hide();
+					$('#cal_table_id td:nth-child(9)').hide();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 9;
+				}
+				else if(screenSize < 1280 && screenSize >= 1120) {
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').hide();
+					$('#cal_table_id td:nth-child(8)').hide();
+					$('#cal_table_id th:nth-child(9)').hide();
+					$('#cal_table_id td:nth-child(9)').hide();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 8;
+				}
+				else if (screenSize < 1120 && screenSize >= 960) {
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').hide();
+					$('#cal_table_id td:nth-child(7)').hide();
+					$('#cal_table_id th:nth-child(8)').hide();
+					$('#cal_table_id td:nth-child(8)').hide();
+					$('#cal_table_id th:nth-child(9)').hide();
+					$('#cal_table_id td:nth-child(9)').hide();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 7;
+				}
+				else if (screenSize < 960 && screenSize >= 700) {
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').hide();
+					$('#cal_table_id td:nth-child(6)').hide();
+					$('#cal_table_id th:nth-child(7)').hide();
+					$('#cal_table_id td:nth-child(7)').hide();
+					$('#cal_table_id th:nth-child(8)').hide();
+					$('#cal_table_id td:nth-child(8)').hide();
+					$('#cal_table_id th:nth-child(9)').hide();
+					$('#cal_table_id td:nth-child(9)').hide();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 6;
+				}
+				else if (screenSize < 700 && screenSize >= 540) {
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').hide();
+					$('#cal_table_id td:nth-child(5)').hide();
+					$('#cal_table_id th:nth-child(6)').hide();
+					$('#cal_table_id td:nth-child(6)').hide();
+					$('#cal_table_id th:nth-child(7)').hide();
+					$('#cal_table_id td:nth-child(7)').hide();
+					$('#cal_table_id th:nth-child(8)').hide();
+					$('#cal_table_id td:nth-child(8)').hide();
+					$('#cal_table_id th:nth-child(9)').hide();
+					$('#cal_table_id td:nth-child(9)').hide();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 5;
+				}
+				else if (screenSize < 540 && screenSize >= 380) {
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').hide();
+					$('#cal_table_id td:nth-child(4)').hide();
+					$('#cal_table_id th:nth-child(5)').hide();
+					$('#cal_table_id td:nth-child(5)').hide();
+					$('#cal_table_id th:nth-child(6)').hide();
+					$('#cal_table_id td:nth-child(6)').hide();
+					$('#cal_table_id th:nth-child(7)').hide();
+					$('#cal_table_id td:nth-child(7)').hide();
+					$('#cal_table_id th:nth-child(8)').hide();
+					$('#cal_table_id td:nth-child(8)').hide();
+					$('#cal_table_id th:nth-child(9)').hide();
+					$('#cal_table_id td:nth-child(9)').hide();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 4;
+				}
+				else if (screenSize < 380) {
+					$('#cal_table_id th:nth-child(3)').hide();
+					$('#cal_table_id td:nth-child(3)').hide();
+					$('#cal_table_id th:nth-child(4)').hide();
+					$('#cal_table_id td:nth-child(4)').hide();
+					$('#cal_table_id th:nth-child(5)').hide();
+					$('#cal_table_id td:nth-child(5)').hide();
+					$('#cal_table_id th:nth-child(6)').hide();
+					$('#cal_table_id td:nth-child(6)').hide();
+					$('#cal_table_id th:nth-child(7)').hide();
+					$('#cal_table_id td:nth-child(7)').hide();
+					$('#cal_table_id th:nth-child(8)').hide();
+					$('#cal_table_id td:nth-child(8)').hide();
+					$('#cal_table_id th:nth-child(9)').hide();
+					$('#cal_table_id td:nth-child(9)').hide();
+					$('#cal_table_id th:nth-child(10)').hide();
+					$('#cal_table_id td:nth-child(10)').hide();
+					$('#cal_table_id th:nth-child(11)').hide();
+					$('#cal_table_id td:nth-child(11)').hide();
+					$('#cal_table_id th:nth-child(12)').hide();
+					$('#cal_table_id td:nth-child(12)').hide();
+					$('#cal_table_id th:nth-child(13)').hide();
+					$('#cal_table_id td:nth-child(13)').hide();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 3;
+				}
 				
-				var count = 0;
+				min = 2;
+				boundmax = 14 - max;
 				
 				$('a[href="#next"]').click(function(){
-					switch(count) {
-						case 0:
-							$('th:nth-child(2)').hide();
-							$('td:nth-child(2)').hide();
-						    $('th:nth-child(6)').show();
-							$('td:nth-child(6)').show();
-							break;
-						case 1:
-							$('th:nth-child(3)').hide();
-							$('td:nth-child(3)').hide();
-						    $('th:nth-child(7)').show();
-							$('td:nth-child(7)').show();
-							break;
-						case 2:
-							$('th:nth-child(4)').hide();
-							$('td:nth-child(4)').hide();
-						    $('th:nth-child(8)').show();
-							$('td:nth-child(8)').show();
-							break;
-						case 3:
-							$('th:nth-child(5)').hide();
-							$('td:nth-child(5)').hide();
-						    $('th:nth-child(9)').show();
-							$('td:nth-child(9)').show();
-							break;
-						case 4:
-							$('th:nth-child(6)').hide();
-							$('td:nth-child(6)').hide();
-						    $('th:nth-child(10)').show();
-							$('td:nth-child(10)').show();
-							break;
-						case 5:
-							$('th:nth-child(7)').hide();
-							$('td:nth-child(7)').hide();
-						    $('th:nth-child(11)').show();
-							$('td:nth-child(11)').show();
-							break;
-						case 6:
-							$('th:nth-child(8)').hide();
-							$('td:nth-child(8)').hide();
-						    $('th:nth-child(12)').show();
-							$('td:nth-child(12)').show();
-							break;
-						case 7:
-							$('th:nth-child(9)').hide();
-							$('td:nth-child(9)').hide();
-						    $('th:nth-child(13)').show();
-							$('td:nth-child(13)').show();
-							break;
-						case 8:
-							$('th:nth-child(10)').hide();
-							$('td:nth-child(10)').hide();
-						    $('th:nth-child(14)').show();
-							$('td:nth-child(14)').show();
-							break;
+					if(count <= boundmax) {
+						switch(count) {
+							case 0:
+								$("#cal_table_id th:nth-child(" + min + ")").hide();
+								$("#cal_table_id td:nth-child(" + min + ")").hide();
+								$("#cal_table_id th:nth-child(" + max + ")").show();
+								$("#cal_table_id td:nth-child(" + max + ")").show();
+								break;
+							case 1:
+								$("#cal_table_id th:nth-child(" + (min + 1) + ")").hide();
+								$("#cal_table_id td:nth-child(" + (min + 1) + ")").hide();
+								$("#cal_table_id th:nth-child(" + (max + 1) + ")").show();
+								$("#cal_table_id td:nth-child(" + (max + 1) + ")").show();
+								break;
+							case 2:
+								$("#cal_table_id th:nth-child(" + (min + 2) + ")").hide();
+								$("#cal_table_id td:nth-child(" + (min + 2) + ")").hide();
+								$("#cal_table_id th:nth-child(" + (max + 2) + ")").show();
+								$("#cal_table_id td:nth-child(" + (max + 2) + ")").show();
+								break;
+							case 3:
+								$("#cal_table_id th:nth-child(" + (min + 3) + ")").hide();
+								$("#cal_table_id td:nth-child(" + (min + 3) + ")").hide();
+								$("#cal_table_id th:nth-child(" + (max + 3) + ")").show();
+								$("#cal_table_id td:nth-child(" + (max + 3) + ")").show();
+								break;
+							case 4:
+								$("#cal_table_id th:nth-child(" + (min + 4) + ")").hide();
+								$("#cal_table_id td:nth-child(" + (min + 4) + ")").hide();
+								$("#cal_table_id th:nth-child(" + (max + 4) + ")").show();
+								$("#cal_table_id td:nth-child(" + (max + 4) + ")").show();
+								break;
+							case 5:
+								$("#cal_table_id th:nth-child(" + (min + 5) + ")").hide();
+								$("#cal_table_id td:nth-child(" + (min + 5) + ")").hide();
+								$("#cal_table_id th:nth-child(" + (max + 5) + ")").show();
+								$("#cal_table_id td:nth-child(" + (max + 5) + ")").show();
+								break;
+							case 6:
+								$("#cal_table_id th:nth-child(" + (min + 6) + ")").hide();
+								$("#cal_table_id td:nth-child(" + (min + 6) + ")").hide();
+								$("#cal_table_id th:nth-child(" + (max + 6) + ")").show();
+								$("#cal_table_id td:nth-child(" + (max + 6) + ")").show();
+								break;
+							case 7:
+								$("#cal_table_id th:nth-child(" + (min + 7) + ")").hide();
+								$("#cal_table_id td:nth-child(" + (min + 7) + ")").hide();
+								$("#cal_table_id th:nth-child(" + (max + 7) + ")").show();
+								$("#cal_table_id td:nth-child(" + (max + 7) + ")").show();
+								break;
+							case 8:
+								$("#cal_table_id th:nth-child(" + (min + 8) + ")").hide();
+								$("#cal_table_id td:nth-child(" + (min + 8) + ")").hide();
+								$("#cal_table_id th:nth-child(" + (max + 8) + ")").show();
+								$("#cal_table_id td:nth-child(" + (max + 8) + ")").show();
+								break;
+							case 9:
+								$("#cal_table_id th:nth-child(" + (min + 9) + ")").hide();
+								$("#cal_table_id td:nth-child(" + (min + 9) + ")").hide();
+								$("#cal_table_id th:nth-child(" + (max + 9) + ")").show();
+								$("#cal_table_id td:nth-child(" + (max + 9) + ")").show();
+								break;
+							case 10:
+								$("#cal_table_id th:nth-child(" + (min + 10) + ")").hide();
+								$("#cal_table_id td:nth-child(" + (min + 10) + ")").hide();
+								$("#cal_table_id th:nth-child(" + (max + 10) + ")").show();
+								$("#cal_table_id td:nth-child(" + (max + 10) + ")").show();
+								break;
+							case 11:
+								$("#cal_table_id th:nth-child(" + (min + 11) + ")").hide();
+								$("#cal_table_id td:nth-child(" + (min + 11) + ")").hide();
+								$("#cal_table_id th:nth-child(" + (max + 11) + ")").show();
+								$("#cal_table_id td:nth-child(" + (max + 11) + ")").show();
+								break;
+								
+						}
 					}
-					if(count <= 8) {
+					if(count <= boundmax) {
 						++count;
 					}
 				}); 
@@ -571,58 +1437,76 @@
 				$('a[href="#back"]').click(function(){
 					switch(count) {
 						case 1:
-							$('th:nth-child(2)').show();
-							$('td:nth-child(2)').show();
-						    $('th:nth-child(6)').hide();
-							$('td:nth-child(6)').hide();
+							$("#cal_table_id th:nth-child(" + min + ")").show();
+							$("#cal_table_id td:nth-child(" + min + ")").show();
+							$("#cal_table_id th:nth-child(" + max + ")").hide();
+							$("#cal_table_id td:nth-child(" + max + ")").hide();
 							break;
 						case 2:
-							$('th:nth-child(3)').show();
-							$('td:nth-child(3)').show();
-						    $('th:nth-child(7)').hide();
-							$('td:nth-child(7)').hide();
+							$("#cal_table_id th:nth-child(" + (min + 1) + ")").show();
+							$("#cal_table_id td:nth-child(" + (min + 1) + ")").show();
+							$("#cal_table_id th:nth-child(" + (max + 1) + ")").hide();
+							$("#cal_table_id td:nth-child(" + (max + 1) + ")").hide();
 							break;
 						case 3:
-							$('th:nth-child(4)').show();
-							$('td:nth-child(4)').show();
-						    $('th:nth-child(8)').hide();
-							$('td:nth-child(8)').hide();
+							$("#cal_table_id th:nth-child(" + (min + 2) + ")").show();
+							$("#cal_table_id td:nth-child(" + (min + 2) + ")").show();
+							$("#cal_table_id th:nth-child(" + (max + 2) + ")").hide();
+							$("#cal_table_id td:nth-child(" + (max + 2) + ")").hide();
 							break;
 						case 4:
-							$('th:nth-child(5)').show();
-							$('td:nth-child(5)').show();
-						    $('th:nth-child(9)').hide();
-							$('td:nth-child(9)').hide();
+							$("#cal_table_id th:nth-child(" + (min + 3) + ")").show();
+							$("#cal_table_id td:nth-child(" + (min + 3) + ")").show();
+							$("#cal_table_id th:nth-child(" + (max + 3) + ")").hide();
+							$("#cal_table_id td:nth-child(" + (max + 3) + ")").hide();
 							break;
 						case 5:
-							$('th:nth-child(6)').show();
-							$('td:nth-child(6)').show();
-						    $('th:nth-child(10)').hide();
-							$('td:nth-child(10)').hide();
+							$("#cal_table_id th:nth-child(" + (min + 4) + ")").show();
+							$("#cal_table_id td:nth-child(" + (min + 4) + ")").show();
+							$("#cal_table_id th:nth-child(" + (max + 4) + ")").hide();
+							$("#cal_table_id td:nth-child(" + (max + 4) + ")").hide();
 							break;
 						case 6:
-							$('th:nth-child(7)').show();
-							$('td:nth-child(7)').show();
-						    $('th:nth-child(11)').hide();
-							$('td:nth-child(11)').hide();
+							$("#cal_table_id th:nth-child(" + (min + 5) + ")").show();
+							$("#cal_table_id td:nth-child(" + (min + 5) + ")").show();
+							$("#cal_table_id th:nth-child(" + (max + 5) + ")").hide();
+							$("#cal_table_id td:nth-child(" + (max + 5) + ")").hide();
 							break;
 						case 7:
-							$('th:nth-child(8)').show();
-							$('td:nth-child(8)').show();
-						    $('th:nth-child(12)').hide();
-							$('td:nth-child(12)').hide();
+							$("#cal_table_id th:nth-child(" + (min + 6) + ")").show();
+							$("#cal_table_id td:nth-child(" + (min + 6) + ")").show();
+							$("#cal_table_id th:nth-child(" + (max + 6) + ")").hide();
+							$("#cal_table_id td:nth-child(" + (max + 6) + ")").hide();
 							break;
 						case 8:
-							$('th:nth-child(9)').show();
-							$('td:nth-child(9)').show();
-						    $('th:nth-child(13)').hide();
-							$('td:nth-child(13)').hide();
+							$("#cal_table_id th:nth-child(" + (min + 7) + ")").show();
+							$("#cal_table_id td:nth-child(" + (min + 7) + ")").show();
+							$("#cal_table_id th:nth-child(" + (max + 7) + ")").hide();
+							$("#cal_table_id td:nth-child(" + (max + 7) + ")").hide();
 							break;
 						case 9:
-							$('th:nth-child(10)').show();
-							$('td:nth-child(10)').show();
-						    $('th:nth-child(14)').hide();
-							$('td:nth-child(14)').hide();
+							$("#cal_table_id th:nth-child(" + (min + 8) + ")").show();
+							$("#cal_table_id td:nth-child(" + (min + 8) + ")").show();
+							$("#cal_table_id th:nth-child(" + (max + 8) + ")").hide();
+							$("#cal_table_id td:nth-child(" + (max + 8) + ")").hide();
+							break;
+						case 10:
+							$("#cal_table_id th:nth-child(" + (min + 9) + ")").show();
+							$("#cal_table_id td:nth-child(" + (min + 9) + ")").show();
+							$("#cal_table_id th:nth-child(" + (max + 9) + ")").hide();
+							$("#cal_table_id td:nth-child(" + (max + 9) + ")").hide();
+							break;
+						case 11:
+							$("#cal_table_id th:nth-child(" + (min + 10) + ")").show();
+							$("#cal_table_id td:nth-child(" + (min + 10) + ")").show();
+							$("#cal_table_id th:nth-child(" + (max + 10) + ")").hide();
+							$("#cal_table_id td:nth-child(" + (max + 10) + ")").hide();
+							break;
+						case 12:
+							$("#cal_table_id th:nth-child(" + (min + 11) + ")").show();
+							$("#cal_table_id td:nth-child(" + (min + 11) + ")").show();
+							$("#cal_table_id th:nth-child(" + (max + 11) + ")").hide();
+							$("#cal_table_id td:nth-child(" + (max + 11) + ")").hide();
 							break;
 					}
 					if(count > 0) {
@@ -677,6 +1561,56 @@
 						$("#member4_ocs_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
+				
+				$("#member5_ocs_id").focusout(function() {
+					var my_val = $("#member5_ocs_id").val();
+					if (isEmpty(my_val)) {
+						$("#member5_ocs_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member5_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member6_ocs_id").focusout(function() {
+					var my_val = $("#member6_ocs_id").val();
+					if (isEmpty(my_val)) {
+						$("#member6_ocs_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member6_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member7_ocs_id").focusout(function() {
+					var my_val = $("#member7_ocs_id").val();
+					if (isEmpty(my_val)) {
+						$("#member7_ocs_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member7_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member8_ocs_id").focusout(function() {
+					var my_val = $("#member8_ocs_id").val();
+					if (isEmpty(my_val)) {
+						$("#member8_ocs_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member8_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+
+				$("#member9_ocs_id").focusout(function() {
+					var my_val = $("#member9_ocs_id").val();
+					if (isEmpty(my_val)) {
+						$("#member9_ocs_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member9_ocs_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
 
 				$("#member1_hw_id").focusout(function() {
 					var my_val = $("#member1_hw_id").val();
@@ -715,6 +1649,56 @@
 					} else {
 						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member4_hw_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member5_hw_id").focusout(function() {
+					var my_val = $("#member5_hw_id").val();
+					if (isEmpty(my_val)) {
+						$("#member5_hw_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member5_hw_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member6_hw_id").focusout(function() {
+					var my_val = $("#member6_hw_id").val();
+					if (isEmpty(my_val)) {
+						$("#member6_hw_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member6_hw_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member7_hw_id").focusout(function() {
+					var my_val = $("#member7_hw_id").val();
+					if (isEmpty(my_val)) {
+						$("#member7_hw_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member7_hw_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member8_hw_id").focusout(function() {
+					var my_val = $("#member8_hw_id").val();
+					if (isEmpty(my_val)) {
+						$("#member8_hw_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member8_hw_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member9_hw_id").focusout(function() {
+					var my_val = $("#member9_hw_id").val();
+					if (isEmpty(my_val)) {
+						$("#member9_hw_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member9_hw_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
 
@@ -756,7 +1740,56 @@
 						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
 						$("#member4_ic_id").val(Number(my_val).toLocaleString('en'));
 					}
-
+				});
+				
+				$("#member5_ic_id").focusout(function() {
+					var my_val = $("#member5_ic_id").val();
+					if (isEmpty(my_val)) {
+						$("#member5_ic_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member5_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member6_ic_id").focusout(function() {
+					var my_val = $("#member6_ic_id").val();
+					if (isEmpty(my_val)) {
+						$("#member6_ic_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member6_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member7_ic_id").focusout(function() {
+					var my_val = $("#member7_ic_id").val();
+					if (isEmpty(my_val)) {
+						$("#member7_ic_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member7_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member8_ic_id").focusout(function() {
+					var my_val = $("#member8_ic_id").val();
+					if (isEmpty(my_val)) {
+						$("#member8_ic_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member8_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member9_ic_id").focusout(function() {
+					var my_val = $("#member9_ic_id").val();
+					if (isEmpty(my_val)) {
+						$("#member9_ic_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member9_ic_id").val(Number(my_val).toLocaleString('en'));
+					}
 				});
 
 				$("#member1_cc_id").focusout(function() {
@@ -798,38 +1831,115 @@
 						$("#member4_cc_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
-
-				$("#totalshare_id").focusout(function() {
-					var my_val = $("#totalshare_id").val();
+				
+				$("#member5_cc_id").focusout(function() {
+					var my_val = $("#member5_cc_id").val();
 					if (isEmpty(my_val)) {
-						var total = parseFloat(document.forms[0].member1_ysc.value.replace(/,/g, ''), 10) + parseFloat(document.forms[0].member2_ysc.value.replace(/,/g, ''), 10) + parseFloat(document.forms[0].member3_ysc.value.replace(/,/g, ''), 10) + parseFloat(document.forms[0].member4_ysc.value.replace(/,/g, ''), 10);
-						document.forms[0].totalshare.value = Number(total).toFixed(2);
+						$("#member5_cc_id").val(0);
 					} else {
-						/* recalculate member's share (#) */
 						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
-						$("#totalshare_id").val(Number(my_val).toLocaleString('en'));
-
-						var new_member1_ysc = (parseFloat(document.forms[0].member1_ysp.value.replace(/,/g, ''), 10) * my_val) / 100.0;
-						document.forms[0].member1_ysc.value = Number(Number(new_member1_ysc).toFixed(2)).toLocaleString('en');
-
-						var new_member2_ysc = (parseFloat(document.forms[0].member2_ysp.value.replace(/,/g, ''), 10) * my_val) / 100.0;
-						document.forms[0].member2_ysc.value = Number(Number(new_member2_ysc).toFixed(2)).toLocaleString('en');
-
-						var new_member3_ysc = (parseFloat(document.forms[0].member3_ysp.value.replace(/,/g, ''), 10) * my_val) / 100.0;
-						document.forms[0].member3_ysc.value = Number(Number(new_member3_ysc).toFixed(2)).toLocaleString('en');
-
-						var new_member4_ysc = (parseFloat(document.forms[0].member4_ysp.value.replace(/,/g, ''), 10) * my_val) / 100.0;
-						document.forms[0].member4_ysc.value = Number(Number(new_member4_ysc).toFixed(2)).toLocaleString('en');
-
-						/* calculate bar chart */
-						//refreshBarChart(document.forms[0]);
+						$("#member5_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member6_cc_id").focusout(function() {
+					var my_val = $("#member6_cc_id").val();
+					if (isEmpty(my_val)) {
+						$("#member6_cc_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member6_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member7_cc_id").focusout(function() {
+					var my_val = $("#member7_cc_id").val();
+					if (isEmpty(my_val)) {
+						$("#member7_cc_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member7_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member8_cc_id").focusout(function() {
+					var my_val = $("#member8_cc_id").val();
+					if (isEmpty(my_val)) {
+						$("#member8_cc_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member8_cc_id").val(Number(my_val).toLocaleString('en'));
+					}
+				});
+				
+				$("#member9_cc_id").focusout(function() {
+					var my_val = $("#member9_cc_id").val();
+					if (isEmpty(my_val)) {
+						$("#member9_cc_id").val(0);
+					} else {
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member9_cc_id").val(Number(my_val).toLocaleString('en'));
 					}
 				});
 
-				$('#totalshare_id').on('keypress', function(e) {
+				$("#member999_yss_id").focusout(function() {
+					var my_val = $("#member999_yss_id").val();
+					if (isEmpty(my_val)) {
+						document.forms[0].totalshare.value = 0;
+					} else {
+						/* recalculate member's share (#) */
+						my_val = parseFloat(my_val.replace(/,/g, ''), 10);
+						$("#member999_yss_id").val(Number(my_val).toLocaleString('en'));
+						for (i = 1; i < document.getElementById("cal_table_id").rows.length - 1; i++) { 
+							var x = document.getElementById('tr_id_' + i);
+							if (x.style.display == 'table-row') {
+								switch(i) {
+									case 1:
+										var temp = (parseFloat(document.forms[0].member1_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
+										document.forms[0].member1_yss.value = Number(temp).toFixed(2);
+										break;
+									case 2:
+										var temp = (parseFloat(document.forms[0].member2_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
+										document.forms[0].member2_yss.value = Number(temp).toFixed(2);
+										break;
+									case 3:
+										var temp = (parseFloat(document.forms[0].member3_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
+										document.forms[0].member3_yss.value = Number(temp).toFixed(2);
+										break;
+									case 4:
+										var temp = (parseFloat(document.forms[0].member4_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
+										document.forms[0].member4_yss.value = Number(temp).toFixed(2);
+										break;
+									case 5:
+										var temp = (parseFloat(document.forms[0].member5_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
+										document.forms[0].member5_yss.value = Number(temp).toFixed(2);
+										break;
+									case 6:
+										var temp = (parseFloat(document.forms[0].member6_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
+										document.forms[0].member6_yss.value = Number(temp).toFixed(2);
+										break;
+									case 7:
+										var temp = (parseFloat(document.forms[0].member7_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
+										document.forms[0].member7_yss.value = Number(temp).toFixed(2);
+										break;
+									case 8:
+										var temp = (parseFloat(document.forms[0].member8_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
+										document.forms[0].member8_yss.value = Number(temp).toFixed(2);
+										break;
+									case 9:
+										var temp = (parseFloat(document.forms[0].member9_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
+										document.forms[0].member9_yss.value = Number(temp).toFixed(2);
+										break;
+								}
+							}
+						}
+					}
+				});
+
+				$('#member999_yss_id').on('keypress', function(e) {
 					if (e.which === 13) {
-						$('#totalshare_id').trigger('focusout');
-						$('#totalshare_id').blur();
+						$('#member999_yss_id').trigger('focusout');
+						$('#member999_yss_id').blur();
 					} else {
 						if (e.which != 46 && e.which != 8 && (e.which < 48 || e.which > 57)) {
 							return false;
@@ -839,8 +1949,7 @@
 
 			});
 		</script>
-
-		<script>
+		<script type="text/javascript">
 			$(function() {
 				var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
 				$('#member1_datetimepicker').datepicker({
@@ -963,7 +2072,7 @@
 		<br>
 		<br>
 		<h1 class="centered">Equity Split Calculation</h1>
-		<div class="next-icon">
+		<div class="next-back-icon">
 			<p class="image-font">
 				<a href="#back" onclick="return false;"><span class="glyphicon glyphicon-circle-arrow-left"></span> </a>
 				<a href="#next" onclick="return false;"><span class="glyphicon glyphicon-circle-arrow-right"></span> </a>
@@ -975,15 +2084,15 @@
 					<table id="cal_table_id" class="table table-bordered">
 						<thead>
 							<tr id="tr_id_0" class="info header-font">
-								<th>Name</th>
+								<th class="first_field">Name</th>
 								<th>Your Share $</th>
 								<th>Your Share #</th>
 								<th>Your Share %</th>
 								<th>Non Cash</th>
 								<th>Contributed Cash</th>
 								<th>Invested Cash</th>
-								<th>Date Joined The Project</th>
-								<th>Date On The Project</th>
+								<th>Date Joined Project</th>
+								<th>Date On Project</th>
 								<th>Vested Time</th>
 								<th>Hours Worked</th>
 								<th>Individual Efficiency</th>
@@ -1039,7 +2148,7 @@
 								<td>
 								<div class="input-group date" id='member1_datetimepicker'>
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member1_djtp" placeholder="yyyy/mm/dd">
+									<input type="text" class="form-control" min="0" name="member1_djtp" value="2017/03/11" placeholder="yyyy/mm/dd">
 								</div></td>	
 								
 								<td>
@@ -1130,7 +2239,7 @@
 								<td>
 								<div class="input-group date" id='member2_datetimepicker'>
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member2_djtp" placeholder="yyyy/mm/dd">
+									<input type="text" class="form-control" min="0" name="member2_djtp" value="2017/03/12" placeholder="yyyy/mm/dd">
 								</div></td>	
 								
 								<td>
@@ -1221,7 +2330,7 @@
 								<td>
 								<div class="input-group date" id='member3_datetimepicker'>
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member3_djtp" placeholder="yyyy/mm/dd">
+									<input type="text" class="form-control" min="0" name="member3_djtp" value="2017/03/13" placeholder="yyyy/mm/dd">
 								</div></td>	
 								
 								<td>
@@ -1312,7 +2421,7 @@
 								<td>
 								<div class="input-group date" id='member4_datetimepicker'>
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member4_djtp" placeholder="yyyy/mm/dd">
+									<input type="text" class="form-control" min="0" name="member4_djtp" value="2017/03/14" placeholder="yyyy/mm/dd">
 								</div></td>	
 								
 								<td>
@@ -1397,7 +2506,7 @@
 								<td>
 								<div class="input-group date" id='member5_datetimepicker'>
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member5_djtp" placeholder="yyyy/mm/dd">
+									<input type="text" class="form-control" min="0" name="member5_djtp" value="2017/03/15" placeholder="yyyy/mm/dd">
 								</div></td>	
 								
 								<td>
@@ -1482,7 +2591,7 @@
 								<td>
 								<div class="input-group date" id='member6_datetimepicker'>
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member6_djtp" placeholder="yyyy/mm/dd">
+									<input type="text" class="form-control" min="0" name="member6_djtp" value="2017/03/16" placeholder="yyyy/mm/dd">
 								</div></td>	
 								
 								<td>
@@ -1567,7 +2676,7 @@
 								<td>
 								<div class="input-group date" id='member7_datetimepicker'>
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member7_djtp" placeholder="yyyy/mm/dd">
+									<input type="text" class="form-control" min="0" name="member7_djtp" value="2017/03/17" placeholder="yyyy/mm/dd">
 								</div></td>	
 								
 								<td>
@@ -1652,7 +2761,7 @@
 								<td>
 								<div class="input-group date" id='member8_datetimepicker'>
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member8_djtp" placeholder="yyyy/mm/dd">
+									<input type="text" class="form-control" min="0" name="member8_djtp" value="2017/03/18" placeholder="yyyy/mm/dd">
 								</div></td>	
 								
 								<td>
@@ -1737,7 +2846,7 @@
 								<td>
 								<div class="input-group date" id='member9_datetimepicker'>
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member9_djtp" placeholder="yyyy/mm/dd">
+									<input type="text" class="form-control" min="0" name="member9_djtp" value="2017/03/19" placeholder="yyyy/mm/dd">
 								</div></td>	
 								
 								<td>
@@ -1776,6 +2885,89 @@
 									<input type="text" id="member9_sph_id" class="blue-color form-control" name="member9_sph" disabled>
 								</div></td>	
 							</tr>
+							<tr id="tr_id_999" class="active">
+								<td>
+								<div class="input-group">
+									<input type="text" class="form-control total-color" placeholder="name" name="member999_name" value="Totals" disabled>
+								</div></td>
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon total-color">$</span>
+									<input type="text" class="blue-color form-control total-color" name="member999_ysc" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon total-color">#</span>
+									<input type="text" class="blue-color form-control total-color" id="member999_yss_id" name="member999_yss" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon total-color">%</span>
+									<input type="text" class="blue-color form-control total-color" name="member999_ysp" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon total-color">$</span>
+									<input type="text" class="blue-color form-control total-color" id="member999_nc_id" name="member999_nc" disabled>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon total-color">$</span>
+									<input type="text" class="form-control total-color" id="member999_cc_id" name="member999_cc" disabled>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon total-color">$</span>
+									<input type="text" class="form-control total-color" id="member999_ic_id" name="member999_ic" disabled >
+								</div></td>
+								
+								<td>
+								<div class="input-group date">
+									<span class="input-group-addon total-color"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="form-control total-color" min="0" name="member999_djtp" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon total-color">#</span>
+									<input type="text" class="blue-color form-control total-color" id="member999_dotp_id" name="member999_dotp" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group date">
+									<span class="input-group-addon total-color"><span class="glyphicon glyphicon-calendar"></span></span>
+									<input type="text" class="blue-color form-control total-color" name="member999_vt" disabled>
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon total-color">#</span>
+									<input type="text" class="form-control total-color" id="member999_hw_id" name="member999_hw" onkeypress="return inputNumber(event);" value="30" required="required">
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon total-color">%</span>
+									<input type="text" class="blue-color form-control total-color" name="member999_ie" disabled/>
+								</div></td>
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon total-color">$</span>
+									<input type="text" id="member999_ocs_id" class="form-control total-color" onkeypress="return inputNumber(event);" name="member999_ocs" value="100,000" required="required">
+								</div></td>	
+								
+								<td>
+								<div class="input-group">
+									<span class="input-group-addon total-color">$</span>
+									<input type="text" id="member999_sph_id" class="blue-color form-control total-color" name="member999_sph" disabled>
+								</div></td>	
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -1799,8 +2991,8 @@
 			<table class="table table-bordered">
 				<tbody>
 					<tr>
-						<td><h4 class="centered">Equity Split</h4><div class="chart-config" id="pieChartContainer" ></div></td>
-						<td><h4 class="centered">Equity Split</h4><div class="chart-config" id="barChartContainer"></div></td>
+						<td><h4 class="centered">Equity Split Share $</h4><div class="chart-config" id="pieChartContainer" ></div></td>
+						<td><h4 class="centered">Equity Split Share $</h4><div class="chart-config" id="barChartContainer"></div></td>
 					</tr>
 				</tbody>
 			</table>
