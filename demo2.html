@@ -42,8 +42,20 @@
 				width: 140px;
 			}
 			
+			.date-width {
+				width: 150px;
+			}
+			
+			.form-control {
+				text-align: center;
+			}
+			
 			#cal_table_id td {
 				padding: 1px;
+			}
+			
+			#cal_table_id th {
+				text-align: center !important;
 			}
 			
 			#cal_table_id tr td:nth-child(1),
@@ -80,10 +92,6 @@
 			th {
 				vertical-align: middle !important;
 			}
-			
-			.calendar-padding {
-				padding: 6px 6px !important;
-			}
 
 			.blue-color {
 				color: #3266CC;
@@ -99,6 +107,10 @@
 
 			.green-color {
 				color: #109717;
+			}
+			
+			.white-color {
+				color: #FFFFFF;
 			}
 			
 			.next-back-icon {
@@ -2311,12 +2323,12 @@
 								<th># Share</th>
 								<th>% Share</th>
 								<th>$ Non Cash</th>
-								<th>$ Contribution</th>
-								<th>$ Investion</th>
-								<th>Start Date</th>  <!-- Date joined the project -->
+								<th>$ Contributed Cash</th>
+								<th>$ Invested Cash</th>
+								<th class="date-width">Start Date</th>  <!-- Date joined the project -->
 								<th># Days</th>  <!-- Date on the project -->
-								<th>Vested Date</th>  <!-- Vested Time -->
-								<th># Hour Worked</th>
+								<th class="date-width">Vested Date</th>  <!-- Vested Time -->
+								<th># Worked Hour</th>
 								<th>% Efficiency</th> <!-- Individual Efficiency -->
 								<th>$ Salary</th>
 								<th>$ Hourly Rate</th>  <!-- Salary Per Hour -->
@@ -2364,7 +2376,7 @@
 								<td>
 								<div class="input-group date" id='member1_datetimepicker'>
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control calendar-padding" min="0" name="member1_djtp" value="2017/03/11" placeholder="yyyy/mm/dd">
+									<input type="text" class="form-control" name="member1_djtp" value="2017/03/11" placeholder="yyyy/mm/dd">
 								</div></td>	
 								
 								<td>
@@ -2374,8 +2386,7 @@
 								
 								<td>
 								<div class="input-group date">
-									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="blue-color form-control calendar-padding" name="member1_vt" disabled>
+									<input type="text" class="blue-color form-control" name="member1_vt" disabled>
 								</div></td>	
 								
 								<td>
@@ -2448,7 +2459,6 @@
 								
 								<td>
 								<div class="input-group date">
-									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 									<input type="text" class="blue-color form-control" name="member2_vt" disabled>
 								</div></td>	
 								
@@ -2522,7 +2532,6 @@
 								
 								<td>
 								<div class="input-group date">
-									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 									<input type="text" class="blue-color form-control" name="member3_vt" disabled>
 								</div></td>	
 								
@@ -2596,7 +2605,6 @@
 								
 								<td>
 								<div class="input-group date">
-									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 									<input type="text" class="blue-color form-control" name="member4_vt" disabled>
 								</div></td>	
 								
@@ -2670,7 +2678,6 @@
 								
 								<td>
 								<div class="input-group date">
-									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 									<input type="text" class="blue-color form-control" name="member5_vt" disabled>
 								</div></td>	
 								
@@ -2744,7 +2751,6 @@
 								
 								<td>
 								<div class="input-group date">
-									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 									<input type="text" class="blue-color form-control" name="member6_vt" disabled>
 								</div></td>	
 								
@@ -2818,7 +2824,6 @@
 								
 								<td>
 								<div class="input-group date">
-									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 									<input type="text" class="blue-color form-control" name="member7_vt" disabled>
 								</div></td>	
 								
@@ -2892,7 +2897,6 @@
 								
 								<td>
 								<div class="input-group date">
-									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 									<input type="text" class="blue-color form-control" name="member8_vt" disabled>
 								</div></td>	
 								
@@ -2966,7 +2970,6 @@
 								
 								<td>
 								<div class="input-group date">
-									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 									<input type="text" class="blue-color form-control" name="member9_vt" disabled>
 								</div></td>	
 								
@@ -3002,7 +3005,7 @@
 								
 								<td>
 								<div class="input-group">
-									<input type="text" class="blue-color form-control total-color" id="member999_yss_id" name="member999_yss" disabled/>
+									<input type="text" class="blue-color form-control" id="member999_yss_id" name="member999_yss" disabled/>
 								</div></td>
 								
 								<td>
@@ -3038,8 +3041,7 @@
 								
 								<td>
 								<div class="input-group date">
-									<span class="input-group-addon total-color"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="blue-color form-control total-color" id="member999_vt_id" name="member999_vt">
+									<input type="text" class="blue-color form-control" id="member999_vt_id" name="member999_vt">
 								</div></td>	
 								
 								<td>
