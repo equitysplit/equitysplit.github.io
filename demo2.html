@@ -80,6 +80,10 @@
 			th {
 				vertical-align: middle !important;
 			}
+			
+			.calendar-padding {
+				padding: 6px 6px !important;
+			}
 
 			.blue-color {
 				color: #3266CC;
@@ -142,9 +146,65 @@
 				}
 				
 				var screenSize = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-				if(screenSize >= 1920) {
-					$('#cal_table_id th:nth-child(2)').show();
-					$('#cal_table_id td:nth-child(2)').show();
+				$('#cal_table_id th:nth-child(1)').show();
+				$('#cal_table_id td:nth-child(1)').show();
+				$('#cal_table_id th:nth-child(2)').show();
+				$('#cal_table_id td:nth-child(2)').show();
+				if(screenSize >= 1800) {
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').show();
+					$('#cal_table_id td:nth-child(8)').show();
+					$('#cal_table_id th:nth-child(9)').show();
+					$('#cal_table_id td:nth-child(9)').show();
+					$('#cal_table_id th:nth-child(10)').show();
+					$('#cal_table_id td:nth-child(10)').show();
+					$('#cal_table_id th:nth-child(11)').show();
+					$('#cal_table_id td:nth-child(11)').show();
+					$('#cal_table_id th:nth-child(12)').show();
+					$('#cal_table_id td:nth-child(12)').show();
+					$('#cal_table_id th:nth-child(13)').show();
+					$('#cal_table_id td:nth-child(13)').show();
+					$('#cal_table_id th:nth-child(14)').show();
+					$('#cal_table_id td:nth-child(14)').show();
+					max = 15;
+				}
+				if(screenSize < 1800 && screenSize >= 1670) {
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').show();
+					$('#cal_table_id td:nth-child(8)').show();
+					$('#cal_table_id th:nth-child(9)').show();
+					$('#cal_table_id td:nth-child(9)').show();
+					$('#cal_table_id th:nth-child(10)').show();
+					$('#cal_table_id td:nth-child(10)').show();
+					$('#cal_table_id th:nth-child(11)').show();
+					$('#cal_table_id td:nth-child(11)').show();
+					$('#cal_table_id th:nth-child(12)').show();
+					$('#cal_table_id td:nth-child(12)').show();
+					$('#cal_table_id th:nth-child(13)').show();
+					$('#cal_table_id td:nth-child(13)').show();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 14;
+				}
+				else if(screenSize < 1670 && screenSize >= 1540) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -171,9 +231,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 13;
 				}
-				else if(screenSize < 1920 && screenSize >= 1760) {
-					$('#cal_table_id th:nth-child(2)').show();
-					$('#cal_table_id td:nth-child(2)').show();
+				else if(screenSize < 1540 && screenSize >= 1410) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -200,9 +258,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 12;
 				}
-				else if(screenSize < 1760 && screenSize >= 1600) {
-					$('#cal_table_id th:nth-child(2)').show();
-					$('#cal_table_id td:nth-child(2)').show();
+				else if(screenSize < 1410 && screenSize >= 1280) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -229,9 +285,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 11;
 				}
-				else if(screenSize < 1600 && screenSize >= 1440) {
-					$('#cal_table_id th:nth-child(2)').show();
-					$('#cal_table_id td:nth-child(2)').show();
+				else if(screenSize < 1280 && screenSize >= 1150) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -258,9 +312,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 10;
 				}
-				else if(screenSize < 1440 && screenSize >= 1280) {
-					$('#cal_table_id th:nth-child(2)').show();
-					$('#cal_table_id td:nth-child(2)').show();
+				else if (screenSize < 1150 && screenSize >= 1020) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -287,9 +339,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 9;
 				}
-				else if(screenSize < 1280 && screenSize >= 1120) {
-					$('#cal_table_id th:nth-child(2)').show();
-					$('#cal_table_id td:nth-child(2)').show();
+				else if (screenSize < 1020 && screenSize >= 890) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -316,9 +366,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 8;
 				}
-				else if (screenSize < 1120 && screenSize >= 960) {
-					$('#cal_table_id th:nth-child(2)').show();
-					$('#cal_table_id td:nth-child(2)').show();
+				else if (screenSize < 890 && screenSize >= 760) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -345,9 +393,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 7;
 				}
-				else if (screenSize < 960 && screenSize >= 700) {
-					$('#cal_table_id th:nth-child(2)').show();
-					$('#cal_table_id td:nth-child(2)').show();
+				else if (screenSize < 760 && screenSize >= 630) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -374,9 +420,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 6;
 				}
-				else if (screenSize < 700 && screenSize >= 540) {
-					$('#cal_table_id th:nth-child(2)').show();
-					$('#cal_table_id td:nth-child(2)').show();
+				else if (screenSize < 630 && screenSize >= 500) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -403,9 +447,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 5;
 				}
-				else if (screenSize < 540 && screenSize >= 380) {
-					$('#cal_table_id th:nth-child(2)').show();
-					$('#cal_table_id td:nth-child(2)').show();
+				else if (screenSize < 500 && screenSize >= 370) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').hide();
@@ -432,9 +474,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 4;
 				}
-				else if (screenSize < 380) {
-					$('#cal_table_id th:nth-child(2)').show();
-					$('#cal_table_id td:nth-child(2)').show();
+				else if (screenSize < 370) {
 					$('#cal_table_id th:nth-child(3)').hide();
 					$('#cal_table_id td:nth-child(3)').hide();
 					$('#cal_table_id th:nth-child(4)').hide();
@@ -1095,7 +1135,61 @@
 				$('#cal_table_id td:nth-child(1)').show();
 				$('#cal_table_id th:nth-child(2)').show();
 				$('#cal_table_id td:nth-child(2)').show();
-				if(screenSize >= 1920) {
+				if(screenSize >= 1800) {
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').show();
+					$('#cal_table_id td:nth-child(8)').show();
+					$('#cal_table_id th:nth-child(9)').show();
+					$('#cal_table_id td:nth-child(9)').show();
+					$('#cal_table_id th:nth-child(10)').show();
+					$('#cal_table_id td:nth-child(10)').show();
+					$('#cal_table_id th:nth-child(11)').show();
+					$('#cal_table_id td:nth-child(11)').show();
+					$('#cal_table_id th:nth-child(12)').show();
+					$('#cal_table_id td:nth-child(12)').show();
+					$('#cal_table_id th:nth-child(13)').show();
+					$('#cal_table_id td:nth-child(13)').show();
+					$('#cal_table_id th:nth-child(14)').show();
+					$('#cal_table_id td:nth-child(14)').show();
+					max = 15;
+				}
+				if(screenSize < 1800 && screenSize >= 1670) {
+					$('#cal_table_id th:nth-child(3)').show();
+					$('#cal_table_id td:nth-child(3)').show();
+					$('#cal_table_id th:nth-child(4)').show();
+					$('#cal_table_id td:nth-child(4)').show();
+					$('#cal_table_id th:nth-child(5)').show();
+					$('#cal_table_id td:nth-child(5)').show();
+					$('#cal_table_id th:nth-child(6)').show();
+					$('#cal_table_id td:nth-child(6)').show();
+					$('#cal_table_id th:nth-child(7)').show();
+					$('#cal_table_id td:nth-child(7)').show();
+					$('#cal_table_id th:nth-child(8)').show();
+					$('#cal_table_id td:nth-child(8)').show();
+					$('#cal_table_id th:nth-child(9)').show();
+					$('#cal_table_id td:nth-child(9)').show();
+					$('#cal_table_id th:nth-child(10)').show();
+					$('#cal_table_id td:nth-child(10)').show();
+					$('#cal_table_id th:nth-child(11)').show();
+					$('#cal_table_id td:nth-child(11)').show();
+					$('#cal_table_id th:nth-child(12)').show();
+					$('#cal_table_id td:nth-child(12)').show();
+					$('#cal_table_id th:nth-child(13)').show();
+					$('#cal_table_id td:nth-child(13)').show();
+					$('#cal_table_id th:nth-child(14)').hide();
+					$('#cal_table_id td:nth-child(14)').hide();
+					max = 14;
+				}
+				else if(screenSize < 1670 && screenSize >= 1540) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -1122,7 +1216,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 13;
 				}
-				else if(screenSize < 1920 && screenSize >= 1760) {
+				else if(screenSize < 1540 && screenSize >= 1410) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -1149,7 +1243,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 12;
 				}
-				else if(screenSize < 1760 && screenSize >= 1600) {
+				else if(screenSize < 1410 && screenSize >= 1280) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -1176,7 +1270,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 11;
 				}
-				else if(screenSize < 1600 && screenSize >= 1440) {
+				else if(screenSize < 1280 && screenSize >= 1150) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -1203,7 +1297,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 10;
 				}
-				else if(screenSize < 1440 && screenSize >= 1280) {
+				else if (screenSize < 1150 && screenSize >= 1020) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -1230,7 +1324,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 9;
 				}
-				else if(screenSize < 1280 && screenSize >= 1120) {
+				else if (screenSize < 1020 && screenSize >= 890) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -1257,7 +1351,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 8;
 				}
-				else if (screenSize < 1120 && screenSize >= 960) {
+				else if (screenSize < 890 && screenSize >= 760) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -1284,7 +1378,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 7;
 				}
-				else if (screenSize < 960 && screenSize >= 700) {
+				else if (screenSize < 760 && screenSize >= 630) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -1311,7 +1405,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 6;
 				}
-				else if (screenSize < 700 && screenSize >= 540) {
+				else if (screenSize < 630 && screenSize >= 500) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').show();
@@ -1338,7 +1432,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 5;
 				}
-				else if (screenSize < 540 && screenSize >= 380) {
+				else if (screenSize < 500 && screenSize >= 370) {
 					$('#cal_table_id th:nth-child(3)').show();
 					$('#cal_table_id td:nth-child(3)').show();
 					$('#cal_table_id th:nth-child(4)').hide();
@@ -1365,7 +1459,7 @@
 					$('#cal_table_id td:nth-child(14)').hide();
 					max = 4;
 				}
-				else if (screenSize < 380) {
+				else if (screenSize < 370) {
 					$('#cal_table_id th:nth-child(3)').hide();
 					$('#cal_table_id td:nth-child(3)').hide();
 					$('#cal_table_id th:nth-child(4)').hide();
@@ -2213,19 +2307,19 @@
 						<thead>
 							<tr id="tr_id_0" class="info header-font">
 								<th class="first_field">Name</th>
-								<th>Your Share $</th>
-								<th>Your Share #</th>
-								<th>Your Share %</th>
-								<th>Non Cash</th>
-								<th>Contributed Cash</th>
-								<th>Invested Cash</th>
-								<th>Date Joined Project</th>
-								<th>Date On Project</th>
-								<th>Vested Time</th>
-								<th>Hours Worked</th>
-								<th>Individual Efficiency</th>
-								<th>Salary</th>
-								<th>Salary Per Hour</th>
+								<th>$ Share</th>
+								<th># Share</th>
+								<th>% Share</th>
+								<th>$ Non Cash</th>
+								<th>$ Contribution</th>
+								<th>$ Investion</th>
+								<th>Start Date</th>  <!-- Date joined the project -->
+								<th># Days</th>  <!-- Date on the project -->
+								<th>Vested Date</th>  <!-- Vested Time -->
+								<th># Hour Worked</th>
+								<th>% Efficiency</th> <!-- Individual Efficiency -->
+								<th>$ Salary</th>
+								<th>$ Hourly Rate</th>  <!-- Salary Per Hour -->
 							</tr>
 						</thead>
 
@@ -2239,87 +2333,70 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" name="member1_ysc" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" name="member1_yss" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member1_ysp" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" id="member1_nc_id" name="member1_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member1_cc_id" name="member1_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member1_ic_id" name="member1_ic" value="0" onkeypress="return inputNumber(event);" >
 								</div></td>
 								
 								<td>
 								<div class="input-group date" id='member1_datetimepicker'>
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="form-control" min="0" name="member1_djtp" value="2017/03/11" placeholder="yyyy/mm/dd">
+									<input type="text" class="form-control calendar-padding" min="0" name="member1_djtp" value="2017/03/11" placeholder="yyyy/mm/dd">
 								</div></td>	
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" id="member1_dotp_id" name="member1_dotp" disabled>
 								</div></td>	
 								
 								<td>
 								<div class="input-group date">
 									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-									<input type="text" class="blue-color form-control" name="member1_vt" disabled>
+									<input type="text" class="blue-color form-control calendar-padding" name="member1_vt" disabled>
 								</div></td>	
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="form-control" id="member1_hw_id" name="member1_hw" onkeypress="return inputNumber(event);" value="30" required="required">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member1_ie" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member1_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member1_ocs" value="100,000" required="required">
 								</div></td>	
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member1_sph_id" class="blue-color form-control" name="member1_sph" disabled>
 								</div></td>	
-								
-								<!--
-								<td rowspan="6"><b>
-								<input type="text" id="totalshare_id" name="totalshare" disabled/>
-								</b></td>
-								-->
 							</tr>
 							<tr id="tr_id_2" class="active hide-row-table">
 								<td>
@@ -2330,37 +2407,31 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" name="member2_ysc" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" name="member2_yss" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member2_ysp" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" id="member2_nc_id" name="member2_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member2_cc_id" name="member2_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member2_ic_id" name="member2_ic" value="0" onkeypress="return inputNumber(event);" >
 								</div></td>
 								
@@ -2372,7 +2443,6 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" id="member2_dotp_id" name="member2_dotp" disabled>
 								</div></td>	
 								
@@ -2384,33 +2454,23 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="form-control" id="member2_hw_id" name="member2_hw" onkeypress="return inputNumber(event);" value="30" required="required">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member2_ie" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member2_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member2_ocs" value="100,000" required="required">
 								</div></td>	
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member2_sph_id" class="blue-color form-control" name="member2_sph" disabled>
 								</div></td>	
-								
-								<!--
-								<td rowspan="6"><b>
-								<input type="text" id="totalshare_id" name="totalshare" disabled/>
-								</b></td>
-								-->
 							</tr>
 							<tr id="tr_id_3" class="active hide-row-table">
 								<td>
@@ -2421,37 +2481,31 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" name="member3_ysc" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" name="member3_yss" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member3_ysp" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" id="member3_nc_id" name="member3_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member3_cc_id" name="member3_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member3_ic_id" name="member3_ic" value="0" onkeypress="return inputNumber(event);" >
 								</div></td>
 								
@@ -2463,7 +2517,6 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" id="member3_dotp_id" name="member3_dotp" disabled>
 								</div></td>	
 								
@@ -2475,33 +2528,23 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="form-control" id="member3_hw_id" name="member3_hw" onkeypress="return inputNumber(event);" value="30" required="required">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member3_ie" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member3_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member3_ocs" value="100,000" required="required">
 								</div></td>	
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member3_sph_id" class="blue-color form-control" name="member3_sph" disabled>
 								</div></td>	
-								
-								<!--
-								<td rowspan="6"><b>
-								<input type="text" id="totalshare_id" name="totalshare" disabled/>
-								</b></td>
-								-->
 							</tr>
 							<tr id="tr_id_4" class="active hide-row-table">
 								<td>
@@ -2512,37 +2555,31 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" name="member4_ysc" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" name="member4_yss" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member4_ysp" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" id="member4_nc_id" name="member4_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member4_cc_id" name="member4_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member4_ic_id" name="member4_ic" value="0" onkeypress="return inputNumber(event);" >
 								</div></td>
 								
@@ -2554,7 +2591,6 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" id="member4_dotp_id" name="member4_dotp" disabled>
 								</div></td>	
 								
@@ -2566,25 +2602,21 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="form-control" id="member4_hw_id" name="member4_hw" onkeypress="return inputNumber(event);" value="30" required="required">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member4_ie" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member4_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member4_ocs" value="100,000" required="required">
 								</div></td>	
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member4_sph_id" class="blue-color form-control" name="member4_sph" disabled>
 								</div></td>	
 							</tr>
@@ -2597,37 +2629,31 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" name="member5_ysc" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" name="member5_yss" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member5_ysp" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" id="member5_nc_id" name="member5_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member5_cc_id" name="member5_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member5_ic_id" name="member5_ic" value="0" onkeypress="return inputNumber(event);" >
 								</div></td>
 								
@@ -2639,7 +2665,6 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" id="member5_dotp_id" name="member5_dotp" disabled>
 								</div></td>	
 								
@@ -2651,25 +2676,21 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="form-control" id="member5_hw_id" name="member5_hw" onkeypress="return inputNumber(event);" value="30" required="required">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member5_ie" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member5_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member5_ocs" value="100,000" required="required">
 								</div></td>	
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member5_sph_id" class="blue-color form-control" name="member5_sph" disabled>
 								</div></td>	
 							</tr>
@@ -2682,37 +2703,31 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" name="member6_ysc" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" name="member6_yss" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member6_ysp" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" id="member6_nc_id" name="member6_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member6_cc_id" name="member6_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member6_ic_id" name="member6_ic" value="0" onkeypress="return inputNumber(event);" >
 								</div></td>
 								
@@ -2724,7 +2739,6 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" id="member6_dotp_id" name="member6_dotp" disabled>
 								</div></td>	
 								
@@ -2736,25 +2750,21 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="form-control" id="member6_hw_id" name="member6_hw" onkeypress="return inputNumber(event);" value="30" required="required">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member6_ie" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member6_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member6_ocs" value="100,000" required="required">
 								</div></td>	
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member6_sph_id" class="blue-color form-control" name="member6_sph" disabled>
 								</div></td>	
 							</tr>
@@ -2767,37 +2777,31 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" name="member7_ysc" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" name="member7_yss" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member7_ysp" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" id="member7_nc_id" name="member7_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member7_cc_id" name="member7_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member7_ic_id" name="member7_ic" value="0" onkeypress="return inputNumber(event);" >
 								</div></td>
 								
@@ -2809,7 +2813,6 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" id="member7_dotp_id" name="member7_dotp" disabled>
 								</div></td>	
 								
@@ -2821,25 +2824,21 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="form-control" id="member7_hw_id" name="member7_hw" onkeypress="return inputNumber(event);" value="30" required="required">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member7_ie" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member7_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member7_ocs" value="100,000" required="required">
 								</div></td>	
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member7_sph_id" class="blue-color form-control" name="member7_sph" disabled>
 								</div></td>	
 							</tr>
@@ -2852,37 +2851,31 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" name="member8_ysc" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" name="member8_yss" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member8_ysp" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" id="member8_nc_id" name="member8_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member8_cc_id" name="member8_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member8_ic_id" name="member8_ic" value="0" onkeypress="return inputNumber(event);" >
 								</div></td>
 								
@@ -2894,7 +2887,6 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" id="member8_dotp_id" name="member8_dotp" disabled>
 								</div></td>	
 								
@@ -2906,25 +2898,21 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="form-control" id="member8_hw_id" name="member8_hw" onkeypress="return inputNumber(event);" value="30" required="required">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member8_ie" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member8_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member8_ocs" value="100,000" required="required">
 								</div></td>	
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member8_sph_id" class="blue-color form-control" name="member8_sph" disabled>
 								</div></td>	
 							</tr>
@@ -2937,37 +2925,31 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" name="member9_ysc" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" name="member9_yss" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member9_ysp" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="blue-color form-control" id="member9_nc_id" name="member9_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member9_cc_id" name="member9_cc" value="0" required="required" onkeypress="return inputNumber(event);">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" class="form-control" id="member9_ic_id" name="member9_ic" value="0" onkeypress="return inputNumber(event);" >
 								</div></td>
 								
@@ -2979,7 +2961,6 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="blue-color form-control" id="member9_dotp_id" name="member9_dotp" disabled>
 								</div></td>	
 								
@@ -2991,25 +2972,21 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">#</span>
 									<input type="text" class="form-control" id="member9_hw_id" name="member9_hw" onkeypress="return inputNumber(event);" value="30" required="required">
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">%</span>
 									<input type="text" class="blue-color form-control" name="member9_ie" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member9_ocs_id" class="form-control" onkeypress="return inputNumber(event);" name="member9_ocs" value="100,000" required="required">
 								</div></td>	
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon">$</span>
 									<input type="text" id="member9_sph_id" class="blue-color form-control" name="member9_sph" disabled>
 								</div></td>	
 							</tr>
@@ -3020,37 +2997,31 @@
 								</div></td>
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon total-color">$</span>
 									<input type="text" class="blue-color form-control total-color" name="member999_ysc" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon total-color">#</span>
 									<input type="text" class="blue-color form-control total-color" id="member999_yss_id" name="member999_yss" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon total-color">%</span>
 									<input type="text" class="blue-color form-control total-color" name="member999_ysp" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon total-color">$</span>
 									<input type="text" class="blue-color form-control total-color" id="member999_nc_id" name="member999_nc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon total-color">$</span>
 									<input type="text" class="form-control total-color" id="member999_cc_id" name="member999_cc" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon total-color">$</span>
 									<input type="text" class="form-control total-color" id="member999_ic_id" name="member999_ic" disabled >
 								</div></td>
 								
@@ -3062,7 +3033,6 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon total-color">#</span>
 									<input type="text" class="blue-color form-control total-color" id="member999_dotp_id" name="member999_dotp" disabled>
 								</div></td>	
 								
@@ -3074,25 +3044,21 @@
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon total-color">#</span>
 									<input type="text" class="form-control total-color" id="member999_hw_id" name="member999_hw" disabled>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon total-color">%</span>
 									<input type="text" class="blue-color form-control total-color" name="member999_ie" disabled/>
 								</div></td>
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon total-color">$</span>
 									<input type="text" id="member999_ocs_id" class="form-control total-color" name="member999_ocs" disabled>
 								</div></td>	
 								
 								<td>
 								<div class="input-group">
-									<span class="input-group-addon total-color">$</span>
 									<input type="text" id="member999_sph_id" class="blue-color form-control total-color" name="member999_sph" disabled>
 								</div></td>	
 							</tr>
