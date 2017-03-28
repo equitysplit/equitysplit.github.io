@@ -816,51 +816,78 @@
 					
 				} /* for */
 				
+				total_cash_sign = parseFloat(form.member999_yss.value.replace(/,/g, ''), 10);
 				for (i = 1; i < document.getElementById("cal_table_id").rows.length - 1; i++) { 
 					var x = document.getElementById('tr_id_' + i);
 					if (x.style.display == 'table-row') {
 						switch(i) {
 							case 1:
 								form.member1_ysp.value = Number((parseFloat(form.member1_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								if(!isNaN(total_cash_sign)) {
+									var temp = (parseFloat(form.member1_ysp.value.replace(/,/g, ''), 10) * total_cash_sign) / 100;
+									form.member1_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
+								}
 								break;
 							case 2:
 								form.member2_ysp.value = Number((parseFloat(form.member2_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								if(!isNaN(total_cash_sign)) {
+									var temp = (parseFloat(form.member2_ysp.value.replace(/,/g, ''), 10) * total_cash_sign) / 100;
+									form.member2_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
+								}
 								break;
 							case 3:
 								form.member3_ysp.value = Number((parseFloat(form.member3_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								if(!isNaN(total_cash_sign)) {
+									var temp = (parseFloat(form.member3_ysp.value.replace(/,/g, ''), 10) * total_cash_sign) / 100;
+									form.member3_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
+								}
 								break;
 							case 4:
 								form.member4_ysp.value = Number((parseFloat(form.member4_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								if(!isNaN(total_cash_sign)) {
+									var temp = (parseFloat(form.member4_ysp.value.replace(/,/g, ''), 10) * total_cash_sign) / 100;
+									form.member4_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
+								}
 								break;
 							case 5:
 								form.member5_ysp.value = Number((parseFloat(form.member5_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								if(!isNaN(total_cash_sign)) {
+									var temp = (parseFloat(form.member5_ysp.value.replace(/,/g, ''), 10) * total_cash_sign) / 100;
+									form.member5_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
+								}
 								break;
 							case 6:
 								form.member6_ysp.value = Number((parseFloat(form.member6_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								if(!isNaN(total_cash_sign)) {
+									var temp = (parseFloat(form.member6_ysp.value.replace(/,/g, ''), 10) * total_cash_sign) / 100;
+									form.member6_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
+								}
 								break;
 							case 7:
 								form.member7_ysp.value = Number((parseFloat(form.member7_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								if(!isNaN(total_cash_sign)) {
+									var temp = (parseFloat(form.member7_ysp.value.replace(/,/g, ''), 10) * total_cash_sign) / 100;
+									form.member7_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
+								}
 								break;
 							case 8:
 								form.member8_ysp.value = Number((parseFloat(form.member8_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								if(!isNaN(total_cash_sign)) {
+									var temp = (parseFloat(form.member8_ysp.value.replace(/,/g, ''), 10) * total_cash_sign) / 100;
+									form.member8_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
+								}
 								break;
 							case 9:
 								form.member9_ysp.value = Number((parseFloat(form.member9_ysc.value.replace(/,/g, ''), 10) * 100) / total).toFixed(2);
+								if(!isNaN(total_cash_sign)) {
+									var temp = (parseFloat(form.member9_ysp.value.replace(/,/g, ''), 10) * total_cash_sign) / 100;
+									form.member9_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
+								}
 								break;
 						}
 					}
 				}
 				
-				form.member1_yss.value = "";
-				form.member2_yss.value = "";
-				form.member3_yss.value = "";
-				form.member4_yss.value = "";
-				form.member5_yss.value = "";
-				form.member6_yss.value = "";
-				form.member7_yss.value = "";
-				form.member8_yss.value = "";
-				form.member9_yss.value = "";
-				form.member999_yss.value = "";
 				/* calculate total row */
 				form.member999_ysc.value = Number(Number(total).toFixed(2)).toLocaleString("en");
 				document.getElementById("member999_yss_id").disabled = false;
@@ -1955,39 +1982,39 @@
 								switch(i) {
 									case 1:
 										var temp = (parseFloat(document.forms[0].member1_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
-										document.forms[0].member1_yss.value = Number(temp).toFixed(2);
+										document.forms[0].member1_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
 										break;
 									case 2:
 										var temp = (parseFloat(document.forms[0].member2_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
-										document.forms[0].member2_yss.value = Number(temp).toFixed(2);
+										document.forms[0].member2_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
 										break;
 									case 3:
 										var temp = (parseFloat(document.forms[0].member3_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
-										document.forms[0].member3_yss.value = Number(temp).toFixed(2);
+										document.forms[0].member3_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
 										break;
 									case 4:
 										var temp = (parseFloat(document.forms[0].member4_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
-										document.forms[0].member4_yss.value = Number(temp).toFixed(2);
+										document.forms[0].member4_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
 										break;
 									case 5:
 										var temp = (parseFloat(document.forms[0].member5_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
-										document.forms[0].member5_yss.value = Number(temp).toFixed(2);
+										document.forms[0].member5_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
 										break;
 									case 6:
 										var temp = (parseFloat(document.forms[0].member6_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
-										document.forms[0].member6_yss.value = Number(temp).toFixed(2);
+										document.forms[0].member6_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
 										break;
 									case 7:
 										var temp = (parseFloat(document.forms[0].member7_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
-										document.forms[0].member7_yss.value = Number(temp).toFixed(2);
+										document.forms[0].member7_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
 										break;
 									case 8:
 										var temp = (parseFloat(document.forms[0].member8_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
-										document.forms[0].member8_yss.value = Number(temp).toFixed(2);
+										document.forms[0].member8_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
 										break;
 									case 9:
 										var temp = (parseFloat(document.forms[0].member9_ysp.value.replace(/,/g, ''), 10) * my_val) / 100;
-										document.forms[0].member9_yss.value = Number(temp).toFixed(2);
+										document.forms[0].member9_yss.value = Number(Number(temp).toFixed(2)).toLocaleString("en");
 										break;
 								}
 							}
@@ -2167,7 +2194,7 @@
 								<th class="date-width">Start Date</th>  <!-- Date joined the project -->
 								<th># Days</th>  <!-- Date on the project -->
 								<th>Vested Date</th>  <!-- Vested Time -->
-								<th># Worked Hour</th>
+								<th># Worked Hours</th>
 								<th>% Efficiency</th> <!-- Individual Efficiency -->
 								<th>$ Salary</th>
 								<th>$ Hourly Rate</th>  <!-- Salary Per Hour -->
@@ -2819,7 +2846,6 @@
 								
 								<td>
 								<div class="input-group date">
-									<span class="input-group-addon total-color"><span class="glyphicon glyphicon-calendar"></span></span>
 									<input type="text" class="form-control total-color" min="0" name="member999_djtp" disabled>
 								</div></td>	
 								
