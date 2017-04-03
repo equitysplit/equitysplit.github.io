@@ -65,6 +65,25 @@
 	margin-top: 5px;
 }
 
+@media only screen and (max-width: 370px) {
+    .tip-section-margin {margin-right: 2%; margin-left: 2%;}
+}
+@media only screen and (min-width: 370px) and (max-width: 500px) {
+    .tip-section-margin {margin-right: 5%; margin-left: 5%;}
+}
+@media only screen and (min-width: 500px) and (max-width: 630px) {
+    .tip-section-margin {margin-right: 10%; margin-left: 10%;}
+}
+@media only screen and (min-width: 630px) and (max-width: 760px) {
+    .tip-section-margin {margin-right: 15%; margin-left: 15%;}
+}
+@media only screen and (min-width: 760px) and (max-width: 890px) {
+    .tip-section-margin {margin-right: 20%; margin-left: 20%;}
+}
+@media only screen and (min-width: 890px) {
+    .tip-section-margin {margin-right: 25%; margin-left: 25%;}
+}
+
 #cal_table_id tr td:nth-child(1),
 #cal_table_id tr th:nth-child(1),
 #cal_table_id tr td:nth-child(2),
