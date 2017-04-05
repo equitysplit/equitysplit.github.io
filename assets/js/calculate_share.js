@@ -327,9 +327,9 @@ function resizeChart() {
 function loadBody() {
 	document.getElementById("graph_id").style.display = 'none';
 	document.getElementById("tr_id_1").style.display = 'table-row';
-	document.getElementById("tr_id_2").style.display = 'none';
-	document.getElementById("tr_id_3").style.display = 'none';
-	document.getElementById("tr_id_4").style.display = 'none';
+	document.getElementById("tr_id_2").style.display = 'table-row';
+	document.getElementById("tr_id_3").style.display = 'table-row';
+	document.getElementById("tr_id_4").style.display = 'table-row';
 	document.getElementById("tr_id_5").style.display = 'none';
 	document.getElementById("tr_id_6").style.display = 'none';
 	document.getElementById("tr_id_7").style.display = 'none';

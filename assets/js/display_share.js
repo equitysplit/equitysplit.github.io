@@ -753,55 +753,55 @@ $(document).ready(function() {
 						case 1:
 							var a = moment(document.forms[0].member1_djtp.value,'YYYY/MM/DD');
 							var date = a.toDate();
-							date.setDate(date.getDate() + 365 * my_val);
+							date.setDate(date.getDate() + 30 * my_val);
 							document.forms[0].member1_vt.value = formatDate(date);
 							break;
 						case 2:
 							var a = moment(document.forms[0].member2_djtp.value,'YYYY/MM/DD');
 							var date = a.toDate();
-							date.setDate(date.getDate() + 365 * my_val);
+							date.setDate(date.getDate() + 30 * my_val);
 							document.forms[0].member2_vt.value = formatDate(date);
 							break;
 						case 3:
 							var a = moment(document.forms[0].member3_djtp.value,'YYYY/MM/DD');
 							var date = a.toDate();
-							date.setDate(date.getDate() + 365 * my_val);
+							date.setDate(date.getDate() + 30 * my_val);
 							document.forms[0].member3_vt.value = formatDate(date);
 							break;
 						case 4:
 							var a = moment(document.forms[0].member4_djtp.value,'YYYY/MM/DD');
 							var date = a.toDate();
-							date.setDate(date.getDate() + 365 * my_val);
+							date.setDate(date.getDate() + 30 * my_val);
 							document.forms[0].member4_vt.value = formatDate(date);
 							break;
 						case 5:
 							var a = moment(document.forms[0].member5_djtp.value,'YYYY/MM/DD');
 							var date = a.toDate();
-							date.setDate(date.getDate() + 365 * my_val);
+							date.setDate(date.getDate() + 30 * my_val);
 							document.forms[0].member5_vt.value = formatDate(date);
 							break;
 						case 6:
 							var a = moment(document.forms[0].member6_djtp.value,'YYYY/MM/DD');
 							var date = a.toDate();
-							date.setDate(date.getDate() + 365 * my_val);
+							date.setDate(date.getDate() + 30 * my_val);
 							document.forms[0].member6_vt.value = formatDate(date);
 							break;
 						case 7:
 							var a = moment(document.forms[0].member7_djtp.value,'YYYY/MM/DD');
 							var date = a.toDate();
-							date.setDate(date.getDate() + 365 * my_val);
+							date.setDate(date.getDate() + 30 * my_val);
 							document.forms[0].member7_vt.value = formatDate(date);
 							break;
 						case 8:
 							var a = moment(document.forms[0].member8_djtp.value,'YYYY/MM/DD');
 							var date = a.toDate();
-							date.setDate(date.getDate() + 365 * my_val);
+							date.setDate(date.getDate() + 30 * my_val);
 							document.forms[0].member8_vt.value = formatDate(date);
 							break;
 						case 9:
 							var a = moment(document.forms[0].member9_djtp.value,'YYYY/MM/DD');
 							var date = a.toDate();
-							date.setDate(date.getDate() + 365 * my_val);
+							date.setDate(date.getDate() + 30 * my_val);
 							document.forms[0].member9_vt.value = formatDate(date);
 							break;
 					}
