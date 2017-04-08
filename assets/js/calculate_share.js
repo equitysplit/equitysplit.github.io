@@ -330,7 +330,7 @@ function loadBody() {
 	document.getElementById("tr_id_2").style.display = 'table-row';
 	document.getElementById("tr_id_3").style.display = 'table-row';
 	document.getElementById("tr_id_4").style.display = 'table-row';
-	document.getElementById("tr_id_5").style.display = 'none';
+	document.getElementById("tr_id_5").style.display = 'table-row';
 	document.getElementById("tr_id_6").style.display = 'none';
 	document.getElementById("tr_id_7").style.display = 'none';
 	document.getElementById("tr_id_8").style.display = 'none';
